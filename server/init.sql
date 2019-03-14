@@ -1,22 +1,24 @@
 create table user
 (
 	id int unsigned not null primary key,
-	password varchar(40),
-	real_name varchar(40),
-	nick_name varchar(40),
-	age smallint unsigned,
-	gender char(1),
-	head_picture blob,
+	password varchar(40) not null,
+	real_name varchar(40) not null,
+	nick_name varchar(40) not null,
+	age smallint unsigned not null,
+	gender char(1) not null,
+	head_picture blob not null,
 	balance float default 0.0,
-	profession varchar(40),
-	grade varchar(20),
+	profession varchar(40) not null,
+	grade varchar(20) not null,
+	phone varchar(20) not null,
+	email varchar(40) not null
 );
 create table survey
 (
 	id int unsigned not null auto_increment primary key auto_increment,
-	publisher_id int unsigned,
-	name varchar(40),
-	content varchar(1000),
+	publisher_id int unsigned not null,
+	name varchar(40) not null,
+	content varchar(1000) not null,
 	foreign key(publisher_id) references user(id)
 );
 create table do_survey
@@ -29,9 +31,9 @@ create table do_survey
 );
 create table friends
 (
-	user1_id int unsigned,
-	user2_id int unsigned,
-	accepted boolean,
+	user1_id int unsigned not null,
+	user2_id int unsigned not null,
+	accepted boolean not null,
 	primary key(user1_id,user2_id),
 	foreign key(user1_id) references user(id),
 	foreign key(user2_id) references user(id)
