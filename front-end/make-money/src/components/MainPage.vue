@@ -1,12 +1,12 @@
 <template>
   <div id="app">
-    <v-header></v-header>
+    mainpage
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-import vHeader from './components/public/header'
+import vHeader from './public/header'
 
 export default {
   name: 'App',
