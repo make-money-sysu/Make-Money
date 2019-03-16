@@ -4,9 +4,8 @@
     <ul v-if="qslist.length == 0 ? false : true">
       <li></li>
       <li>标题</li>
-      <li>截至时间</li>
+      <li>截止时间</li>
       <li>状态</li>
-      <li>操作</li>
       <li>操作<span @click="$router.push({name: 'qsEdit', param: {num: 0}})">+新建问卷</span></li>
     </ul>
     <template v-for="item in qslist">
@@ -193,9 +192,21 @@
         });
         return group;
       }
+    },
+    watch: {
+      qslist: {
+        handler(val) {
+          val.forEach( (item, index) => {
+            item.num = index + 1
+          })
+          // Save in database
+        },
+        deep: true
+      }
     }
   }
 </script>
 
-<style>
+<style lang="scss" scoped>
+@import '../style/QuestionnaireList';
 </style>
