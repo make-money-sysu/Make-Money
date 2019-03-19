@@ -4,7 +4,7 @@ import MainPage from '@/components/MainPage'
 import order from '@/components/order'
 import personalInfo from '@/components/personalInfo'
 import QuestionnaireList from '@/components/QuestionnaireList'
-
+import QuestionnaireEdit from '@/components/QuestionnaireEdit'
 Vue.use(Router)
 
 export default new Router({
@@ -28,6 +28,11 @@ export default new Router({
       path: '/QuestionnaireList',
       name: 'QuestionnaireList',
       component: QuestionnaireList
+    },
+    {
+      path: '/QuestionnaireEdit/:num',
+      name: 'QuestionnaireEdit',
+      component: QuestionnaireEdit
     }
   ]
 })
