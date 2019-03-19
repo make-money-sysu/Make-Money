@@ -101,16 +101,27 @@ $green: #9FEF96;
     height: 100%;
     background: rgba(85, 85, 85, 0.7);
     .del-dialog {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 40rem;
+      height: 20rem;
+      transform: translateX(-50%) translateY(-50%);
+      border-radius: 0.5rem;
+      box-shadow: 0 0 5px #555;
+      background-color: #fff;
+    }
+    header {
       height: 5rem;
       padding-left: 3rem;
-      right: 3rem;
+      padding-right: 3rem;
       line-height: 5rem;
       border-radius: 0.5rem;
       background-color: #F7F7F7;
       span:nth-of-type(1) {
         font-weight: 700;
       }
-      .close-btn {
+      .clost-btn {
         position: absolute;
         right: 3rem;
         color: #bbb;

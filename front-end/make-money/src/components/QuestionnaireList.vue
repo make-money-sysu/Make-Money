@@ -44,11 +44,10 @@
           <button @click="showDialog = false">取消</button>
         </div>
       </div>
-
     </div>
-    <router-view></router-view>
   </div>
 </template>
+
 <script>
   export default {
     name: 'qsList',
