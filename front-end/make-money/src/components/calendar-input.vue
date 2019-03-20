@@ -102,12 +102,147 @@ export default {
       }
     },
     addMonth() {
+      if (this.selectMonth === 12) {
+        this.selectYear += 1;
+        this.selectMonth = 1;
+      }
+      else {
+        this.selectMonth += 1;
+      }
 
+      if (this.selectYear > this.limit.maxYear) {
+        this.selectYear = this.limit.maxYear;
+      }
+      if (this.selectYear === this.limit.maxYear) {
+        if (this.selectMonth >= this.limit.maxMonth) {
+          this.selectMonth = this.limit.maxMonth;
+        }
+      }
+    },
+    changeSelectDay(index) {
+      if (this.unselectArr.includes(index)) {
+        return false;
+      }
+      this.selectDay = index - this.firstDayInWeek + 1;
     }
+  },
+  computed: {
+    trueSelectYear: function() {
+      if (this.selectYear < this.limit.minYear) {
+        return this.limit.minYear
+      }
+      if (this.selectYear > this.limit.maxYear) {
+        return this.limit.maxYear;
+      }
+      return this.selectYear;
+    },
+    trueSelectMonth: function() {
+      if (this.selectYear === this.limit.minYear && this.selectMonth < this.limit.minMonth) {
+        return this.limit.minMonth;
+      }
+      if (this.selectYear === this.limit.maxYear && this.selectMonth > this.limit.maxMonth) {
+        return this.limit.maxMonth;
+      }
+      return this.selectMonth;
+    },
+    trueSelectDay: function() {
+      if (this.selectYear === this.limit.minYear && this.selectMonth === this.limit.minMonth && this.selectDay < this.limit.minDay) {
+        return this.limit.minDay;
+      }
+      if (this.selectYear === this.limit.maxYear && this.selectMonth === this.limit.maxMonth && this.selectDay > this.limit.maxDay) {
+        return this.limit.maxDay;
+      }
+      if (this.selectDay > this.dayCount) {
+        return this.dayCount;
+      }
+      return this.selectDay;
+    },
+    selectValue: function() {
+      return `${this.trueSelectYear}-${this.trueSelectMonth}-${this.trueSelectDay}`;
+    },
+    firstDayInWeek: function() {
+      return new Date(this.trueSelectYear, this.trueSelectMonth - 1, 1).getDate();
+    },
+    dayCount: function() {
+      return new Date(this.trueSelectYear, this.trueSelectMonth, 0).getDate();
+    },
+    lastMonthDay: function() {
+      let lastNum = this.firstDayInWeek;
+      let lastDays = [];
+      if (lastNum === 0) {
+        return lastDays;
+      }
+
+      let i = 0;
+      let lastDayNum = new Date(this.trueSelectYear, this.trueSelectMonth - 1, 0).getDate();
+      for (; i < lastNum; i++) {
+        lastDays.unshift(lastDayNum);
+        lastDayNum--;
+      }
+      return lastDays;
+    },
+    nextMonthDay: function() {
+      let num = 42 - this.firstDayInWeek - this.dayCount;
+      let nextDays = [];
+      if (num === 0) {
+        return nextDays;
+      }
+
+      let i = 1;
+      for (; i <= num; i++) {
+        nextDays.push(i);
+      }
+      return nextDays;
+    },
+    renderData: function() {
+      let nowDays = [];
+      let i = 1;
+      for (; i <= this.dayCount; i++) {
+        nowDays.push(i);
+      }
+      return [...this.lastMonthDay, ...nowDays, ...this.nextMonthDay];
+    },
+    unselectArr: function() {
+      let index = 0;
+      let arr = [];
+
+      if (this.trueSelectYear === this.limit.minYear && this.trueSelectMonth === this.limit.minMonth) {
+        for (; index < this.firstDayInWeek + this.limit.minDay - 1; index++) {
+          arr.push(index);
+        }
+      }
+      else {
+        for (; index < this.firstDayInWeek; index++) {
+          arr.push(index);
+        }
+      }
+
+      if (this.trueSelectYear === this.limit.maxYear && this.trueSelectMonth === this.limit.maxMonth) {
+        index = this.firstDayInWeek + this.limit.maxDay;
+        for (; index < 42; index++) {
+          arr.push(index);
+        }
+      }
+      else {
+        index = this.firstDayInWeek + this.dayCount;
+        for (; index < 42; index++) {
+          arr.push(index);
+        }
+      }
+      return arr;
+    }
+  },
+  watch: {
+    selectValue: function(newVal) {
+      this.$emit('getValue', newVal);
+    }
+  },
+  mounted() {
+    this.$emit('getValue', this.selectValue);
   }
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+@import '../style/calendar';
 </style>
