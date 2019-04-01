@@ -1,0 +1,120 @@
+$blue: #00A9FF;
+$midblue: #5DABF4;
+$lightblue: #5DBAF7;
+
+.calendar-input-container {
+  display: inline-block;
+  position: relative;
+  padding: 1rem;
+  text-align: center;
+  .fade-enter-activ,
+  .fade-leave-active {
+    transition: opacity 0.5s;
+  }
+  .fade-enter,
+  .fade-leave-active {
+    opacity: 0;
+  }
+  .calendar-input {
+    box-sizing: border-box;
+    width: 20rem;
+    height: 3rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    border: 0.1rem solid #ccc;
+    border-radius: 4%;
+    background-color: #fff;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.6s;
+  }
+  #calendar {
+    position: absolute;
+    width: 20rem;
+    height: 24rem;
+    box-sizing: border-box;
+    border: 0.2rem solid #eee;
+    border-radius: 2%;
+    background-color: #fff;
+    div, span {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+    }
+    div {
+      height: 12.5%;
+      width: 100%;
+    }
+    span {
+      height: 100%;
+      width: 14.2875%;
+    }
+    #calendar-header {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      align-items: center;
+      span {
+        display: flex;
+        align-items: center;
+      }
+      #date-box {
+        flex-grow: 2;
+      }
+    }
+    .week {
+      box-sizing: border-box;
+      padding: 0.5rem;
+      font-size: 1.6rem;
+      span {
+        height: 16.6667%;
+        cursor: pointer;
+        transition: all 0.5s;
+      }
+      .unselect {
+        cursor: default;
+      }
+    }
+  }
+}
+.blue-theme {
+  .focus {
+    border-color: $midblue;
+    box-shadow: 0 0 0.5rem $midblue;
+  }
+  .arrow {
+    cursor: pointer;
+    color: $blue;
+    transition: color 0.5s;
+    &:hover {
+      color: $lightblue;
+    }
+  }
+  .weekend {
+    color: $blue;
+  }
+  .days {
+    span {
+      &:hover {
+        border-radius: 0.2rem;
+        background-color: $midblue;
+        color: #fff;
+      }
+    }
+    .unselect,
+    .unselect:hover {
+      border-radius: 0;
+      background-color: #fff;
+      color: #ccc;
+    }
+    .select,
+    .select:hover {
+      border-radius: 0.2rem;
+      background-color: $blue;
+      color: #fff;
+    }
+  }
+}

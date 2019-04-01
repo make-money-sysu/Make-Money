@@ -117,6 +117,51 @@ export default {
       iterator: {},
       isGoIndex: false
     }
+  },
+  beforeRouteEnter(to, from, next) {
+    let num = to.params.num
+    let theItem = {}
+    if (num != 0) {
+      let length = 1
+      if (num < 0 || num > length) {
+        alert('非法路由！')
+        next('/')
+      }
+      else {
+        for (let i = 0; i < length; i++) {
+
+        }
+      }
+      if (theItem.state === 'noissue') {
+        next()
+      }
+      else {
+        alert('非法路由！')
+        next('/')
+      }
+    }
+    else {
+      next()
+    }
+  },
+  created() {
+    this.fetchData()
+  },
+  methods: {
+    fetchData() {
+      this.limit = {
+        minYear: new Date().getFullYear(),
+        minMonth: new Date().getMonth() + 1,
+        minDay: new Date().getDate(),
+        maxYear: 2030,
+        maxMonth: 3,
+        maxDay: 20
+      }
+      if (this.$route.params.num == 0) {
+        let item = {}
+        item.num =
+      }
+    }
   }
 }
 </script>
