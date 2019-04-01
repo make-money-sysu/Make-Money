@@ -1,6 +1,8 @@
 <template>
   <div class="header">
-    <router-link id="link" to="/"><img id='logo' src="../../assets/avatar.jpg"></router-link>
+    <router-link class="link" to="/"><img id='logo' src="../../assets/mainpage.png"></router-link>
+    <router-link class="link" to="/personalInfo"><img id="icon" src="../../assets/icon.png"></router-link>
+    <router-link class="link" to="/order"><img id="order" src="../../assets/order.png"></router-link>
   </div>
 </template>
 
