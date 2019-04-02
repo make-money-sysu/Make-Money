@@ -159,7 +159,6 @@ export default {
       }
       if (this.$route.params.num == 0) {
         let item = {}
-        item.num =
       }
     }
   }
