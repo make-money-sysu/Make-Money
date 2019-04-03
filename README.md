@@ -9,6 +9,7 @@
 <a href="https://github.com/make-money-sysu"><img src="https://img.shields.io/badge/platform-Win 10-388E8E.svg"></a>
 <a href="https://github.com/make-money-sysu"><img src="https://img.shields.io/badge/copyright-M$ Club-blue.svg"></a>
 <a href="https://github.com/make-money-sysu"><img src="https://img.shields.io/badge/date-3~7, 2019-66a033.svg"></a>
+<a href="https://996.icu"><img src="https://img.shields.io/badge/link-996.icu-red.svg" alt="996.icu"></a>
 <br/><br/>
 </p>
 
