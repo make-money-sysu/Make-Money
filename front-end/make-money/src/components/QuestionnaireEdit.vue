@@ -90,17 +90,29 @@
 </template>
 
 <script>
-import calendaInput from './calendar-input'
+import calendarInput from './calendar-input'
 
 export default {
   name: 'QuestionnaireEdit',
   components: {
-    calendaInput
+    calendarInput
   },
   data () {
     return {
       qsItem: {}, // 当前修改的问卷
-      qslist: [], // 问卷列表
+      // 问卷列表
+      qslist: [{ 'num': 1,
+            'title': '第三份问卷',
+            'time': '2017-3-27',
+            'state': 'noissued',
+            'stateTitle': '已发布',
+            'checked': false,
+            'question': [
+              {'num': 'Q1', 'title': '单选题', 'type': 'radio', 'isNeed': true, 'options': ['选项一', '选项二']},
+              {'num': 'Q2', 'title': '多选题', 'type': 'checkbox', 'isNeed': true, 'options': ['选项一', '选项二', '选项三', '选项四']},
+              {'num': 'Q3', 'title': '文本题', 'type': 'textarea', 'isNeed': true}
+            ]
+          }],
       isError: false,
       showBtn: false,
       titleChange: false, // 标题是否修改
@@ -119,8 +131,10 @@ export default {
     }
   },
   beforeRouteEnter(to, from, next) {
+    //alert('here is beforeRouteEnter')
     let num = to.params.num // 要编辑的问卷序号
     let theItem = {}
+    // 编辑问卷逻辑
     if (num != 0) {
       var list = [{ 'num': 1,
             'title': '第三份问卷',
@@ -166,10 +180,12 @@ export default {
     }
   },
   created() {
+    //alert('here is created')
     this.fetchData()
   },
   methods: {
     fetchData() {
+      // alert('in fetchData')
       this.limit = {
         minYear: new Date().getFullYear(),
         minMonth: new Date().getMonth() + 1,
@@ -178,8 +194,10 @@ export default {
         maxMonth: 3,
         maxDay: 20
       }
+      // 新建问卷逻辑
       if (this.$route.params.num == 0) {
         // No data
+        // Initialize Questionaire content
         let item = {}
         item.num = this.qslist.length + 1
         item.title = 'Title'
@@ -191,12 +209,16 @@ export default {
         this.qsItem = item
         this.qslist.push(this.qsItem)
       }
+      // 编辑问卷逻辑
       else {
         // There exists data
         let i = 0
         for (let length = this.qslist.length; i < length; i++) {
+          // alert('listNum ' + this.qslist[i].num)
+          // alert('routeNum ' + this.$route.params.num)
           if (this.qslist[i].num == this.$route.params.num) {
             this.qsItem = this.qslist[i]
+            // alert(this.qsItem.title)
             break
           }
         }
@@ -204,6 +226,7 @@ export default {
           this.isError = true
       }
     },
+    // 获取问题类型
     getMsg(item) {
       let msg = ''
       if (item.type === 'radio') {
@@ -217,24 +240,29 @@ export default {
       }
       return item.isNeed ? `${msg} *` : msg
     },
+    // 标题失去焦点时，修改完成
     onblur() {
+      alert('in onblur')
       this.titleValue = this.titleValue.trim()
       this.qsItem.title = this.titleValue === '' ? this.qsItem.title : this.titleValue
       this.titleChange = false
     },
+    // 用户enter时，修改完成
     onsubmit() {
       this.titleValue = this.titleValue.trim()
       this.qsItem.title = this.titleValue === '' ? this.qsItem.title: this.titleValue
     },
+    // 修改标题内容
     titleClick() {
       this.titleChange = !this.titleChange
       setTimeout(() => {
-        this.$refs.title.focus()
+        this.$refs.titleInput.focus()
       }, 150)
     },
+    // 交换两个问题
     swapItems(oldIndex, newIndex) {
-      let [newVal] = this.qsItem.question.splice(newIndex, 1, this.qsItem.question[oldIndex])
-      this.qsItem.question.splice(oldIndex, 1, newVal)
+      let [tmpVal] = this.qsItem.question.splice(newIndex, 1, this.qsItem.question[oldIndex])
+      this.qsItem.question.splice(oldIndex, 1, tmpVal)
     },
     goUp(index) {
       this.swapItems(index, index - 1)
@@ -245,24 +273,32 @@ export default {
     copy (index, qs) {
       if (this.questionLength === 10)
         return alert('Questionnaire is full!')
+      // shallow copy
       qs = Object.assign({}, qs)
+      // insert to the new position
       this.qsItem.question.splice(index, 0, qs)
     },
     del(index) {
       this.qsItem.question.splice(index, 1)
     },
     addItemClick() {
+      // 若选择类型框没有弹出，则弹出
       if (this.showBtn === false) {
+        // check the question list size
         this.questionLength === 10 ? alert('Questionnaire is full!') : this.showBtn = !this.showBtn
       }
+      // 否则，收起选择类型框
       else {
         this.showBtn = !this.showBtn
       }
     },
     showAddDialog(msg, showOption) {
       this.showAddQsDialog = true
+      // 该题目是否有选项
       this.showAddOptionInput = showOption
+      // 提示信息
       this.info = msg
+      // 清空输入框
       this.qsInputTitle = ''
       this.qsInputOptions = ''
     },
@@ -287,8 +323,101 @@ export default {
       this.showAddDialog('请输入问题名称', false)
       this.addOptionType = 'textarea'
     },
+    // 检查每个题目的合法性
     validateAddQs() {
+      // Check title
+      let qsTitle = this.qsInputTitle.trim()
+      if (qsTitle === '') {
+        alert('Title Cannot be empty!')
+        return
+      }
+      // Check option if existed
+      if (this.showAddOptionInput) {
+        let qsOptions = this.qsInputOptions.trim()
+        if (qsOptions === '') {
+          alert('Option Cannot be empty!')
+          return
+        }
+        qsOptions = qsOptions.split(',')
+        for (let i =0, length = qsOptions.length; i < length; i++) {
+          if (qsOptions[i].trim() === '') {
+            alert('Some Option is empty!')
+            return
+          }
+        }
+        this.qsItem.question.push({
+          'num': this.qsItem.question.length - 1,
+          'title': qsTitle,
+          'type': this.addOptionType,
+          'isNeed': true,
+          'options': qsOptions
+        })
+        this.showAddQsDialog = false
+      }
+      // Textarea Question
+      else {
+        this.qsItem.question.push({
+          'num': this.qsItem.question.length - 1,
+          'title': qsTitle,
+          'type': 'textarea',
+          'isNeed': true
+        })
+        this.showAddQsDialog = false
+      }
+    },
+    // 获取截止时间
+    getValue(selectTime) {
+      this.selectTime = selectTime
+      this.qsItem.time = this.selectTime
+    },
+    // 保存问卷
+    *save() {
+      this.showDialog = true
+      this.info = 'Confirm Save?'
+      yield
+      if (this.qsItem.question.length === 0) {
+        this.showDialog = false
+        alert('The Questionaire is empty!')
+      }
+      else {
+        // Save in the database
+        this.info = 'Issue it Now?'
+        this.isGoIndex = true
+      }
 
+      yield
+      this.qsItem.state = 'inissue'
+      this.qsItem.stateTitle = '发布中'
+      // Save in the database
+      this.showDialog = false
+      this.$route.push({path:'/QuestionnaireList'})
+    },
+    // 取消对话框
+    cancel() {
+      this.showDialog = false;
+      // 若已经保存但不发布，直接跳回
+      if (this.isGoIndex === true) {
+        this.$router.push({path: 'QuestionnaireList'})
+      }
+    }
+  },
+  computed: {
+    questionLength() {
+      return this.qsItem.question.length
+    }
+  },
+  watch: {
+    // 路由发生变化时重新抓取数据
+    '$route': 'fetchData',
+    // 重新安排问题列表的num
+    qsItem: {
+      handler(newVal) {
+        newVal.question.forEach((item, index) => {
+          item.num = `Q${index + 1}`
+        })
+      },
+      // deep observation
+      deep: true
     }
   }
 }
