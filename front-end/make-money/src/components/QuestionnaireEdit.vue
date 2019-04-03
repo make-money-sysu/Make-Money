@@ -99,14 +99,14 @@ export default {
   },
   data () {
     return {
-      qsItem: {},
-      qslist: [],
+      qsItem: {}, // 当前修改的问卷
+      qslist: [], // 问卷列表
       isError: false,
       showBtn: false,
-      titleChange: false,
-      titleValue: '',
-      showAddQsDialog: false,
-      showAddOptionInput: true,
+      titleChange: false, // 标题是否修改
+      titleValue: '', // 标题值
+      showAddQsDialog: false, // 是否显示添加问卷对话框
+      showAddOptionInput: true, // 是否显示添加选项对话框
       qsInputTitle: '',
       qsInputOptions: [],
       info: '',
@@ -119,20 +119,41 @@ export default {
     }
   },
   beforeRouteEnter(to, from, next) {
-    let num = to.params.num
+    let num = to.params.num // 要编辑的问卷序号
     let theItem = {}
     if (num != 0) {
-      let length = 1
+      var list = [{ 'num': 1,
+            'title': '第三份问卷',
+            'time': '2017-3-27',
+            'state': 'noissued',
+            'stateTitle': '已发布',
+            'checked': false,
+            'question': [
+              {'num': 'Q1', 'title': '单选题', 'type': 'radio', 'isNeed': true, 'options': ['选项一', '选项二']},
+              {'num': 'Q2', 'title': '多选题', 'type': 'checkbox', 'isNeed': true, 'options': ['选项一', '选项二', '选项三', '选项四']},
+              {'num': 'Q3', 'title': '文本题', 'type': 'textarea', 'isNeed': true}
+            ]
+          }]
+      let length = list.length // 获取总问卷列表长度
+      // alert(length)
+      // alert('num')
+      alert(num)
       if (num < 0 || num > length) {
+        // 序号越界
         alert('非法路由！')
         next('/')
       }
       else {
+        // 获取要编辑的问卷到theItem
         for (let i = 0; i < length; i++) {
-
+            if (list[i].num == num) {
+              theItem = list[i]
+              break
+            }
         }
       }
-      if (theItem.state === 'noissue') {
+      if (theItem.state === 'noissued') {
+        // 只能编辑未发布的问卷
         next()
       }
       else {
@@ -158,8 +179,116 @@ export default {
         maxDay: 20
       }
       if (this.$route.params.num == 0) {
+        // No data
         let item = {}
+        item.num = this.qslist.length + 1
+        item.title = 'Title'
+        item.time = ''
+        item.state = 'noissue'
+        item.question = []
+        item.stateTitle = '未发布'
+        item.checked = false
+        this.qsItem = item
+        this.qslist.push(this.qsItem)
       }
+      else {
+        // There exists data
+        let i = 0
+        for (let length = this.qslist.length; i < length; i++) {
+          if (this.qslist[i].num == this.$route.params.num) {
+            this.qsItem = this.qslist[i]
+            break
+          }
+        }
+        if (i == this.qslist.length)
+          this.isError = true
+      }
+    },
+    getMsg(item) {
+      let msg = ''
+      if (item.type === 'radio') {
+        msg = '(单选题)'
+      }
+      else if (item.type === 'checkbox') {
+        msg = '(多选题)'
+      }
+      else {
+        msg = '(文本题)'
+      }
+      return item.isNeed ? `${msg} *` : msg
+    },
+    onblur() {
+      this.titleValue = this.titleValue.trim()
+      this.qsItem.title = this.titleValue === '' ? this.qsItem.title : this.titleValue
+      this.titleChange = false
+    },
+    onsubmit() {
+      this.titleValue = this.titleValue.trim()
+      this.qsItem.title = this.titleValue === '' ? this.qsItem.title: this.titleValue
+    },
+    titleClick() {
+      this.titleChange = !this.titleChange
+      setTimeout(() => {
+        this.$refs.title.focus()
+      }, 150)
+    },
+    swapItems(oldIndex, newIndex) {
+      let [newVal] = this.qsItem.question.splice(newIndex, 1, this.qsItem.question[oldIndex])
+      this.qsItem.question.splice(oldIndex, 1, newVal)
+    },
+    goUp(index) {
+      this.swapItems(index, index - 1)
+    },
+    goDown(index) {
+      this.swapItems(index, index + 1)
+    },
+    copy (index, qs) {
+      if (this.questionLength === 10)
+        return alert('Questionnaire is full!')
+      qs = Object.assign({}, qs)
+      this.qsItem.question.splice(index, 0, qs)
+    },
+    del(index) {
+      this.qsItem.question.splice(index, 1)
+    },
+    addItemClick() {
+      if (this.showBtn === false) {
+        this.questionLength === 10 ? alert('Questionnaire is full!') : this.showBtn = !this.showBtn
+      }
+      else {
+        this.showBtn = !this.showBtn
+      }
+    },
+    showAddDialog(msg, showOption) {
+      this.showAddQsDialog = true
+      this.showAddOptionInput = showOption
+      this.info = msg
+      this.qsInputTitle = ''
+      this.qsInputOptions = ''
+    },
+    // Add Radio Question
+    addRadio() {
+      if (this.questionLength === 10)
+        return alert('Questionnaire is full!')
+      this.showAddDialog('分别在下面的输入框中输入问题的名称以及选项，选项用半角逗号“,”分隔开', true)
+      this.addOptionType = 'radio'
+    },
+    // Add Checkbox Question
+    addCheckbox() {
+      if (this.questionLength === 10)
+        return alert('Questionnaire is full!')
+      this.showAddDialog('分别在下面的输入框中输入问题的名称以及选项，选项用半角逗号“,”分隔开', true)
+      this.addOptionType = 'checkbox'
+    },
+    // Add Textarea Question
+    addTextarea() {
+      if (this.questionLength === 10)
+        return alert('Questionnaire is full!')
+      this.showAddDialog('请输入问题名称', false)
+      this.addOptionType = 'textarea'
+    },
+    validateAddQs() {
+
     }
   }
 }
