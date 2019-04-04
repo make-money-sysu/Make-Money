@@ -151,7 +151,7 @@ export default {
       let length = list.length // 获取总问卷列表长度
       // alert(length)
       // alert('num')
-      alert(num)
+      // alert(num)
       if (num < 0 || num > length) {
         // 序号越界
         alert('非法路由！')
@@ -197,7 +197,7 @@ export default {
       // 新建问卷逻辑
       if (this.$route.params.num == 0) {
         // No data
-        // Initialize Questionaire content
+        // Initialize Questionnaire content
         let item = {}
         item.num = this.qslist.length + 1
         item.title = 'Title'
@@ -242,7 +242,7 @@ export default {
     },
     // 标题失去焦点时，修改完成
     onblur() {
-      alert('in onblur')
+      // alert('in onblur')
       this.titleValue = this.titleValue.trim()
       this.qsItem.title = this.titleValue === '' ? this.qsItem.title : this.titleValue
       this.titleChange = false
@@ -377,7 +377,7 @@ export default {
       yield
       if (this.qsItem.question.length === 0) {
         this.showDialog = false
-        alert('The Questionaire is empty!')
+        alert('The Questionnaire is empty!')
       }
       else {
         // Save in the database
@@ -423,4 +423,6 @@ export default {
 }
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+@import '../style/QuestionnaireEdit';
+</style>
