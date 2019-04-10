@@ -7,7 +7,7 @@ $lightblue: #5DBAF7;
   position: relative;
   padding: 1rem;
   text-align: center;
-  .fade-enter-activ,
+  .fade-enter-active,
   .fade-leave-active {
     transition: opacity 0.5s;
   }
@@ -30,8 +30,8 @@ $lightblue: #5DBAF7;
   }
   #calendar {
     position: absolute;
-    width: 20rem;
-    height: 24rem;
+    width: 24rem;
+    height: 28rem;
     box-sizing: border-box;
     border: 0.2rem solid #eee;
     border-radius: 2%;
@@ -62,15 +62,27 @@ $lightblue: #5DBAF7;
         align-items: center;
       }
       #date-box {
+        height: 90%;
         flex-grow: 2;
       }
     }
     .week {
+      position: relative;
       box-sizing: border-box;
       padding: 0.5rem;
-      font-size: 1.6rem;
+      font-size: 1.4rem;
       span {
-        height: 16.6667%;
+        height: 100%;
+      }
+    }
+    .days {
+      box-sizing: border-box;
+      height: 100%;
+      padding: 0.5rem;
+      font-size: 1.4rem;
+      span {
+        text-align: center;
+        height: 16.667%;
         cursor: pointer;
         transition: all 0.5s;
       }
@@ -97,6 +109,7 @@ $lightblue: #5DBAF7;
     color: $blue;
   }
   .days {
+    background-color: #fff;
     span {
       &:hover {
         border-radius: 0.2rem;
