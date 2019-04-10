@@ -80,13 +80,14 @@ export default {
               {'num': 'Q3', 'title': '文本题', 'type': 'textarea', 'isNeed': true}
             ]
           }],
-      isError: false,
-      showDialog: false,
-      info: '',
-      submitError: false,
+      isError: false, // 是否出错
+      showDialog: false, // 是否显示对话框
+      info: '', // 对话框内容
+      submitError: false, // 提交是否出错
       requiredItem: {}
     }
   },
+  // 页面生成时自动抓取数据
   created() {
     this.fetchData()
   },
@@ -95,7 +96,14 @@ export default {
   },
   methods: {
     fetchData() {
-
+      // 找到要查看的问卷
+      let i = 0;
+      for (let length = this.qslist.length; i < length; i++) {
+        if (this.qslist[i].num == this.$route.params.num) {
+          this.qsItem = this.qslist[i]
+          break;
+        }
+      }
     },
     getMsg(item) {
       let msg = ''
@@ -112,13 +120,50 @@ export default {
       return item.isNeed ? `${msg} *` : msg
     },
     submit() {
-
+      if (this.qsItem.state === 'inissue') {
+        // 校验
+        let result = this.validate()
+        if (result) {
+          this.showDialog = true;
+          this.submitError = false;
+          this.info = 'Submit Successfully!'
+          setTimeout(() => {
+            this.showDialog = false
+          }, 500)
+          setTimeout(() => {
+            this.$route.push({path: '/QuestionnaireList'})
+          }, 1500)
+        }
+        else {
+          this.showDialog = true;
+          this.submitError = true;
+          this.info = 'Fail to submit!'
+        }
+      }
+      else {
+        this.showDialog = true;
+        this.submitError = true;
+        this.info = 'Fail to submit! Only Inissue Questionnaire Can be Submitted!'
+      }
     },
     getRequiredItem() {
-
+      this.qsItem.question.forEach(item => {
+        if (item.isNeed) {
+          if (item.type === 'checkbox') {
+            this.requiredItem[item.num] = []
+          }
+          else {
+            this.requiredItem[item.num] = ''
+          }
+        }
+      })
     },
     validate() {
-
+      for (let i in this.requiredItem) {
+        if (this.requiredItem[i].length === 0)
+          return false
+      }
+      return true
     }
   },
   watch: {
