@@ -13,12 +13,12 @@
               <input type="radio"
                 :name="`${item.num}-${item.title}`"
                 v-model="requiredItem[item.num]"
-                v-if="item.type === 'radio"
+                v-if="item.type === 'radio'"
                 :value="option">
                 <input type="checkbox"
                 :name="`${item.num}-${item.title}`"
                 v-model="requiredItem[item.num]"
-                v-if="item.type === 'checkbox"
+                v-if="item.type === 'checkbox'"
                 :value="option">{{option}}
             </label>
           </p>
@@ -96,6 +96,7 @@ export default {
   },
   methods: {
     fetchData() {
+      // alert('fetchData')
       // 找到要查看的问卷
       let i = 0;
       for (let length = this.qslist.length; i < length; i++) {
