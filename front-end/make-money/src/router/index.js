@@ -5,6 +5,7 @@ import order from '@/components/order'
 import personalInfo from '@/components/personalInfo'
 import QuestionnaireList from '@/components/QuestionnaireList'
 import QuestionnaireEdit from '@/components/QuestionnaireEdit'
+import QuestionnaireFill from '@/components/QuestionnaireFill'
 import Login from '@/components/Login'
 import Register from '@/components/Register'
 import HomePage from '@/components/HomePage'
@@ -38,6 +39,11 @@ export default new Router({
       path: '/QuestionnaireEdit/:num',
       name: 'QuestionnaireEdit',
       component: QuestionnaireEdit
+    },
+    {
+      path: '/QuestionnaireFill/:num',
+      name: 'QuestionnaireFill',
+      component: QuestionnaireFill
     },
     {
       path: '/Login',
