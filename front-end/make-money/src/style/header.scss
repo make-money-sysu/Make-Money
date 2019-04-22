@@ -14,12 +14,12 @@ $skyblue: #00A9FF;
   left: 4%;
   top: 8%;
 }
-#icon {
+#personInfo {
   float: right;
   position: relative;
   widows: 40px;
   height: 40px;
-  right: 8%;
+  right: 10%;
   top: 22%;
 }
 #order {
@@ -27,6 +27,22 @@ $skyblue: #00A9FF;
   position: relative;
   widows: 40px;
   height: 40px;
-  right: 10%;
+  right: 12%;
+  top: 22%;
+}
+#login {
+  float: right;
+  position: relative;
+  widows: 40px;
+  height: 40px;
+  right: 1%;
+  top: 22%;
+}
+#register {
+  float: right;
+  position: relative;
+  widows: 40px;
+  height: 40px;
+  right: -5.5%;
   top: 22%;
 }
