@@ -6,6 +6,7 @@ import personalInfo from '@/components/personalInfo'
 import QuestionnaireList from '@/components/QuestionnaireList'
 import QuestionnaireEdit from '@/components/QuestionnaireEdit'
 import QuestionnaireFill from '@/components/QuestionnaireFill'
+import QuestionnaireData from '@/components/QuestionnaireData'
 import Login from '@/components/Login'
 import Register from '@/components/Register'
 import HomePage from '@/components/HomePage'
@@ -44,6 +45,11 @@ export default new Router({
       path: '/QuestionnaireFill/:num',
       name: 'QuestionnaireFill',
       component: QuestionnaireFill
+    },
+    {
+      path: '/QuestionnaireData/:num',
+      name: 'QuestionnaireData',
+      component: QuestionnaireData
     },
     {
       path: '/Login',
