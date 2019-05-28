@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <router-link class="link" to="/HomePage"><img id='logo' src="../../assets/mainpage.png"></router-link>
+    <router-link class="link" to="/HomePage" ><img id='logo' src="../../assets/mainpage.png"></router-link>
     <router-link class="link" to="/personalInfo"><img id="personInfo" src="../../assets/personInfo.png"></router-link>
     <router-link class="link" to="/order"><img id="order" src="../../assets/order.png"></router-link>
     <router-link class="link" to="/Login"><img id="login" src="../../assets/login.png"></router-link>

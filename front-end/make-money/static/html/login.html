@@ -11,34 +11,13 @@
     <link rel="stylesheet" href="../css/1.css">
 </head>
 <body>
-	<script type="text/javascript">
-		function mySub(){
-			var userName = document.getElementById("name").value;
-			var password = document.getElementById("password").value;
-			
-			if (userName == ""){
-				alert("请输入用户名！");
-				return false;
-			}
-			
-			else if (password == ""){
-				alert("请输入密码！");
-				return false;
-			}
-			
-			else{
-				alert("提交成功！");
-				return true;
-			}
-		}
-	</script>
     <div class="container">
             <div class="col-md-7 slogan" style="height: 400px">
                 <span>Make Money Now.</span>
             </div>
             <div class="col-md-5 ">
                 <div id="login">
-                    <form class="form-horizontal" name="logform" action="#" role="form" method="post">
+                    <form class="form-horizontal" name="logform" role="form">
                         <div class="form-group">
                             <label class="control-label col-md-2 col-md-offset-1" for="name">UserID</label>
                             <div class="col-md-6">
@@ -48,13 +27,13 @@
                         <div class="form-group">
                             <label class="control-label col-md-2 col-md-offset-1" for="password">Passwork</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" id="password" placeholder="请输入密码">
+                                <input type="password" class="form-control" id="password" placeholder="请输入密码">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-2 col-md-offset-1"> </label>
                             <div class="col-md-6">
-                                <button type="submit" class="btn btn-default col-md-12 " onClick="mySub()">Login</button>
+                                <button type="submit" class="btn btn-default col-md-12 " onClick="login_fun()">Login</button>
                             </div>
 
                         </div>
@@ -65,4 +44,32 @@
             </div>
     </div>
 </body>
+
+<script type="text/javascript">
+    function login_fun(){
+        var userName = document.getElementById("name").value;
+        var password = document.getElementById("password").value;
+        console.log(userName);
+        console.log(password);
+        // $.post("http://182.254.206.244:8080/login", {'id':userName, 'password':password});
+    	$.ajax({
+            type: "post",
+            dataType: 'json',
+    		url: "http://182.254.206.244:8080/login",
+    		data: {
+                "id": userName,
+                "password": password
+            },
+    		success: function(data){
+    			console.log('success');
+    		},
+    		error: function(Request, status, msg){
+    			console.log(Request);
+    			console.log(status);
+    			console.log(msg);
+    			console.log('fail');
+    		}
+    	});
+    }
+</script>
 </html>
