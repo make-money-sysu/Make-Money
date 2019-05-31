@@ -56,10 +56,13 @@
             type: "post",
             dataType: 'json',
     		url: "http://182.254.206.244:8080/login",
-    		data: {
-                "id": userName,
-                "password": password
-            },
+            crossDomain: true,
+    		data: JSON.stringify({
+                    "id": userName,
+                    "password": password
+                }),
+            //header:"Access-Control-Allow-Origin:*",
+                
     		success: function(data){
     			console.log('success');
     		},
