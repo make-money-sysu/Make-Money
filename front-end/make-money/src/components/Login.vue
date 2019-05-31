@@ -1,7 +1,7 @@
 
 <template>
 	<div id = "test">
-		<iframe width="1700px" height="717px" src="../../static/html/login.html" id = "frame1"/>
+		<iframe width="1690px" height="715px" src="../../static/html/login.html" id = "frame1"/>
 	</div>
 </template>
 
