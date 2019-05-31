@@ -9,6 +9,7 @@ import QuestionnaireFill from '@/components/QuestionnaireFill'
 import Login from '@/components/Login'
 import Register from '@/components/Register'
 import HomePage from '@/components/HomePage'
+import ExpressDelivery from '@/components/ExpressDelivery'
 
 Vue.use(Router)
 
@@ -59,6 +60,11 @@ export default new Router({
       path: '/HomePage',
       name: 'HomePage',
       component: HomePage
+    },
+    {
+      path: '/ExpressDelivery',
+      name: 'ExpressDelivery',
+      component: ExpressDelivery
     }
   ]
 })
