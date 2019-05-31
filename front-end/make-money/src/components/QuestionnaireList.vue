@@ -49,6 +49,7 @@
 </template>
 
 <script>
+  import axios from 'axios';
   export default {
     name: 'qsList',
     data() {
@@ -71,6 +72,11 @@
         }
     },
     mounted() {
+      const url = 'http://127.0.0.1:8080/user/16340133'
+      axios.get(url)
+        .then(response => {
+          console.log(response)
+        })
       this.qslist.forEach(item => {
         let [year, month, day] = item.time.split('-')
         if (year < new Date().getFullYear()) {
