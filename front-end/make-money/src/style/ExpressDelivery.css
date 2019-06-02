@@ -6,12 +6,51 @@ html, body {
 	overflow: hidden;
 }
 
-#diliveryTable {
+
+#DeliveryTable {
 	position: relative;
 	top: 40px;
-	height: 700px;
+	height: 600px;
 	width: 1300px;
 	margin: auto;
-	color: red;
-	background-color: green;
+	border: 2px solid black;
+}
+
+#FormTable {
+	position: absolute;
+	height: 500px;
+	width: 1300px;
+}
+
+#paging {
+	position: absolute;
+	width: 1295px;
+	height: 50px;
+	bottom: 0;
+}
+
+#vpage {
+	position: absolute;
+	top: 7.5px;
+}
+
+.btn {
+	position: absolute;
+	top: 7.5px;
+}
+
+#issue {
+	right: 330px;
+}
+
+#accept {
+	right: 230px;
+}
+
+#submit {
+	right: 130px;
+}
+
+#query {
+	right: 30px;
 }
