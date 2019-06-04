@@ -14,46 +14,70 @@
 	<script type="text/javascript">
 		function mySub(){
 			var userName = document.getElementById("name").value;
-			var sex = document.getElementById("sex").value;
-			var tel = document.getElementById("tel").value;
+            var student_num = document.getElementById("student_num").value;
+            var sex = document.getElementById("sex").value;
+            var real_name = document.getElementById("real_name").value;
 			var password = document.getElementById("password").value;
-			var password_1 = document.getElementById("password_1").value;
-			var pin = document.getElementById("pin").value;
-			var address = document.getElementById("address").value;
+            var password_1 = document.getElementById("password_1").value;
+			var age = document.getElementById("age").value;
+            var profession = document.getElementById("profession").value;
+			var tel = document.getElementById("tel").value;
+			var email = document.getElementById("email").value;
+			var grade = document.getElementById("grade").value;
+            
+            var gender = "0";
+            if (sex == "男"){
+                gender = "1";
+            }
 			
 			if (password != password_1){
 				alert("两次输入密码需一致");
 				return false;
 			}
-
 			if (userName.length<3 || userName.length>6){
-				alert("用户名必须为3-6位")；
+				alert("用户名必须为3-6位");
 				return false;
-			}
-
-			var tag = isName(userName);
-			if (tag){
-				document.getElementById("isCan").innerHTML = "用户名已存在";
-				return false;
-			}else{
-				document.getElementById("isCan").innerHTML = "";
 			}
 			if (password.length < 6){
 				alert("密码必须大于6位");
 				return false;
-			}
+            }
 
+            // 注册
+            $.ajax({
+                type: "post",
+                dataType: 'json',
+                // url: "http://182.254.206.244:8080/user",
+                url: "http://139.199.166.124:8080/user/", //lt
+                crossDomain: true,
+                data: JSON.stringify({
+                    "id" : parseInt(student_num),
+                    "password" : password,
+                    "real_name" : real_name,
+                    "nick_name" : userName,
+                    "age" : parseInt(age),
+                    "gender" : gender,
+                    "head_picture" : "",
+                    "balance" : 0,
+                    "profession" : profession,
+                    "grade" : grade,
+                    "phone" : tel,
+                    "email" : email
+                    }),
+                success: function(data){
+                    console.log('success');
+                    console.log(data);
+                    window.location.href = "/HomePage";
+                    // window.open("/HomePage");
+                },
+                error: function(Request, status, msg){
+                    console.log(Request);
+                    console.log(status);
+                    console.log(msg);
+                    console.log('fail');
+                }
+            });
 			return true;
-		}
-		
-		//判断用户名，参数为判断的用户名
-        function isName(str){
-        	for(var i=0;i<names.length;i++){
-				if(names[i] == str){
-					return true;
-				}
-			}
-			return false;
 		}
 		
 	</script>
@@ -61,13 +85,19 @@
 	
     <div class="container">
         <div class="col-md-8 col-md-offset-2">
-            <form class="form-horizontal" name="regform" id="register" role="form" action="#" method="post">
+            <form class="form-horizontal" name="regform" id="register" role="form">
                 <div class="form-group">
                     <label class="control-label col-md-2 col-md-offset-1" for="name">用户名</label>
                     <div class="col-md-6">
                         <input type="text" class="form-control" name="name" id="name" placeholder="请输入用户名">
                     	<span id="isCan" style="color: red;"></span>
 					</div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2 col-md-offset-1" for="student_num">学号</label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" name="student_num" id="student_num" placeholder="请输入学号">
+                    </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-2 col-md-offset-1" for="sex">性别</label>
@@ -78,53 +108,52 @@
                         </select>
                     </div>
                 </div>
-
                 <div class="form-group">
-                    <label class="control-label col-md-2 col-md-offset-1" for="tel">真实姓名</label>
+                    <label class="control-label col-md-2 col-md-offset-1" for="real_name">真实姓名</label>
                     <div class="col-md-6">
-                        <input type="text" class="form-control" name="tel" id="tel" placeholder="请输入真实姓名">
+                        <input type="text" class="form-control" name="real_name" id="real_name" placeholder="请输入真实姓名">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-2 col-md-offset-1" for="password">密码</label>
                     <div class="col-md-6">
-                        <input type="text" class="form-control" name="password" id="password" placeholder="请输入密码">
+                        <input type="password" class="form-control" name="password" id="password" placeholder="请输入密码">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-2 col-md-offset-1" for="password_1">确认密码</label>
                     <div class="col-md-6">
-                        <input type="text" class="form-control" name="password_1" id="password_1" placeholder="请再次输入密码">
+                        <input type="password" class="form-control" name="password_1" id="password_1" placeholder="请再次输入密码">
                     </div>
                 </div>
 				<div class="form-group">
-                    <label class="control-label col-md-2 col-md-offset-1" for="pin">年龄</label>
+                    <label class="control-label col-md-2 col-md-offset-1" for="age">年龄</label>
                     <div class="col-md-6">
-                        <input type="text" class="form-control" name="pin" id="pin" placeholder="请输入年龄">
+                        <input type="text" class="form-control" name="age" id="age" placeholder="请输入年龄">
                     </div>
                 </div>
 				<div class="form-group">
-                    <label class="control-label col-md-2 col-md-offset-1" for="address">专业</label>
+                    <label class="control-label col-md-2 col-md-offset-1" for="profession">专业</label>
                     <div class="col-md-6">
-                        <input type="text" class="form-control" name="address" id="address" placeholder="请输入专业">
+                        <input type="text" class="form-control" name="profession" id="profession" placeholder="请输入专业">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-2 col-md-offset-1" for="address">年级</label>
+                    <label class="control-label col-md-2 col-md-offset-1" for="grade">年级</label>
                     <div class="col-md-6">
-                        <input type="text" class="form-control" name="address" id="address" placeholder="请输入年级">
+                        <input type="text" class="form-control" name="grade" id="grade" placeholder="请输入年级">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-2 col-md-offset-1" for="address">电话</label>
+                    <label class="control-label col-md-2 col-md-offset-1" for="tel">电话</label>
                     <div class="col-md-6">
-                        <input type="text" class="form-control" name="address" id="address" placeholder="请输入电话">
+                        <input type="text" class="form-control" name="tel" id="tel" placeholder="请输入电话">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-2 col-md-offset-1" for="address">邮箱</label>
+                    <label class="control-label col-md-2 col-md-offset-1" for="email">邮箱</label>
                     <div class="col-md-6">
-                        <input type="text" class="form-control" name="address" id="address" placeholder="请输入邮箱">
+                        <input type="text" class="form-control" name="email" id="email" placeholder="请输入邮箱">
                     </div>
                 </div>
                 <div class="form-group">

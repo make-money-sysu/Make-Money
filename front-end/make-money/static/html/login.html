@@ -35,10 +35,7 @@
                             <div class="col-md-6">
                                 <button type="submit" class="btn btn-default col-md-12 " onClick="login_fun()">Login</button>
                             </div>
-
                         </div>
-
-
                     </form>
                 </div>
             </div>
@@ -55,16 +52,17 @@
     	$.ajax({
             type: "post",
             dataType: 'json',
-    		url: "http://182.254.206.244:8080/login",
+    		// url: "http://182.254.206.244:8080/login",
+            url: "http://139.199.166.124:8080/login", //lt
             crossDomain: true,
     		data: JSON.stringify({
                     "id": userName,
                     "password": password
                 }),
-            //header:"Access-Control-Allow-Origin:*",
-                
     		success: function(data){
     			console.log('success');
+                window.location.href = "/HomePage";
+                // window.open("/HomePage");
     		},
     		error: function(Request, status, msg){
     			console.log(Request);
