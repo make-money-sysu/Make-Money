@@ -15,11 +15,11 @@
         </li>
         <li>{{item.title}}</li>
         <li>{{item.time}}</li>
-        <li :class="item.state === 'inissue' ? 'inissue' : ''">{{item.stateTitle}}</li>
+        <li :class="item.state === 'issued' ? 'issued' : ''">{{item.stateTitle}}</li>
         <li>
           <button @click="iterator = edit(item); iterator.next()">编辑</button>
           <button @click="iterator = delItem(item.num); iterator.next()">删除</button>
-          <router-link :to="`/fill/${item.num}`" tag="button">查看问卷</router-link>
+          <router-link :to="`/QuestionnaireFill/${item.num}`" tag="button">查看问卷</router-link>
           <button @click="iterator = watchData(item); iterator.next()">查看数据</button>
         </li>
       </ul>
@@ -72,10 +72,17 @@
         }
     },
     mounted() {
-      const url = 'http://127.0.0.1:8080/user/16340133'
+      // Server: 182.254.206.244
+      const url = 'http://127.0.0.1:8080/survey'
+      /*
       axios.get(url)
         .then(response => {
           console.log(response)
+        })
+        */
+      axios.get(url)
+        .then(response => {
+          console.log(response.data.data)
         })
       this.qslist.forEach(item => {
         let [year, month, day] = item.time.split('-')
