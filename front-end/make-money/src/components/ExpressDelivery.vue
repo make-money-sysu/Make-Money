@@ -12,14 +12,14 @@
 			row-hover-color="#eee"
 			row-click-color="#edf7ff"
 			:paging-index="(pageIndex-1)*pageSize"
-			:is-loading="isLoading"
 		></v-table>
 
 		<div class="mt20 mb20 bold" id="paging">
 			<v-pagination @page-change="pageChange" @page-size-change="pageSizeChange" :total="50" :page-size="pageSize" :layout="['total', 'prev', 'pager', 'next', 'sizer', 'jumper']" id="vpage">
 			</v-pagination>
-			<button id="issue" class="btn">发布快递</button>
-			<button id="accept" class="btn">接受快递</button>
+			<button id="issue" class="btn" v-on:click="openMask">发布快递</button>
+			<dialog-bar v-model="sendVal" type="danger" title="发布快递" v-on:cancel="clickCancel()" @danger="clickDanger()" @confirm="clickConfirm()" dangerText="删除"></dialog-bar>
+			<button id="accept" class="btn">接受任务</button>
 			<button id="submit" class="btn">确定快递</button>
 			<button id="query" class="btn">快递查询</button>
 		</div>
@@ -27,14 +27,19 @@
 </template>
 
 <script>
+	import dialogBar from './dialog.vue'
 	import tableDate from './expressTest.js'
 
 	export default {
 		name: 'ExpressDelivery',
+		components: {
+			'dialog-bar': dialogBar,
+		},
 		data() {
 			return {
 				pageIndex:1,
 				pageSize:10,
+				sendVal: false,
 				tableConfig: {
 					multipleSort: false,
 					tableData: [],
@@ -61,7 +66,7 @@
 							{fields: ["state"], title: "状态", titleAlign: "center"},
 							{fields: ["comment"], title: "备注", titleAlign: "center"}
 						]
-					] 
+					],
 				}
 			}
 		},
@@ -81,6 +86,22 @@
 				this.pageIndex = 1;
 				this.pageSize = pageSize;
 				this.getTableData();
+			},
+
+			openMask(index) {
+				this.sendVal = true;
+			},
+
+			clickCancel() {
+				console.log('点击了取消')
+			},
+
+			clickDanger() {
+				console.log("这里是danger回调")
+			},
+
+			clickConfirm() {
+				console.log("点击了confirm")
 			}
 		},
 
@@ -91,6 +112,4 @@
 	}
 </script>
 
-<style lang="css">
-	@import '../style/ExpressDelivery';
-</style>
+<style lang="css" src="../style/ExpressDelivery.css"></style>
