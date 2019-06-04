@@ -46,46 +46,75 @@
                 <div class="line col-md-12  "></div>
                 <br/>
                 
-                 <form method="post" action="#" class="form-horizontal col-md-10" id="user_center_edit" role="form" onSubmit="return on_submit()">
+                <form class="form-horizontal col-md-10" id="user_center_edit" role="form">
                     <div class="form-group">
                         <label class="control-label col-md-2" for="name">用户名</label>
                         <div class="col-md-6">
-                            <input type="text" onblur="checkName()" class="form-control" id="name" placeholder="请输入3-6位用户名" name="username" value="fyw">
-                            <div id="name_prompt"></div>
-						</div>
+                            <input type="text" class="form-control" name="name" id="name" placeholder="请输入用户名">
+                            <span id="isCan" style="color: red;"></span>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-md-2" for="tel">手机号</label>
+                        <label class="control-label col-md-2" for="student_num">学号</label>
                         <div class="col-md-6">
-                            <input type="text" onblur="checkTel()" class="form-control" id="tel" placeholder="请输入手机号" name="userphone" value="13431762210">
-                            <div id="number_prompt"></div>
-						</div>
+                            <input type="text" class="form-control" name="student_num" id="student_num" placeholder="请输入学号">
+                        </div>
                     </div>
-                    
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="sex">性别</label>
+                        <div class="col-md-6">
+                            <select class="form-control" name="sex" id="sex" >
+                                <option value="male">男</option>
+                                <option value="female">女</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="real_name">真实姓名</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" name="real_name" id="real_name" placeholder="请输入真实姓名">
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label class="control-label col-md-2" for="password">密码</label>
                         <div class="col-md-6">
-                            <input type="password" onblur="checkPwd()" class="form-control" id="password" placeholder="请输入密码(不少于6位)" name="userpwd" value="aaaaaa1">
-                            <div id="pwd_prompt"></div>
-						</div>
+                            <input type="password" class="form-control" name="password" id="password" placeholder="请输入密码">
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-md-2" for="password_confirm">确认密码</label>
+                        <label class="control-label col-md-2" for="password_1">确认密码</label>
                         <div class="col-md-6">
-                            <input type="password" class="form-control" id="password_1" placeholder="请再次输入密码" name="re_userpwd" value="aaaaaa1">
+                            <input type="password" class="form-control" name="password_1" id="password_1" placeholder="请再次输入密码">
                         </div>
                     </div>
-					<div class="form-group">
-                        <label class="control-label col-md-2" for="pin">身份证号</label>
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="age">年龄</label>
                         <div class="col-md-6">
-                            <input type="text" onblur="checkPin()" class="form-control" id="pin" placeholder="请输入身份证号" name="userpin" value="440702xxxxxxxx1521">
-							<div id="pin_prompt"></div>
+                            <input type="text" class="form-control" name="age" id="age" placeholder="请输入年龄">
                         </div>
                     </div>
-					 <div class="form-group">
-                        <label class="control-label col-md-2" for="address">常用住址</label>
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="profession">专业</label>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" id="address" placeholder="请输入常用住址" name="useraddress" value="广东-江门">
+                            <input type="text" class="form-control" name="profession" id="profession" placeholder="请输入专业">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="grade">年级</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" name="grade" id="grade" placeholder="请输入年级">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="tel">电话</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" name="tel" id="tel" placeholder="请输入电话">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="email">邮箱</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" name="email" id="email" placeholder="请输入邮箱">
                         </div>
                     </div>
                     <div class="form-group">
@@ -256,71 +285,78 @@
 </body>
 <script type="text/javascript">
     function getUserInfo(){
-        var userName = document.getElementById("name").value;
-        var student_num = document.getElementById("student_num").value;
-        var sex = document.getElementById("sex").value;
-        var real_name = document.getElementById("real_name").value;
-        var password = document.getElementById("password").value;
-        var password_1 = document.getElementById("password_1").value;
-        var age = document.getElementById("age").value;
-        var profession = document.getElementById("profession").value;
-        var tel = document.getElementById("tel").value;
-        var email = document.getElementById("email").value;
-        
-        var gender = 0;
-        if (sex == "男"){
-            gender = 1;
-        }
-        
-        if (password != password_1){
-            alert("两次输入密码需一致");
-            return false;
-        }
-        if (userName.length<3 || userName.length>6){
-            alert("用户名必须为3-6位");
-            return false;
-        }
-        if (password.length < 6){
-            alert("密码必须大于6位");
-            return false;
-        }
-
-        // 注册
         $.ajax({
             type: "get",
             dataType: 'json',
             // url: "http://182.254.206.244:8080/user",
             url: "http://139.199.166.124:8080/user/", //lt
             crossDomain: true,
-            data: JSON.stringify({
-                "id" : student_num,
-                "password" : password,
-                "real_name" : real_name,
-                "nick_name" : userName,
-                "age" : age,
-                "gender" : gender,
-                "head_picture" : "",
-                "balance" : 0,
-                "profession" : profession,
-                "grade" : grade,
-                "phone" : tel,
-                "email" : email
-                }),
             success: function(data){
                 console.log('success');
+                document.getElementsByClassName("user_name").innerHTML = data["nick_name"];
                 console.log(data);
-                window.location.href = "/HomePage";
-                // window.open("/HomePage");
             },
             error: function(Request, status, msg){
-                console.log(Request);
-                console.log(status);
-                console.log(msg);
+                // console.log(Request);
+                // console.log(status);
+                // console.log(msg);
                 console.log('fail');
             }
         });
-        return true;
     }
+    // function getUserInfo(){
+    //     var userName = document.getElementById("name").value;
+    //     var student_num = document.getElementById("student_num").value;
+    //     var sex = document.getElementById("sex").value;
+    //     var real_name = document.getElementById("real_name").value;
+    //     var password = document.getElementById("password").value;
+    //     var password_1 = document.getElementById("password_1").value;
+    //     var age = document.getElementById("age").value;
+    //     var profession = document.getElementById("profession").value;
+    //     var tel = document.getElementById("tel").value;
+    //     var email = document.getElementById("email").value;
+        
+    //     var gender = 0;
+    //     if (sex == "男"){
+    //         gender = 1;
+    //     }
+
+    //     // 注册
+    //     $.ajax({
+    //         type: "get",
+    //         dataType: 'json',
+    //         // url: "http://182.254.206.244:8080/user",
+    //         url: "http://139.199.166.124:8080/user/", //lt
+    //         crossDomain: true,
+    //         data: JSON.stringify({
+    //             "id" : student_num,
+    //             "password" : password,
+    //             "real_name" : real_name,
+    //             "nick_name" : userName,
+    //             "age" : age,
+    //             "gender" : gender,
+    //             "head_picture" : "",
+    //             "balance" : 0,
+    //             "profession" : profession,
+    //             "grade" : grade,
+    //             "phone" : tel,
+    //             "email" : email
+    //             }),
+    //         success: function(data){
+    //             console.log('success');
+    //             console.log(data);
+    //             window.location.href = "/HomePage";
+    //             // window.open("/HomePage");
+    //         },
+    //         error: function(Request, status, msg){
+    //             console.log(Request);
+    //             console.log(status);
+    //             console.log(msg);
+    //             console.log('fail');
+    //         }
+    //     });
+    //     return true;
+    // }
     
 </script>
 </html>
