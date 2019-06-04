@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="../css/02.css">
 	<script src="../js/2.js"></script>
 </head>
-<body>
+<body onload="getUserInfo()">
 	<div id="back-up" onclick="goToWhere()"
         style=" height: 58px; width: 58px; position: fixed; cursor: pointer; right: 0px; bottom: 50px;">
 		<img src="../image/b1.png" height="58px" width="58px">
@@ -254,4 +254,73 @@
     </div>
 
 </body>
+<script type="text/javascript">
+    function getUserInfo(){
+        var userName = document.getElementById("name").value;
+        var student_num = document.getElementById("student_num").value;
+        var sex = document.getElementById("sex").value;
+        var real_name = document.getElementById("real_name").value;
+        var password = document.getElementById("password").value;
+        var password_1 = document.getElementById("password_1").value;
+        var age = document.getElementById("age").value;
+        var profession = document.getElementById("profession").value;
+        var tel = document.getElementById("tel").value;
+        var email = document.getElementById("email").value;
+        
+        var gender = 0;
+        if (sex == "男"){
+            gender = 1;
+        }
+        
+        if (password != password_1){
+            alert("两次输入密码需一致");
+            return false;
+        }
+        if (userName.length<3 || userName.length>6){
+            alert("用户名必须为3-6位");
+            return false;
+        }
+        if (password.length < 6){
+            alert("密码必须大于6位");
+            return false;
+        }
+
+        // 注册
+        $.ajax({
+            type: "get",
+            dataType: 'json',
+            // url: "http://182.254.206.244:8080/user",
+            url: "http://139.199.166.124:8080/user/", //lt
+            crossDomain: true,
+            data: JSON.stringify({
+                "id" : student_num,
+                "password" : password,
+                "real_name" : real_name,
+                "nick_name" : userName,
+                "age" : age,
+                "gender" : gender,
+                "head_picture" : "",
+                "balance" : 0,
+                "profession" : profession,
+                "grade" : grade,
+                "phone" : tel,
+                "email" : email
+                }),
+            success: function(data){
+                console.log('success');
+                console.log(data);
+                window.location.href = "/HomePage";
+                // window.open("/HomePage");
+            },
+            error: function(Request, status, msg){
+                console.log(Request);
+                console.log(status);
+                console.log(msg);
+                console.log('fail');
+            }
+        });
+        return true;
+    }
+    
+</script>
 </html>
