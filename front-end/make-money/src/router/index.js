@@ -10,8 +10,13 @@ import QuestionnaireData from '@/components/QuestionnaireData'
 import Login from '@/components/Login'
 import Register from '@/components/Register'
 import HomePage from '@/components/HomePage'
+import ExpressDelivery from '@/components/ExpressDelivery'
+import 'vue-easytable/libs/themes-base/index.css'
+import {VTable,VPagination} from 'vue-easytable'
 
 Vue.use(Router)
+Vue.component(VTable.name, VTable)
+Vue.component(VPagination.name, VPagination)
 
 export default new Router({
   mode: 'history',
@@ -65,6 +70,11 @@ export default new Router({
       path: '/HomePage',
       name: 'HomePage',
       component: HomePage
+    },
+    {
+      path: '/ExpressDelivery',
+      name: 'ExpressDelivery',
+      component: ExpressDelivery
     }
   ]
 })

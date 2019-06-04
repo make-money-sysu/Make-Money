@@ -1,0 +1,56 @@
+html, body {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+
+
+#DeliveryTable {
+	position: relative;
+	top: 40px;
+	height: 600px;
+	width: 1300px;
+	margin: auto;
+	border: 2px solid black;
+}
+
+#FormTable {
+	position: absolute;
+	height: 500px;
+	width: 1300px;
+}
+
+#paging {
+	position: absolute;
+	width: 1295px;
+	height: 50px;
+	bottom: 0;
+}
+
+#vpage {
+	position: absolute;
+	top: 7.5px;
+}
+
+.btn {
+	position: absolute;
+	top: 7.5px;
+}
+
+#issue {
+	right: 330px;
+}
+
+#accept {
+	right: 230px;
+}
+
+#submit {
+	right: 130px;
+}
+
+#query {
+	right: 30px;
+}
