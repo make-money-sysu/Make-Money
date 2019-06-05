@@ -68,10 +68,10 @@ export default {
     return {
       qsItem: {}, // 当前修改的问卷
       // 问卷列表
-      qslist: [{ 'num': 1,
+      qslist: [{ 'num': 3,
             'title': '第三份问卷',
             'time': '2017-3-27',
-            'state': 'noissued',
+            'state': 'issued',
             'stateTitle': '已发布',
             'checked': false,
             'question': [
