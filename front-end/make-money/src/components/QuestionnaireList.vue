@@ -80,10 +80,30 @@
           console.log(response)
         })
         */
+      var temp;
       axios.get(url)
         .then(response => {
+          temp = response.data.data
+          // Handle list
+          temp.forEach(item => {
+            console.log(item.id) // 获取num
+            console.log(item.name) // 获取title
+            console.log(item.content) // 获取questions
+          })
           console.log(response.data.data)
         })
+
+      axios.post(url, JSON.stringify({
+          id: 1,
+          publisher_id: 666,
+          name: "testing post2",
+          content: "[Test POST 最新v2]"
+        }))
+        .then(response => {
+          console.log(response.data)
+        })
+
+
       this.qslist.forEach(item => {
         let [year, month, day] = item.time.split('-')
         if (year < new Date().getFullYear()) {
