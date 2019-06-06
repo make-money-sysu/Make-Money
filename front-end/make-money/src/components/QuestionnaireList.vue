@@ -72,8 +72,11 @@
         }
     },
     mounted() {
-      // Server: 182.254.206.244
-      const url = 'http://127.0.0.1:8080/survey'
+      // LHW Server: 182.254.206.244
+      // LT Server: 139.199.166.124
+      axios.defaults.withCredentials=true;
+
+      const url = 'http://139.199.166.124:8080/survey'
       /*
       axios.get(url)
         .then(response => {
@@ -81,6 +84,7 @@
         })
         */
       var temp;
+      /*
       axios.get(url)
         .then(response => {
           temp = response.data.data
@@ -92,16 +96,30 @@
           })
           console.log(response.data.data)
         })
+      */
 
-      axios.post(url, JSON.stringify({
-          id: 1,
-          publisher_id: 666,
-          name: "testing post2",
-          content: "[Test POST 最新v2]"
+      const url_login = 'http://139.199.166.124:8080/login'
+
+      axios.post(url_login, JSON.stringify({
+          id: 666,
+          password: "123456"
         }))
         .then(response => {
           console.log(response.data)
+
+          axios.post(url, JSON.stringify({
+            id: 1,
+            publisher_id: 666,
+            name: "testing post2",
+            content: "[Test POST 最新v2]"
+          }))
+          .then(response => {
+            console.log(response.data)
+          })
+
         })
+
+
 
 
       this.qslist.forEach(item => {
