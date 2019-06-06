@@ -119,7 +119,7 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-2"> </label>
-                        <button class="btn btn-default " type="submit" onClick="mySub()">保存</button>
+                        <button class="btn btn-default " type="submit" onClick="updateUserInfo()">保存</button>
                     </div>
                 </form>
             </div>
@@ -285,15 +285,34 @@
 </body>
 <script type="text/javascript">
     function getUserInfo(){
+        var userName = document.getElementById("name");
+        var student_num = document.getElementById("student_num");
+        var sex = document.getElementById("sex");
+        var real_name = document.getElementById("real_name");
+        var age = document.getElementById("age");
+        var profession = document.getElementById("profession");
+        var tel = document.getElementById("tel");
+        var email = document.getElementById("email");
         $.ajax({
             type: "get",
             dataType: 'json',
             // url: "http://182.254.206.244:8080/user",
             url: "http://139.199.166.124:8080/user/", //lt
+            xhrFields: {
+                withCredentials: true    // 要在这里设置上传cookie
+            },
             crossDomain: true,
             success: function(data){
                 console.log('success');
                 document.getElementsByClassName("user_name").innerHTML = data["nick_name"];
+                userName.innerHTML = data["nick_name"];
+                student_num.innerHTML = data["id"];
+                sex.innerHTML = data["gender"];
+                real_name.innerHTML = data["real_name"];
+                age.innerHTML = data["age"];
+                profession.innerHTML = data["profession"];
+                tel.innerHTML = data["phone"];
+                email.innerHTML = data["email"];
                 console.log(data);
             },
             error: function(Request, status, msg){
@@ -304,59 +323,58 @@
             }
         });
     }
-    // function getUserInfo(){
-    //     var userName = document.getElementById("name").value;
-    //     var student_num = document.getElementById("student_num").value;
-    //     var sex = document.getElementById("sex").value;
-    //     var real_name = document.getElementById("real_name").value;
-    //     var password = document.getElementById("password").value;
-    //     var password_1 = document.getElementById("password_1").value;
-    //     var age = document.getElementById("age").value;
-    //     var profession = document.getElementById("profession").value;
-    //     var tel = document.getElementById("tel").value;
-    //     var email = document.getElementById("email").value;
+    function updateUserInfo(){
+        var userName = document.getElementById("name").value;
+        var student_num = document.getElementById("student_num").value;
+        var sex = document.getElementById("sex").value;
+        var real_name = document.getElementById("real_name").value;
+        var password = document.getElementById("password").value;
+        var password_1 = document.getElementById("password_1").value;
+        var age = document.getElementById("age").value;
+        var profession = document.getElementById("profession").value;
+        var tel = document.getElementById("tel").value;
+        var email = document.getElementById("email").value;
         
-    //     var gender = 0;
-    //     if (sex == "男"){
-    //         gender = 1;
-    //     }
-
-    //     // 注册
-    //     $.ajax({
-    //         type: "get",
-    //         dataType: 'json',
-    //         // url: "http://182.254.206.244:8080/user",
-    //         url: "http://139.199.166.124:8080/user/", //lt
-    //         crossDomain: true,
-    //         data: JSON.stringify({
-    //             "id" : student_num,
-    //             "password" : password,
-    //             "real_name" : real_name,
-    //             "nick_name" : userName,
-    //             "age" : age,
-    //             "gender" : gender,
-    //             "head_picture" : "",
-    //             "balance" : 0,
-    //             "profession" : profession,
-    //             "grade" : grade,
-    //             "phone" : tel,
-    //             "email" : email
-    //             }),
-    //         success: function(data){
-    //             console.log('success');
-    //             console.log(data);
-    //             window.location.href = "/HomePage";
-    //             // window.open("/HomePage");
-    //         },
-    //         error: function(Request, status, msg){
-    //             console.log(Request);
-    //             console.log(status);
-    //             console.log(msg);
-    //             console.log('fail');
-    //         }
-    //     });
-    //     return true;
-    // }
+        var gender = 0;
+        if (sex == "男"){
+            gender = 1;
+        }
+        // 更新用户信息
+        $.ajax({
+            type: "put",
+            dataType: 'json',
+            // url: "http://182.254.206.244:8080/user",
+            url: "http://139.199.166.124:8080/user/", //lt
+            crossDomain: true,
+            data: JSON.stringify({
+                "id" : student_num,
+                "password" : password,
+                "real_name" : real_name,
+                "nick_name" : userName,
+                "age" : age,
+                "gender" : gender,
+                "head_picture" : "",
+                "balance" : 0,
+                "profession" : profession,
+                "grade" : grade,
+                "phone" : tel,
+                "email" : email
+                }),
+            success: function(data){
+                console.log('success');
+                console.log(data);
+                window.parent.location.href = "/personalInfo";
+                // window.open("/HomePage");
+            },
+            error: function(Request, status, msg){
+                console.log(Request);
+                console.log(status);
+                console.log(msg);
+                console.log('fail');
+            }
+        });
+        return true;
+    }
     
 </script>
 </html>
