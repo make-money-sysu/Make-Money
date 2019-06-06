@@ -48,12 +48,17 @@
         var password = document.getElementById("password").value;
         console.log(userName);
         console.log(password);
+        console.log(document.cookie.length);
+        
         // $.post("http://182.254.206.244:8080/login", {'id':userName, 'password':password});
     	$.ajax({
             type: "post",
             dataType: 'json',
     		// url: "http://182.254.206.244:8080/login",
             url: "http://139.199.166.124:8080/login", //lt
+            xhrFields: {
+                withCredentials: true    // 要在这里设置上传cookie
+            },
             crossDomain: true,
     		data: JSON.stringify({
                     "id": userName,
@@ -61,7 +66,8 @@
                 }),
     		success: function(data){
     			console.log('success');
-                window.parent.location.href = "/HomePage";
+                console.log(document.cookie.length);    
+                // window.parent.location.href = "/HomePage";
                 // window.open("/HomePage");
     		},
     		error: function(Request, status, msg){
