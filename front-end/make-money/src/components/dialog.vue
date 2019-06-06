@@ -4,61 +4,39 @@
             <div class="dialog-title">{{title}}</div>
             <div class="content">
                 <form id="form-table" method="post" role="form">
-                    <div class="form-group" id="row-1">
-                        <label class="item" for="name">用户名：</label>
-                        <div id="col-1">
-                            <input type="text" class="form-control" name="name" id="name" placeholder="请输入用户名">
-                            <span id="isCan" style="color: red;"></span>
-                        </div>
-                    </div>
-                    <div class="form-group" id="row-2">
-                        <label class="item" for="number">学号：</label>
-                        <div id="col-2">
-                            <input type="text" class="form-control" name="number" id="number" placeholder="请输入学号">
-                            <span id="isCan" style="color: red;"></span>
-                        </div>
-                    </div>        
-                    <div class="form-group" id="row-3">
-                        <label class="item" for="phone">手机号：</label>
-                        <div id="col-3">
-                            <input type="text" class="form-control" name="phone" id="phone" placeholder="请输入手机号">
-                            <span id="isCan" style="color: red;"></span>
-                        </div>
-                    </div>  
                     <div class="form-group" id="row-4">
-                        <label class="item" for="date">日期：</label>
+                        <label class="item" for="date">{{user_date_label}}</label>
                         <div id="col-4">
-                            <input type="text" class="form-control" name="date" id="date" placeholder="请输入日期">
+                            <input type="text" class="form-control" name="date" id="date" placeholder="请输入日期" v-model="dateToPost">
                             <span id="isCan" style="color: red;"></span>
                         </div>
                     </div>     
                     <div class="form-group" id="row-5">
-                        <label class="item" for="money">赏金：</label>
+                        <label class="item" for="money">{{user_money_label}}</label>
                         <div id="col-5">
-                            <input type="text" class="form-control" name="money" id="money" placeholder="请输入赏金">
+                            <input type="text" class="form-control" name="money" id="money" placeholder="请输入赏金" v-model="moneyToPost">
                             <span id="isCan" style="color: red;"></span>
                         </div>
                     </div>  
                     <div id="row-6">
                         <div id="col-6">
-                            <textarea type="text" name="comment" id="comment" placeholder="请输入备注"></textarea>
+                            <textarea type="text" name="comment" id="comment" placeholder="请输入备注" v-model="commentToPost"></textarea>
                             <span id="isCan" style="color: red;"></span>
                         </div>
-                    </div>                                                                                        
+                    </div> 
+                    <div class="btns">
+                        <div v-if="type != 'confirm'" class="default-btn" @click="closeBtn">
+                            {{cancelText}}
+                        </div>
+                        <input type="submit" v-if="type == 'danger'" class="danger-btn" @click="dangerBtn">
+                            {{dangerText}}
+                        <div v-if="type == 'confirm'" class="confirm-btn" @click="confirmBtn">
+                            {{confirmText}}
+                        </div>
+                    </div>
+                    <div class="close-btn" @click="closeMask"><i class="iconfont icon-close"></i></div>                    
                 </form>
             </div>
-            <div class="btns">
-                <div v-if="type != 'confirm'" class="default-btn" @click="closeBtn">
-                    {{cancelText}}
-                </div>
-                <div v-if="type == 'danger'" class="danger-btn" @click="dangerBtn">
-                    {{dangerText}}
-                </div>
-                <div v-if="type == 'confirm'" class="confirm-btn" @click="confirmBtn">
-                    {{confirmText}}
-                </div>
-            </div>
-            <div class="close-btn" @click="closeMask"><i class="iconfont icon-close"></i></div>
         </div>
     </div>
 </template>
@@ -93,30 +71,77 @@ export default {
     data(){
         return{
             showMask: false,
-            text1: '姓名',
-            text1: '学号',
-            text1: '手机号',
-            text1: '日期',
-            text1: '赏金',
-            text1: '备注'
-        }
+            dateToPost: "",
+            moneyToPost: 0,
+            commentToPost: "",
+            user_date_label: '日期',
+            user_money_label: '赏金'        }
     },
     methods:{
-        closeMask(){
+        closeMask() {
             this.showMask = false;
         },
-        closeBtn(){
+        closeBtn() {
             this.$emit('cancel');
             this.closeMask();
         },
         dangerBtn(){
-            this.$emit('danger');
+
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                url: "http://139.199.166.124:8080/package",
+                crossDomain: true,
+                data: JSON.stringify({
+                    "create_time": this.dateToPost,
+                    "reward": this.moneyToPost,
+                    "noted": this.commentToPost,
+                    "state": 0
+                }),
+                success: function(data) {
+                    console.log("Post success!");
+                    console.log(data);
+                },
+                error: function(Request, status, msg) {
+                    console.log(Request);
+                    console.log(status);
+                    console.log(msg);
+                    console.log("Fail!")
+                }
+            });
+
+            console.log("Submit data")
             this.closeMask();
+            return true;
         },
         confirmBtn(){
             this.$emit('confirm');
             this.closeMask();
+        },
+        login_func() {
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                url: "http://139.199.166.124:8080/login",
+                crossDomain: true,
+                data: JSON.stringify({
+                    "id": 666,
+                    "password": "123456"
+                }),
+                success: function(data) {
+                    console.log("Login successfully!");
+                },
+                error: function(Request, status, msg) {
+                    console.log(Request);
+                    console.log(status);
+                    console.log(msg);
+                    console.log("Fail");
+                }
+            })
         }
+    },
+    created() {
+        this.login_func();
     },
     mounted(){
         this.showMask = this.value;
@@ -129,6 +154,8 @@ export default {
             this.$emit('input', val);
         }
     },
+
+
 }
 </script>
 
