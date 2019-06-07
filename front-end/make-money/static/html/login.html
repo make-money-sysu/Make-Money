@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../bootstrap-3.3.7-dist/bootstrap-3.3.7-dist/css/bootstrap.min.css">
     <script src="../js/jquery-3.2.1.min.js"></script>
     <script src="../bootstrap-3.3.7-dist/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="../css/1.css">
 </head>
 <body>
@@ -48,35 +49,50 @@
         var password = document.getElementById("password").value;
         console.log(userName);
         console.log(password);
-        console.log(document.cookie.length);
+
+        let url_login = 'http://139.199.166.124:8080/login';
+        axios.defaults.withCredentials=true;
+        // axios.defaults.headers.post['Content-Type']='text/plain';
+        axios.post(url_login, JSON.stringify({
+          "id": 16340132,
+          "password": "123"
+        }))
+        .then(function(res){
+            console.log(res);//处理成功的函数 相当于success
+            window.parent.location.href = "/HomePage";
+            })
+        .catch(function(error){
+            console.log('fail');
+            console.log(error);//错误处理 相当于error
+        })
         
-        // $.post("http://182.254.206.244:8080/login", {'id':userName, 'password':password});
-    	$.ajax({
-            type: "post",
-            dataType: 'json',
-    		// url: "http://182.254.206.244:8080/login",
-            url: "http://139.199.166.124:8080/login", //lt
-            xhrFields: {
-                withCredentials: true    // 要在这里设置上传cookie
-            },
-            crossDomain: true,
-    		data: JSON.stringify({
-                    "id": userName,
-                    "password": password
-                }),
-    		success: function(data){
-    			console.log('success');
-                console.log(document.cookie.length);    
-                // window.parent.location.href = "/HomePage";
-                // window.open("/HomePage");
-    		},
-    		error: function(Request, status, msg){
-    			console.log(Request);
-    			console.log(status);
-    			console.log(msg);
-    			console.log('fail');
-    		}
-    	});
+
+    	// $.ajax({
+        //     type: "post",
+        //     dataType: 'json',
+    	// 	// url: "http://182.254.206.244:8080/login",
+        //     url: "http://139.199.166.124:8080/login", //lt
+        //     xhrFields: {
+        //         withCredentials: true    // 要在这里设置上传cookie
+        //     },
+        //     crossDomain: true,
+    	// 	data: JSON.stringify({
+        //             "id": userName,
+        //             "password": password
+        //         }),
+    	// 	success: function(data){
+    	// 		console.log('success');
+        //         console.log(document.cookie.length);    
+        //         // window.parent.location.href = "/HomePage";
+        //         // window.open("/HomePage");
+    	// 	},
+    	// 	error: function(Request, status, msg){
+    	// 		console.log(Request);
+    	// 		console.log(status);
+    	// 		console.log(msg);
+    	// 		console.log('fail');
+    	// 	}
+    	// });
     }
 </script>
 </html>
