@@ -18,7 +18,7 @@
 			<v-pagination @page-change="pageChange" @page-size-change="pageSizeChange" :total="50" :page-size="pageSize" :layout="['total', 'prev', 'pager', 'next', 'sizer', 'jumper']" id="vpage">
 			</v-pagination>
 			<button id="issue" class="btn" v-on:click="openMask">发布快递</button>
-			<dialog-bar v-model="sendVal" type="danger" title="发布快递" v-on:cancel="clickCancel()" @danger="clickDanger()" @confirm="clickConfirm()" dangerText="删除"></dialog-bar>
+			<dialog-bar v-model="sendVal" type="danger" title="发布快递" v-on:cancel="clickCancel()" @danger="clickDanger()" @confirm="clickConfirm()" dangerText="提交"></dialog-bar>
 			<button id="accept" class="btn">接受任务</button>
 			<button id="submit" class="btn">确定快递</button>
 			<button id="query" class="btn">快递查询</button>

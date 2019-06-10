@@ -5,21 +5,19 @@
     height: 350px;
     top: -450px;
     left: 350px;
-    border: 1px solid black;
 }
 
 .dialog-container {
     position: relative;
     width: 100%;
     height: 100%;
-    border: 1px solid black;
 }
 
 .dialog-title {
     position: absolute;
     width: 100%;
     height: 15%;
-    background-color: skyblue;
+    background-color: #00A9FF;
     line-height: 50px;
     text-align: center;
     overflow: hidden;
@@ -32,7 +30,7 @@
     top: 15%;
     width: 100%;
     height: 85%;
-    background-color: #00FFFF;
+    background-color: #9CCDEB;
 }
 
 .btns {
@@ -44,26 +42,25 @@
 
 .default-btn {
     position: absolute;
-    border: 1px solid black;
-    top: 3px;
-    right: 3%;
+    top: 0px;
+    right: 11%;
     width: 90px;
     height: 35px;
-    background-color: yellow;
+    background-color: #CFE8F6;
     text-align: center;
     line-height: 30px;
     cursor: pointer;
     overflow: hidden;
+    border-style: outset;
 }
 
 .confirm-btn {
     position: absolute;
-    border: 1px solid black;
-    top: 3px;
-    right: 3%;
+    top: 0px;
+    right: 11%;
     width: 90px;
     height: 35px;
-    background-color: yellow;
+    background-color: #CFE8F6;
     text-align: center;
     line-height: 30px;
     cursor: pointer;
@@ -72,12 +69,11 @@
 
 .danger-btn {
     position: absolute;
-    border: 1px solid black;
-    top: 3px;
-    right: 20%;
+    top: 0px;
+    right: 28%;
     width: 90px;
     height: 35px;
-    background-color: yellow;
+    background-color: #CFE8F6;
     text-align: center;
     line-height: 30px;
     cursor: pointer;
@@ -88,41 +84,42 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    background-color: pink;
 }
 
 .item {
     position: absolute;
     font-size: 18px;
+    left: 60px;
+    top: 255px;
 }
 
 .form-control {
-    left: 13%;
+    z-index: 999;
+    top: 254px;
+    left: 163px;
     position: absolute;
     width: 150px;
     height: 30px;
+    background-color: #CFE8F6;
+
 }
 
 .form-group {
     position: relative;
-    left: 100px;
+    left: 10%;
+    top: 86%;
 }
 
-#row-4 {
-    top: 25%;
-}
-
-#row-5 {
-    top: 50%;
-}
-
-#row-6 {
-    position: absolute;
-    top: 10%;
-    left: 60%;
+#comment-container {
+    position: relative;
 }
 
 #comment {
+    position: absolute;
     text-align: top;
+    top: 30px;
+    left: 10%;
+    width: 470px;
     height: 188px;
+    background-color: #CFE8F6;
 }
