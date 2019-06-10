@@ -83,10 +83,24 @@ export default {
             let commentValue = this.commentToPost;
 
             
+            if (commentValue == '') {
+                alert("请输入包裹信息！");
+                window.location.href = "/ExpressDelivery";
+                return false;
+            }
+
+            if (parseFloat(moneyValue) <= 0.0) {
+                alert("输入的金额必须为正!");
+                window.location.href = "/ExpressDelivery";
+                return false;
+            } 
+
+            
             const url = "http://139.199.166.124:8080/login"
             console.log(this.moneyToPost)
             axios.defaults.withCredentials=true;
 
+            /*
             axios.post(url, JSON.stringify({
                 "id": 16340129,
                 "password": "123456"
@@ -95,7 +109,30 @@ export default {
                 console.log(response.data);
             }).catch(function(err) {
                 console.log(err);
-            });
+            });*/
+
+            /*
+            $.ajax({
+            type: "get",
+            dataType: 'json',
+            // url: "http://182.254.206.244:8080/user",
+            url: "http://139.199.166.124:8080/user/", //lt
+            xhrFields: {
+            withCredentials: true // 要在这里设置上传cookie
+            },
+            crossDomain: true,
+            success: function(data){
+            console.log('success');
+            data = data['data'];
+            console.log(data['nick_name']);
+            },
+            error: function(Request, status, msg){
+            // console.log(Request);
+            // console.log(status);
+            // console.log(msg);
+            console.log('fail');
+            }
+            });*/
 
 
             let url_post = "http://139.199.166.124:8080/package";
@@ -111,6 +148,8 @@ export default {
                 console.log(error);
               });             
               console.log("Submit data");
+
+            window.location.href = "/ExpressDelivery";
             this.closeMask();
             return true;
         },
@@ -119,7 +158,7 @@ export default {
             this.closeMask();
         },
         login_func() {
-            let url = "http://182.254.206.244:8080/login"
+            let url = "http://139.199.166.124:8080/package"
 
             axios.post(url, JSON.stringify({
                 id: 666,

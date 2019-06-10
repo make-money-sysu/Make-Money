@@ -29,6 +29,7 @@
 <script>
 	import dialogBar from './dialog.vue'
 	import tableDate from './expressTest.js'
+	import axios from 'axios';
 
 	export default {
 		name: 'ExpressDelivery',
@@ -102,12 +103,34 @@
 
 			clickConfirm() {
 				console.log("点击了confirm")
+			},
+
+			fetch_data() {
+			    let url = "http://182.254.206.244:8080/package";
+			    axios.get(url)
+			      .then(function(response) {
+			        let temp = response.data.data
+			        // Handle list
+			        temp.forEach(item => {
+			          console.log(item.id); // 获取num
+			          console.log(item.owner_Phone); //获取手机
+			          console.log(item.create_time); // 获得时间
+			          console.log(item.reward); // 获取赏金
+			          console.log(item.state); // 获得状态
+			          console.log(item.note); // 获得备注
+			        })
+			      });
 			}
+
 		},
 
 		created: function() {
 			this.getTableData();
 			console.log("Initialize successfully!");
+		},
+
+		mounted: function() {
+			this.fetch_data();
 		}
 	}
 </script>
