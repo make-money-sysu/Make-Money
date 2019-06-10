@@ -161,8 +161,8 @@ export default {
             let url = "http://139.199.166.124:8080/package"
 
             axios.post(url, JSON.stringify({
-                id: 666,
-                password: "123456"
+                "id": 666,
+                "password": "123456"
             })).then(function(response) {
                 console.log("Login successfully!");
                 console.log(response.data);
