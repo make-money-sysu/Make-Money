@@ -28,7 +28,8 @@
 
 <script>
 	import dialogBar from './dialog.vue'
-	import tableDate from './expressTest.js'
+	// import tableDate from './expressTest.js'
+	import axios from 'axios';
 
 	export default {
 		name: 'ExpressDelivery',
@@ -38,7 +39,7 @@
 		data() {
 			return {
 				pageIndex:1,
-				pageSize:10,
+				pageSize:12,
 				sendVal: false,
 				tableConfig: {
 					multipleSort: false,
@@ -72,20 +73,24 @@
 		},
 
 		methods: {
+			/*
 			getTableData() {
-				this.tableConfig.tableData = tableDate.slice((this.pageIndex-1)*this.pageSize,(this.pageIndex)*this.pageSize)
-			},
+				this.fetch_data();
+				// console.log(user_data);
+				// console.log(user_data.slice(0, 5));
+				// 
+				// this.tableConfig.tableData = user_data.slice((this.pageIndex-1)*this.pageSize,(this.pageIndex)*this.pageSize);
+			},*/
 
 			pageChange(pageIndex) {
 				this.pageIndex = pageIndex;
-				this.getTableData()
-				console.log(pageIndex)
+				this.fetch_data();
 			},
 
 			pageSizeChange(pageSize) {
 				this.pageIndex = 1;
 				this.pageSize = pageSize;
-				this.getTableData();
+				this.fetch_data();
 			},
 
 			openMask(index) {
@@ -102,11 +107,58 @@
 
 			clickConfirm() {
 				console.log("点击了confirm")
+			},
+
+			fetch_data() {
+			    let url = "http://182.254.206.244:8080/package";
+			    let data = [];
+			    let pIndex = this.pageIndex;
+			    let pSize = this.pageSize;
+
+			    axios.get(url)
+			      .then(response => {
+			        let temp = response.data.data
+			        console.log(temp)
+			        // Handle list
+			        temp.forEach(item => {
+			        	var j = {};
+			          	// console.log(item.id); // 获取num
+			          	// console.log(item.owner_real_name);
+			          	// console.log(item.owner_id)
+			          	// console.log(item.owner_Phone); //获取手机
+			          	// console.log(item.create_time); // 获得时间
+			          	// console.log(item.reward); // 获取赏金
+			          	// console.log(item.state); // 获得状态
+			          	// console.log(item.note); // 获得备注
+			          	j.seqNum = item.id;
+			          	j.name = item.owner_real_name;
+			          	j.stuId = item.owner_Phone;
+			          	j.tel = item.owner_Phone;
+			          	j.date = item.create_time;
+			          	j.reward = item.reward;
+			          	if (item.state == '0') {
+			          		j.state = 'Release';
+			          	} else if (item.state == '1') {
+			          		j.state = 'Accepted';
+			          	} else if (item.state == '2') {
+			          		j.state = 'Finish';
+			          	}
+			          	j.comment = item.note;
+			          	data.push(j);
+			          	
+			        })
+			        this.tableConfig.tableData = data.slice((pIndex-1)*pSize,(pIndex)*pSize);
+			      });
 			}
+
 		},
 
 		created: function() {
-			this.getTableData();
+			// this.getTableData();
+		},
+
+		mounted: function() {
+			this.fetch_data();
 			console.log("Initialize successfully!");
 		}
 	}
