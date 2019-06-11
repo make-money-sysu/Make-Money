@@ -97,7 +97,7 @@
           console.log(response.data.data)
         })
       */
-
+      /*
       const url_login = 'http://139.199.166.124:8080/login'
 
       axios.post(url_login, JSON.stringify({
@@ -118,7 +118,7 @@
           })
 
         })
-
+      */
 
 
 
