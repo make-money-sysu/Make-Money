@@ -285,6 +285,14 @@
 </body>
 <script type="text/javascript">
     function getUserInfo(){
+        $("#question").bind("click",function(){
+		    window.parent.location.href = "/QuestionnaireList";
+        });
+        
+        $("#express").on("click",function(){
+            window.parent.location.href = "/ExpressDelivery";
+        });
+
         var userName = document.getElementById("name");
         var student_num = document.getElementById("student_num");
         var sex = document.getElementById("sex");
