@@ -24,7 +24,7 @@
 		<div class="user_info col-md-6 col-md-offset-3">
 			<img class='user_icon' title='点击更换头像' style='border-radius: 50%;width: 150px;height: 150px; margin-bottom: 30px;' src=../image/2089312254@chatroom_1486356859619_63.jpg onclick='#save' data-toggle='modal' data-target='#save'/>
 			<br/>
-            <span class="user_name">Dick<span class="user_name">，欢迎您</span></span>
+            <span class="user_name" id="modified_name">Dick</span><span class="user_name">，欢迎您</span>
             <br/>
 		</div>
 		<div class="col-md-8 col-md-offset-2 ">
@@ -304,16 +304,17 @@
             crossDomain: true,
             success: function(data){
                 console.log('success');
-                document.getElementsByClassName("user_name").innerHTML = data["nick_name"];
-                userName.innerHTML = data["nick_name"];
-                student_num.innerHTML = data["id"];
-                sex.innerHTML = data["gender"];
-                real_name.innerHTML = data["real_name"];
-                age.innerHTML = data["age"];
-                profession.innerHTML = data["profession"];
-                tel.innerHTML = data["phone"];
-                email.innerHTML = data["email"];
-                console.log(data);
+                data = data['data'];
+                $("#modified_name").html(data['nick_name']);
+                console.log(data['nick_name']);
+                userName.value = data["nick_name"];
+                student_num.value = data["id"];
+                sex.value = data["gender"];
+                real_name.value = data["real_name"];
+                age.value = data["age"];
+                profession.value = data["profession"];
+                tel.value = data["phone"];
+                email.value = data["email"];
             },
             error: function(Request, status, msg){
                 // console.log(Request);
