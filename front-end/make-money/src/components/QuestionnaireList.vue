@@ -6,7 +6,7 @@
       <li>标题</li>
       <li>截止时间</li>
       <li>状态</li>
-      <li>操作<span @click="$router.push({name: 'qsEdit', param: {num: 0}})">+新建问卷</span></li>
+      <li>操作<span @click="$router.push({name: 'QuestionnaireEdit', params: {num: 0}})">+新建问卷</span></li>
     </ul>
     <template v-for="item in qslist">
       <ul>
@@ -15,7 +15,7 @@
         </li>
         <li>{{item.title}}</li>
         <li>{{item.time}}</li>
-        <li :class="item.state === 'issued' ? 'issued' : ''">{{item.stateTitle}}</li>
+        <li :class="item.state === true ? 'issued' : ''">{{item.stateTitle}}</li>
         <li>
           <button @click="iterator = edit(item); iterator.next()">编辑</button>
           <button @click="iterator = delItem(item.num); iterator.next()">删除</button>
@@ -30,7 +30,7 @@
       <button @click="iterator = delItems(); iterator.next()">删除</button>
     </div>
     <div class="add-qs" v-if="qslist.length === 0">
-      <button class="add-btn" @click="$router.push({name: 'qsEdit', params: {num: 0}})">+&nbsp;&nbsp;新建问卷</button>
+      <button class="add-btn" @click="$router.push({name: 'QuestionnaireEdit', params: {num: 0}})">+&nbsp;&nbsp;新建问卷</button>
     </div>
     <div class="shadow" v-if="showDialog">
       <div class="del-dialog">
@@ -57,87 +57,131 @@
         showDialog: false,
         info: '',
         iterator: {},
+        /*
         qslist: [{ 'num': 3,
-            'title': '第三份问卷',
-            'time': '2017-3-27',
-            'state': 'issued',
-            'stateTitle': '已发布',
-            'checked': false,
-            'question': [
-              {'num': 'Q1', 'title': '单选题', 'type': 'radio', 'isNeed': true, 'options': ['选项一', '选项二']},
-              {'num': 'Q2', 'title': '多选题', 'type': 'checkbox', 'isNeed': true, 'options': ['选项一', '选项二', '选项三', '选项四']},
-              {'num': 'Q3', 'title': '文本题', 'type': 'textarea', 'isNeed': true}
+            title: '第三份问卷',
+            time: '2017-3-27',
+            state: true,
+            stateTitle: '已发布',
+            checked: false,
+            question: [
+              {num: 'Q1', title: '单选题', type: 'radio', isNeed: true, options: ['选项一', '选项二']},
+              {num: 'Q2', title: '多选题', type: 'checkbox', isNeed: true, options: ['选项一', '选项二', '选项三', '选项四']},
+              {num: 'Q3', title: '文本题', type: 'textarea', isNeed: true}
             ]
-          }]
+
+          }]*/
+          qslist: []
         }
     },
     mounted() {
       // LHW Server: 182.254.206.244
       // LT Server: 139.199.166.124
-      axios.defaults.withCredentials=true;
-
+      axios.defaults.withCredentials = true;
       const url = 'http://139.199.166.124:8080/survey'
+      const url_login = 'http://139.199.166.124:8080/login'
+      // 登陆
       /*
-      axios.get(url)
+      axios.post(url_login, JSON.stringify({
+        id: 666,
+        password: "123456"
+      }))
         .then(response => {
-          console.log(response)
+          console.log(response.data)
+          // 提交问卷
+          let questions = [{"num": "Q1", "title": "单选题", "type": "radio", "isNeed": true, "options": ["选项一", "选项二"]},{"num": "Q2", "title": "多选题", "type": "checkbox", "isNeed": true, "options": ["选项一", "选项二", "选项三", "选项四"]},{"num": "Q3", "title": "文本题", "type": "textarea", "isNeed": true}]
+
+          axios.post(url, JSON.stringify({
+            title: "test post7",
+            content: JSON.stringify(questions)
+          }))
+            .then(response => {
+              console.log(response.data)
+            })
+            .catch(error => {
+              console.log(err)
+            })
+        })
+        .catch(error => {
+          console.log(err)
         })
         */
+
       var temp;
-      /*
+
+      // 获取问卷列表
       axios.get(url)
         .then(response => {
           temp = response.data.data
+          // console.log(response.data.data)
           // Handle list
           temp.forEach(item => {
-            console.log(item.id) // 获取num
-            console.log(item.name) // 获取title
+            console.log(item.id) // 获取问卷id
+            console.log(item.publisher_id) // 获取问卷发起者
+            console.log(item.checked) // 获取checked属性
             console.log(item.content) // 获取questions
+            console.log(item.create_time.substr(0, 10)) // 获取问卷发布时间
+            console.log(item.state) // 获取问卷状态
+            console.log(item.title) // 获取问卷标题
+
+            let questionnaire = {
+              "num": item.id,
+              "title": item.title,
+              "stateTitle": item.state == 0 ? '未发布' : '已发布',
+              "time": item.create_time.substr(0, 10),
+              "state": item.state == 0 ? false: true,
+              "checked": item.checked == 0 ? false: true,
+              "question": item.content
+              }
+            this.qslist.push(questionnaire)
           })
-          console.log(response.data.data)
         })
-      */
+        .catch(error => {
+          alert('Get Quesionnaire Error!')
+          console.log(error)
+        })
 
+      /*
       const url_login = 'http://139.199.166.124:8080/login'
-
+      // 登陆
       axios.post(url_login, JSON.stringify({
-          id: 666,
-          password: "123456"
-        }))
+        id: 666,
+        password: "123456"
+      }))
         .then(response => {
           console.log(response.data)
-
+          // 提交问卷
           axios.post(url, JSON.stringify({
             id: 1,
             publisher_id: 666,
             name: "testing post2",
             content: "[Test POST 最新v2]"
           }))
-          .then(response => {
-            console.log(response.data)
-          })
-
+            .then(response => {
+              console.log(response.data)
+            })
+            .catch(error => {
+              console.log(err)
+            })
         })
-
-
-
+        */
 
       this.qslist.forEach(item => {
         let [year, month, day] = item.time.split('-')
         if (year < new Date().getFullYear()) {
-          item.state = 'issued'
+          item.state = true
           item.stateTitle = '已发布'
         }
         else if (year == new Date().getFullYear() && month < new Date().getMonth() + 1) {
-          item.state = 'issued'
+          item.state = true
           item.stateTitle = '已发布'
         }
         else if (year == new Date().getFullYear() && month == new Date().getMonth() + 1 && day < new Date().getDate()) {
-          item.state = 'issued'
+          item.state = true
           item.stateTitle = '已发布'
         }
         else {
-          item.state = ''
+          item.state = false
           item.stateTitle = '未发布'
         }
       })
@@ -157,6 +201,17 @@
               break;
             }
           }
+          // console.log(num)
+          axios.defaults.withCredentials = true;
+          const delete_url = 'http://139.199.166.124:8080/survey/' + num
+          console.log(delete_url)
+          axios.delete(delete_url)
+            .then(response => {
+              console.log(response)
+            })
+            .catch(error => {
+              console.log(error)
+            })
           this.qslist.splice(index, 1)
           this.showDialog = false;
         })();
@@ -183,7 +238,7 @@
       },
       *edit(item) {
         yield (() => {
-          if (item.state == 'noissue') {
+          if (item.state == false) {
             this.showDialogMsg('确认要编辑？')
           }
           else {
@@ -192,22 +247,22 @@
         })();
 
         yield (() => {
-          if (item.state !== 'noissue') {
+          if (item.state !== false) {
             this.showDialog = false;
           }
           else {
             this.showDialog = false;
-            this.$router.push({name: 'qsEdit', params: {num: item.num}})
+            this.$router.push({name: 'QuestionnaireEdit', params: {num: item.num}})
           }
         })();
       },
       *watchData(item) {
         yield (() => {
-          if (item.state == 'noissue') {
+          if (item.state == false) {
             this.showDialogMsg('未发布的问卷无数据查阅')
           }
           else {
-            this.$router.push({name: 'qsData', params: {num: item.num}})
+            this.$router.push({name: 'questionnaireData', params: {num: item.num}})
           }
         })();
 
@@ -247,7 +302,8 @@
       qslist: {
         handler(val) {
           val.forEach( (item, index) => {
-            item.num = index + 1
+            //alert("Fault!")
+            //item.num = index + 1
           })
           // Save in database
         },

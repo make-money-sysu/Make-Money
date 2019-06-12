@@ -49,13 +49,14 @@
         var password = document.getElementById("password").value;
         console.log(userName);
         console.log(password);
+        userName = parseInt(userName);
 
         let url_login = 'http://139.199.166.124:8080/login';
         axios.defaults.withCredentials=true;
         // axios.defaults.headers.post['Content-Type']='text/plain';
         axios.post(url_login, JSON.stringify({
-          "id": 16340132,
-          "password": "123"
+          "id": userName,
+          "password": password
         }))
         .then(function(res){
             console.log(res);//处理成功的函数 相当于success
@@ -65,7 +66,7 @@
             console.log('fail');
             console.log(error);//错误处理 相当于error
         })
-        
+
 
     	// $.ajax({
         //     type: "post",
@@ -82,7 +83,7 @@
         //         }),
     	// 	success: function(data){
     	// 		console.log('success');
-        //         console.log(document.cookie.length);    
+        //         console.log(document.cookie.length);
         //         // window.parent.location.href = "/HomePage";
         //         // window.open("/HomePage");
     	// 	},

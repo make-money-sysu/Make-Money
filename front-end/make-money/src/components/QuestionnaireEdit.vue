@@ -91,7 +91,7 @@
 
 <script>
 import calendarInput from './calendar-input'
-
+import axios from 'axios'
 export default {
   name: 'QuestionnaireEdit',
   components: {
@@ -101,6 +101,7 @@ export default {
     return {
       qsItem: {}, // 当前修改的问卷
       // 问卷列表
+      /*
       qslist: [{ 'num': 1,
             'title': '第三份问卷',
             'time': '2017-3-27',
@@ -113,6 +114,8 @@ export default {
               {'num': 'Q3', 'title': '文本题', 'type': 'textarea', 'isNeed': true}
             ]
           }],
+          */
+      qslist: [],
       isError: false,
       showBtn: false,
       titleChange: false, // 标题是否修改
@@ -131,11 +134,8 @@ export default {
     }
   },
   beforeRouteEnter(to, from, next) {
-    //alert('here is beforeRouteEnter')
-    let num = to.params.num // 要编辑的问卷序号
-    let theItem = {}
-    // 编辑问卷逻辑
-    if (num != 0) {
+    // alert('here is beforeRouteEnter')
+      /*
       var list = [{ 'num': 1,
             'title': '第三份问卷',
             'time': '2017-3-27',
@@ -148,45 +148,114 @@ export default {
               {'num': 'Q3', 'title': '文本题', 'type': 'textarea', 'isNeed': true}
             ]
           }]
-      let length = list.length // 获取总问卷列表长度
-      // alert(length)
-      // alert('num')
-      // alert(num)
-      if (num < 0 || num > length) {
-        // 序号越界
-        alert('非法路由！')
-        next('/')
-      }
-      else {
-        // 获取要编辑的问卷到theItem
-        for (let i = 0; i < length; i++) {
-            if (list[i].num == num) {
-              theItem = list[i]
-              break
+          */
+      const url = 'http://139.199.166.124:8080/survey'
+      var temp;
+      // 获取问卷列表
+      axios.get(url)
+        .then(response => {
+          temp = response.data.data
+
+           let num = to.params.num // 要编辑的问卷序号
+            let theItem = {}
+            // 编辑问卷逻辑
+            if (num != 0) {
+              let length = temp.length // 获取总问卷列表长度
+              //alert(length)
+              // alert('num')
+              alert(num)
+              /*
+              if (num < 0 || num > length) {
+                // 序号越界
+                alert('非法路由！')
+                next('/')
+              }
+              else {
+                // 获取要编辑的问卷到theItem
+                for (let i = 0; i < length; i++) {
+                    if (temp[i].id == num) {
+                      theItem = temp[i]
+                      break
+                    }
+                }
+              }
+              */
+              // 获取要编辑的问卷到theItem
+                for (let i = 0; i < length; i++) {
+                    if (temp[i].id == num) {
+                      let questionnaire = {
+                        "num": temp[i].id,
+                        "title": temp[i].title,
+                        "stateTitle": temp[i].state == 0 ? '未发布' : '已发布',
+                        "time": temp[i].create_time.substr(0, 10),
+                        "state": temp[i].state == 0 ? false: true,
+                        "checked": temp[i].checked == 0 ? false: true,
+                        "question": JSON.parse(temp[i].content)
+                        }
+
+                      theItem = questionnaire
+                      alert("Get!")
+                      break
+                    }
+                }
+              console.log(theItem)
+              if (theItem.state === false) {
+                // 只能编辑未发布的问卷
+                next()
+              }
+              else {
+                alert('非法路由！')
+                next('/')
+              }
             }
-        }
-      }
-      if (theItem.state === 'noissued') {
-        // 只能编辑未发布的问卷
-        next()
-      }
-      else {
-        alert('非法路由！')
-        next('/')
-      }
-    }
-    else {
-      next()
-    }
+            else {
+              next()
+            }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+
+
+
   },
   created() {
-    //alert('here is created')
+    alert('here is created')
     this.fetchData()
   },
   methods: {
     fetchData() {
       // alert('in fetchData')
-      this.limit = {
+      const url = 'http://139.199.166.124:8080/survey'
+      var temp;
+      // 获取问卷列表
+      axios.get(url)
+        .then(response => {
+          temp = response.data.data
+          // Handle list
+          temp.forEach(item => {
+            /*
+            console.log(item.id) // 获取问卷id
+            console.log(item.publisher_id) // 获取问卷发起者
+            console.log(item.checked) // 获取checked属性
+            console.log(item.content) // 获取questions
+            console.log(item.create_time.substr(0, 10)) // 获取问卷发布时间
+            console.log(item.state) // 获取问卷状态
+            console.log(item.title) // 获取问卷标题
+            */
+            let questionnaire = {
+              "num": item.id,
+              "title": item.title,
+              "stateTitle": item.state == 0 ? '未发布' : '已发布',
+              "time": item.create_time.substr(0, 10),
+              "state": item.state == 0 ? false: true,
+              "checked": item.checked == 0 ? false: true,
+              "question": JSON.parse(item.content)
+              }
+            this.qslist.push(questionnaire)
+          })
+
+          this.limit = {
         minYear: new Date().getFullYear(),
         minMonth: new Date().getMonth() + 1,
         minDay: new Date().getDate(),
@@ -200,9 +269,9 @@ export default {
         // Initialize Questionnaire content
         let item = {}
         item.num = this.qslist.length + 1
-        item.title = 'Title'
+        item.title = 'Default Title'
         item.time = ''
-        item.state = 'noissue'
+        item.state = false
         item.question = []
         item.stateTitle = '未发布'
         item.checked = false
@@ -217,14 +286,30 @@ export default {
           // alert('listNum ' + this.qslist[i].num)
           // alert('routeNum ' + this.$route.params.num)
           if (this.qslist[i].num == this.$route.params.num) {
-            this.qsItem = this.qslist[i]
-            // alert(this.qsItem.title)
+            console.log(temp[i].content)
+            let questionnaire = {
+                        "num": temp[i].id,
+                        "title": temp[i].title,
+                        "stateTitle": temp[i].state == 0 ? '未发布' : '已发布',
+                        "time": temp[i].create_time.substr(0, 10),
+                        "state": temp[i].state == 0 ? false: true,
+                        "checked": temp[i].checked == 0 ? false: true,
+                        "question": JSON.parse(temp[i].content)
+                        }
+            this.qsItem = questionnaire
+            // this.qsItem = this.qslist[i]
+            alert("Match")
             break
           }
         }
         if (i == this.qslist.length)
           this.isError = true
       }
+        console.log(this.qsItem)
+        })
+        .catch(error => {
+          console.log(error)
+        })
     },
     // 获取问题类型
     getMsg(item) {
@@ -346,7 +431,7 @@ export default {
           }
         }
         this.qsItem.question.push({
-          'num': this.qsItem.question.length - 1,
+          'num': this.qsItem.question.length,
           'title': qsTitle,
           'type': this.addOptionType,
           'isNeed': true,
@@ -381,6 +466,18 @@ export default {
       }
       else {
         // Save in the database
+        const url_post = 'http://139.199.166.124:8080/survey'
+        console.log(qsItem)
+        axios.post(url_post, JSON.stringify({
+          title: qsItem.title,
+          content: JSON.stringify(qsItem.question)
+        }))
+          .then(response => {
+            console.log(response.data)
+          })
+          .catch(error => {
+            console.log(error)
+          })
         this.info = 'Issue it Now?'
         this.isGoIndex = true
       }
@@ -391,6 +488,55 @@ export default {
       // Save in the database
       this.showDialog = false
       this.$route.push({path:'/QuestionnaireList'})
+    },
+    *issueQs() {
+      this.showDialog = true
+      this.info = '确认发布？'
+      yield
+      if (this.qsItem.question.length === 0) {
+        this.showDialog = false
+        alert('问卷为空，无法保存！')
+      }
+      else {
+        this.qsItem.state = 'inissue'
+        this.qsItem.stateTitle = '发布中'
+        // save in DB
+        // 新建问卷，使用post
+        if (this.$route.params.num == 0) {
+          console.log('use post')
+          const url_post = 'http://139.199.166.124:8080/survey'
+          console.log(this.qsItem)
+          axios.post(url_post, JSON.stringify({
+            title: this.qsItem.title,
+            content: JSON.stringify(this.qsItem.question)
+          }))
+            .then(response => {
+              console.log(response.data)
+            })
+            .catch(error => {
+              console.log(error)
+            })
+        }
+        // 旧问卷编辑，使用PUT
+        else {
+          console.log('use put')
+          console.log(this.qsItem.title)
+          const url_put = 'http://139.199.166.124:8080/survey/' + this.qsItem.num
+          axios.put(url_put, JSON.stringify({
+            title: this.qsItem.title,
+            content: JSON.stringify(this.qsItem.question)
+          }))
+            .then(response => {
+              console.log(response.data)
+            })
+            .catch(error => {
+              console.log(error)
+            })
+        }
+
+        this.showDialog = false
+        this.$router.push({path: '/QuestionnaireList'})
+      }
     },
     // 取消对话框
     cancel() {
@@ -412,9 +558,11 @@ export default {
     // 重新安排问题列表的num
     qsItem: {
       handler(newVal) {
+        /*
         newVal.question.forEach((item, index) => {
           item.num = `Q${index + 1}`
         })
+        */
       },
       // deep observation
       deep: true
