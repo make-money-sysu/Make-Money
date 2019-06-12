@@ -12,6 +12,10 @@
 			row-hover-color="#eee"
 			row-click-color="#edf7ff"
 			:paging-index="(pageIndex-1)*pageSize"
+			:select-all="selectAll"
+			:select-change="selectChange"
+			:select-group-change="selectGroupChange"
+			:is-loading="isLoading"
 		></v-table>
 
 		<div class="mt20 mb20 bold" id="paging">
@@ -19,9 +23,11 @@
 			</v-pagination>
 			<button id="issue" class="btn" v-on:click="openMask">发布快递</button>
 			<dialog-bar v-model="sendVal" type="danger" title="发布快递" v-on:cancel="clickCancel()" @danger="clickDanger()" @confirm="clickConfirm()" dangerText="提交"></dialog-bar>
-			<button id="accept" class="btn">接受任务</button>
-			<button id="submit" class="btn">确定快递</button>
-			<button id="query" class="btn">快递查询</button>
+			<button id="accept" class="btn" v-on:click="openAccept">接受任务</button>
+			<dialog-bar v-model="AcceptedVal" type="accept" v-on:cancel="clickCancel()" dangerText="提交" title="接受成功"></dialog-bar>
+			<button id="submit" class="btn" v-on:click="submitdata">确定快递</button>
+			<button id="query" class="btn" v-on:click="openQuery">快递查询</button>
+			<dialog-bar v-model="queryVal" type="danger" title="查询快递" v-on:cancel="clickCancel()" @danger="clickDanger()" @confirm="clickConfirm()" dangerText="提交"></dialog-bar>
 		</div>
 	</div>
 </template>
@@ -38,9 +44,15 @@
 		},
 		data() {
 			return {
+				isLoading: true,
 				pageIndex:1,
 				pageSize:12,
 				sendVal: false,
+				AcceptedVal: false,
+				queryVal: false,
+				currentUser: "",
+				currentPhone: "",
+				currentId: "",
 				tableConfig: {
 					multipleSort: false,
 					tableData: [],
@@ -97,6 +109,98 @@
 				this.sendVal = true;
 			},
 
+			putDataToServer(url, data) {
+				axios.put(url, JSON.stringify({
+					"method" : "received",
+					"id" : data.seqNum
+				})).then(res => {
+					for (var i = 0; i < this.tableConfig.tableData.length; i++) {
+						if (this.tableConfig.tableData[i].seqNum == data.seqNum) {
+							this.tableConfig.tableData[i].state = "Accepted";
+							break;
+						}
+					}
+					console.log(res.data);
+				}).catch((err) => {
+					console.log(err);
+				});
+			},
+
+			openAccept() {
+				let putdata = [];
+
+				for (var i = 0; i < this.tableConfig.tableData.length; i++) {
+					if (this.tableConfig.tableData[i]._checked == true) {
+						if (this.currentId == this.tableConfig.tableData[i].stuId) {
+							alert("不能选择自己的快递！");
+							return false;
+						}
+						if (this.tableConfig.tableData[i].state == "Accepted") {
+							alert("已经有人接受此任务，请重新选择！");
+							return false;
+						}
+						console.log("push success!");
+						putdata.push(this.tableConfig.tableData[i]);
+					}
+				}
+				axios.defaults.withCredentials=true;
+				console.log("show");
+				console.log(putdata[0].seqNum);
+				this.AcceptedVal = true;
+
+				for (var i = 0; i < putdata.length; i++) {
+					var url = "http://139.199.166.124:8080/package?method=receive&id=";
+					url = url + putdata[i].seqNum;
+					console.log(url);
+					axios.put(url).then(res => {
+						for (let i = 0; i < this.tableConfig.tableData.length; i++) {
+							for (let j = 0; j < putdata.length; j++) {
+								// console.log(this.tableConfig.tableData[i].seqNum);
+								// console.log(putdata[i]);
+								if (this.tableConfig.tableData[i].seqNum == putdata[j].seqNum) {
+									this.tableConfig.tableData[i].state = "Accepted";
+									break;
+								}						
+							}
+						}
+						// console.log(res.data);
+						window.location.href = "/ExpressDelivery";
+					}).catch((err) => {
+						console.log(err);
+					});
+				}
+			},
+
+			openQuery() {
+				this.queryVal = true;
+			},
+
+			selectAll(selection) {
+				console.log("H");
+			},
+
+			selectChange(selection, rawData) {
+				console.log(selection);
+				if (rawData._checked == true) {
+					for (var i = 0; i < this.tableConfig.tableData.length; i++) {
+						if (rawData.seqNum == this.tableConfig.tableData[i].seqNum) {
+							this.tableConfig.tableData[i]._checked = false;
+						}
+					}
+				}
+				else {
+					for (var i = 0; i < this.tableConfig.tableData.length; i++) {
+						if (rawData.seqNum == this.tableConfig.tableData[i].seqNum) {
+							this.tableConfig.tableData[i]._checked = true;
+						}
+					}
+				}
+			},
+
+			selectGroupChange(selection) {
+				console.log("sad");
+			},
+
 			clickCancel() {
 				console.log('点击了取消')
 			},
@@ -109,8 +213,54 @@
 				console.log("点击了confirm")
 			},
 
+			submitdata() {
+				let putdata = [];
+
+				for (var i = 0; i < this.tableConfig.tableData.length; i++) {
+					if (this.tableConfig.tableData[i]._checked == true) {
+						if (this.currentId != this.tableConfig.tableData[i].stuId) {
+							alert("不能帮其他人确定快递！");
+							return false;
+						}
+						if (this.tableConfig.tableData[i].state == "Release") {
+							alert("快递还没有人帮忙接受，无法确认！");
+							return false;
+						}
+						if (this.tableConfig.tableData[i].state == "Finish") {
+							alert("快递已完成！");
+							return false;
+						}					
+						putdata.push(this.tableConfig.tableData[i]);
+						console.log("push success!");
+					}
+				}
+				axios.defaults.withCredentials=true;	
+
+				for (var i = 0; i < putdata.length; i++) {
+					var url = "http://139.199.166.124:8080/package?method=confirm&id=";
+					url = url + putdata[i].seqNum;
+					console.log(url);
+					axios.put(url).then(res => {
+						for (let i = 0; i < this.tableConfig.tableData.length; i++) {
+							for (let j = 0; j < putdata.length; j++) {
+								// console.log(this.tableConfig.tableData[i].seqNum);
+								// console.log(putdata[i]);
+								if (this.tableConfig.tableData[i].seqNum == putdata[j].seqNum) {
+									this.tableConfig.tableData[i].state = "Finish";
+									break;
+								}						
+							}
+						}
+						// console.log(res.data);
+						window.location.href = "/ExpressDelivery";
+					}).catch((err) => {
+						console.log(err);
+					});
+				}	
+			},
+
 			fetch_data() {
-			    let url = "http://182.254.206.244:8080/package";
+			    let url = "http://139.199.166.124:8080/package";
 			    let data = [];
 			    let pIndex = this.pageIndex;
 			    let pSize = this.pageSize;
@@ -118,7 +268,7 @@
 			    axios.get(url)
 			      .then(response => {
 			        let temp = response.data.data
-			        console.log(temp)
+			        // console.log(temp)
 			        // Handle list
 			        temp.forEach(item => {
 			        	var j = {};
@@ -132,7 +282,7 @@
 			          	// console.log(item.note); // 获得备注
 			          	j.seqNum = item.id;
 			          	j.name = item.owner_real_name;
-			          	j.stuId = item.owner_Phone;
+			          	j.stuId = item.owner_id;
 			          	j.tel = item.owner_Phone;
 			          	j.date = item.create_time;
 			          	j.reward = item.reward;
@@ -144,11 +294,37 @@
 			          		j.state = 'Finish';
 			          	}
 			          	j.comment = item.note;
+			          	j._checked = false;
 			          	data.push(j);
 			          	
 			        })
+			        this.isLoading = false;
 			        this.tableConfig.tableData = data.slice((pIndex-1)*pSize,(pIndex)*pSize);
 			      });
+			},
+
+			get_session() {
+				$.ajax({
+					type: "get",
+					dataType: 'json',
+					// url: "http://182.254.206.244:8080/user",
+					url: "http://139.199.166.124:8080/user/", //lt
+					xhrFields: {
+						withCredentials: true // 要在这里设置上传cookie
+					},
+					crossDomain: true,
+					success: function(data){
+						console.log('success');
+						data = data["data"];
+						this.currentId = data["id"];
+						this.currentUser = data["real_name"];
+						this.currentPhone = data["phone"];
+						console.log(this.currentUser);
+					},
+					error: function(Request, status, msg){
+						console.log('fail');
+					}
+				});
 			}
 
 		},
@@ -159,6 +335,7 @@
 
 		mounted: function() {
 			this.fetch_data();
+			this.get_session();
 			console.log("Initialize successfully!");
 		}
 	}

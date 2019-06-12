@@ -13,6 +13,38 @@
     height: 100%;
 }
 
+.dialog-container-accept {
+    position: relative;
+    margin: auto;
+    top: 70px;
+    width: 30%;
+    height: 30%;
+    background-color: #9CCDEB;
+}
+
+.dialog-title-accept {
+    position: absolute;
+    left: 53px;
+    line-height: 50px;
+    text-align: center;
+    font-family: SimHei;
+    font-size: 20px;
+}
+
+.accept-btn {
+    position: absolute;
+    top: 58px;
+    right: 29%;
+    width: 70px;
+    height: 30px;
+    background-color: #CFE8F6;
+    text-align: center;
+    line-height: 30px;
+    cursor: pointer;
+    overflow: hidden;
+    border-style: outset;    
+}
+
 .dialog-title {
     position: absolute;
     width: 100%;

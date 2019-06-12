@@ -1,6 +1,6 @@
 <template>
     <div class="dialog" v-show="showMask">
-        <div class="dialog-container">
+        <div class="dialog-container" v-if="type == 'danger'">
             <div class="dialog-title">{{title}}</div>
             <div class="content">
 
@@ -17,15 +17,18 @@
                     <div class="btns">
                         <input type="type" v-if="type != 'confirm'" class="default-btn" @click="closeBtn" value="取消">
                         <input type="submit" v-if="type == 'danger'" class="danger-btn" @click="dangerBtn">
-                        <div v-if="type == 'confirm'" class="confirm-btn" @click="confirmBtn">
-                            {{confirmText}}
-                        </div>
+                        <input type="accept" v-if="type == 'accept'" class="danger-btn">
                     </div>
                     <div class="close-btn" @click="closeMask"><i class="iconfont icon-close"></i></div>    
                                     
                 </form>
 
             </div>
+        </div>
+
+        <div class="dialog-container-accept" v-if="type == 'accept'">
+            <div class="dialog-title-accept">{{title}}</div>
+            <input type="type" v-if="type != 'confirm'" class="accept-btn" @click="closeBtn" value="确定">
         </div>
     </div>
 </template>
@@ -64,7 +67,8 @@ export default {
             showMask: false,
             moneyToPost: '',
             commentToPost: '',
-            user_money_label: '请输入赏金:'        
+            user_money_label: '请输入赏金:',
+            acceptSuccess: '接受成功'        
         }
     },
     methods:{
