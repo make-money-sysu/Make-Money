@@ -62,12 +62,14 @@
 </template>
 
 <script>
+  import axios from 'axios';
 export default {
   name: 'QuestionnaireFill',
   data() {
     return {
       qsItem: {}, // 当前修改的问卷
       // 问卷列表
+      /*
       qslist: [{ 'num': 3,
             'title': '第三份问卷',
             'time': '2017-3-27',
@@ -80,6 +82,8 @@ export default {
               {'num': 'Q3', 'title': '文本题', 'type': 'textarea', 'isNeed': true}
             ]
           }],
+          */
+      qslist: [],
       isError: false, // 是否出错
       showDialog: false, // 是否显示对话框
       info: '', // 对话框内容
@@ -97,14 +101,55 @@ export default {
   methods: {
     fetchData() {
       // alert('fetchData')
-      // 找到要查看的问卷
-      let i = 0;
-      for (let length = this.qslist.length; i < length; i++) {
-        if (this.qslist[i].num == this.$route.params.num) {
-          this.qsItem = this.qslist[i]
-          break;
-        }
-      }
+      // 获取数据库内容
+      // 获取问卷列表
+      axios.defaults.withCredentials = true;
+      const url = 'http://139.199.166.124:8080/survey'
+      var temp;
+      axios.get(url)
+        .then(response => {
+          temp = response.data.data
+          // console.log(response.data.data)
+          // Handle list
+          temp.forEach(item => {
+            console.log(item.id) // 获取问卷id
+            console.log(item.publisher_id) // 获取问卷发起者
+            console.log(item.checked) // 获取checked属性
+            console.log(item.content) // 获取questions
+            console.log(item.create_time.substr(0, 10)) // 获取问卷发布时间
+            console.log(item.state) // 获取问卷状态
+            console.log(item.title) // 获取问卷标题
+
+            let questionnaire = {
+              "num": item.id,
+              "title": item.title,
+              "stateTitle": item.state == 0 ? '未发布' : '已发布',
+              "time": item.create_time.substr(0, 10),
+              "state": item.state == 0 ? false: true,
+              "checked": item.checked == 0 ? false: true,
+              "question": JSON.parse(item.content)
+              }
+            this.qslist.push(questionnaire)
+          })
+
+          // 找到要查看的问卷
+          let i = 0;
+          for (let length = this.qslist.length; i < length; i++) {
+            alert(this.qslist[i].num)
+            if (this.qslist[i].num == this.$route.params.num) {
+              this.qsItem = this.qslist[i]
+              alert("Match")
+              break;
+            }
+          }
+        })
+        .catch(error => {
+          alert('Get Quesionnaire Error!')
+          console.log(error)
+        })
+
+
+
     },
     getMsg(item) {
       let msg = ''
