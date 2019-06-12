@@ -93,10 +93,11 @@ export default {
   },
   // 页面生成时自动抓取数据
   created() {
+    alert("created")
     this.fetchData()
   },
   mounted() {
-    this.getRequiredItem()
+
   },
   methods: {
     fetchData() {
@@ -142,6 +143,8 @@ export default {
               break;
             }
           }
+
+          this.getRequiredItem()
         })
         .catch(error => {
           alert('Get Quesionnaire Error!')
@@ -166,13 +169,14 @@ export default {
       return item.isNeed ? `${msg} *` : msg
     },
     submit() {
-      if (this.qsItem.state === 'inissue') {
+      if (this.qsItem.state === 1) {
         // 校验
         let result = this.validate()
         if (result) {
           this.showDialog = true;
           this.submitError = false;
           this.info = 'Submit Successfully!'
+          console.log('Submit Successfully')
           setTimeout(() => {
             this.showDialog = false
           }, 500)
@@ -183,7 +187,7 @@ export default {
         else {
           this.showDialog = true;
           this.submitError = true;
-          this.info = 'Fail to submit!'
+          this.info = 'Fail to submit! Format invalid!'
         }
       }
       else {
@@ -193,6 +197,7 @@ export default {
       }
     },
     getRequiredItem() {
+      console.log(this.qsItem)
       this.qsItem.question.forEach(item => {
         if (item.isNeed) {
           if (item.type === 'checkbox') {
