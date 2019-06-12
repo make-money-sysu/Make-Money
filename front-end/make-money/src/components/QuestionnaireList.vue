@@ -6,7 +6,7 @@
       <li>标题</li>
       <li>截止时间</li>
       <li>状态</li>
-      <li>操作<span @click="$router.push({name: 'QuestionnaireEdit', param: {num: 0}})">+新建问卷</span></li>
+      <li>操作<span @click="$router.push({name: 'QuestionnaireEdit', params: {num: 0}})">+新建问卷</span></li>
     </ul>
     <template v-for="item in qslist">
       <ul>
@@ -30,7 +30,7 @@
       <button @click="iterator = delItems(); iterator.next()">删除</button>
     </div>
     <div class="add-qs" v-if="qslist.length === 0">
-      <button class="add-btn" @click="$router.push({name: 'QuestionnaireEdit', params: {num: item.num}})">+&nbsp;&nbsp;新建问卷</button>
+      <button class="add-btn" @click="$router.push({name: 'QuestionnaireEdit', params: {num: 0}})">+&nbsp;&nbsp;新建问卷</button>
     </div>
     <div class="shadow" v-if="showDialog">
       <div class="del-dialog">
@@ -201,6 +201,17 @@
               break;
             }
           }
+          // console.log(num)
+          axios.defaults.withCredentials = true;
+          const delete_url = 'http://139.199.166.124:8080/survey/' + num
+          console.log(delete_url)
+          axios.delete(delete_url)
+            .then(response => {
+              console.log(response)
+            })
+            .catch(error => {
+              console.log(error)
+            })
           this.qslist.splice(index, 1)
           this.showDialog = false;
         })();

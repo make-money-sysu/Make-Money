@@ -269,9 +269,9 @@ export default {
         // Initialize Questionnaire content
         let item = {}
         item.num = this.qslist.length + 1
-        item.title = 'Title'
+        item.title = 'Default Title'
         item.time = ''
-        item.state = 'noissue'
+        item.state = false
         item.question = []
         item.stateTitle = '未发布'
         item.checked = false
@@ -288,7 +288,7 @@ export default {
           if (this.qslist[i].num == this.$route.params.num) {
             console.log(temp[i].content)
             let questionnaire = {
-                        "num": this.qslist[i].id,
+                        "num": temp[i].id,
                         "title": temp[i].title,
                         "stateTitle": temp[i].state == 0 ? '未发布' : '已发布',
                         "time": temp[i].create_time.substr(0, 10),
@@ -431,7 +431,7 @@ export default {
           }
         }
         this.qsItem.question.push({
-          'num': this.qsItem.question.length - 1,
+          'num': this.qsItem.question.length,
           'title': qsTitle,
           'type': this.addOptionType,
           'isNeed': true,
@@ -466,6 +466,18 @@ export default {
       }
       else {
         // Save in the database
+        const url_post = 'http://139.199.166.124:8080/survey'
+        console.log(qsItem)
+        axios.post(url_post, JSON.stringify({
+          title: qsItem.title,
+          content: JSON.stringify(qsItem.question)
+        }))
+          .then(response => {
+            console.log(response.data)
+          })
+          .catch(error => {
+            console.log(error)
+          })
         this.info = 'Issue it Now?'
         this.isGoIndex = true
       }
@@ -476,6 +488,55 @@ export default {
       // Save in the database
       this.showDialog = false
       this.$route.push({path:'/QuestionnaireList'})
+    },
+    *issueQs() {
+      this.showDialog = true
+      this.info = '确认发布？'
+      yield
+      if (this.qsItem.question.length === 0) {
+        this.showDialog = false
+        alert('问卷为空，无法保存！')
+      }
+      else {
+        this.qsItem.state = 'inissue'
+        this.qsItem.stateTitle = '发布中'
+        // save in DB
+        // 新建问卷，使用post
+        if (this.$route.params.num == 0) {
+          console.log('use post')
+          const url_post = 'http://139.199.166.124:8080/survey'
+          console.log(this.qsItem)
+          axios.post(url_post, JSON.stringify({
+            title: this.qsItem.title,
+            content: JSON.stringify(this.qsItem.question)
+          }))
+            .then(response => {
+              console.log(response.data)
+            })
+            .catch(error => {
+              console.log(error)
+            })
+        }
+        // 旧问卷编辑，使用PUT
+        else {
+          console.log('use put')
+          console.log(this.qsItem.title)
+          const url_put = 'http://139.199.166.124:8080/survey/' + this.qsItem.num
+          axios.put(url_put, JSON.stringify({
+            title: this.qsItem.title,
+            content: JSON.stringify(this.qsItem.question)
+          }))
+            .then(response => {
+              console.log(response.data)
+            })
+            .catch(error => {
+              console.log(error)
+            })
+        }
+
+        this.showDialog = false
+        this.$router.push({path: '/QuestionnaireList'})
+      }
     },
     // 取消对话框
     cancel() {
