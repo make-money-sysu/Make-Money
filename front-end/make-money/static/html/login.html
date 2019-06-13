@@ -53,6 +53,7 @@
 
         let url_login = 'http://139.199.166.124:8080/login';
         axios.defaults.withCredentials=true;
+        axios.defaults.timeout = 6000;
         // axios.defaults.headers.post['Content-Type']='text/plain';
         axios.post(url_login, JSON.stringify({
           "id": userName,
@@ -84,7 +85,7 @@
     	// 	success: function(data){
     	// 		console.log('success');
         //         console.log(document.cookie.length);
-        //         // window.parent.location.href = "/HomePage";
+        //         window.parent.location.href = "/HomePage";
         //         // window.open("/HomePage");
     	// 	},
     	// 	error: function(Request, status, msg){

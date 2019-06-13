@@ -13,14 +13,14 @@
     <script src="../js/1.js"></script>
     <link rel="stylesheet" href="../css/user.css">
 </head>
-<body>
+<body onload="bind_button()">
 	
 </div>
 <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid container">
         <div id="nav" class="navbar-header" style="height: 70px;">
 <!--            <a href="#"><img src="image/logo.png"  style="padding: 10px;"/></a>-->
-            <img src="../image/logo.jpg" style="height: 100%" >
+            <img src="../image/act1.jpg" style="height: 100%" >
         </div>
         <div>
             <ul class="nav navbar-nav ">
@@ -77,7 +77,7 @@
 		<div class="row">
         <div class="col-lg-4 content">
           <img class="img-circle" src="../image/mail_send.png" width="140" height="140">
-			<p><a class="btn btn-default content-button" href="#" role="button"> 问卷调查 &raquo;</a></p>
+			<p><a class="btn btn-default content-button" href="#" role="button" id="question"> 问卷调查 &raquo;</a></p>
 		  <hr class="featurette-divider">
           <p>无论你是想做问卷挣闲钱，还是想发布问卷拿数据，点这里就对了！在这里你可以得到全新的问卷系统体验</p>
 			<hr class="featurette-divider">
@@ -85,7 +85,7 @@
         </div><!-- /.col-lg-4 -->
         <div class="col-lg-4 content">
           <img class="img-circle" src="../image/mail_receive.png" alt="Generic placeholder image" width="140" height="140" >
-			<p><a class="btn btn-default content-button"  href="#" role="button"> 快递帮取 &raquo;</a></p>
+			<p><a class="btn btn-default content-button"  href="#" role="button" id="express"> 快递帮取 &raquo;</a></p>
 			<hr class="featurette-divider">
           <p>拿快递太累，为什么不叫热心的同学帮取呢？在这里你可以快速发布快递信息，坐在宿舍快递到手。你还可以针对性选定快递帮取目标，走一趟挣闲钱。</p>
           <hr class="featurette-divider">
@@ -251,4 +251,17 @@
 		</div><!-- /.modal-content -->
 </div><!-- /.modal -->
 </body>
+
+<script type="text/javascript">
+    function bind_button(){
+        // window.parent.location.href = "/HomePage";
+        $("#question").bind("click",function(){
+		    window.parent.location.href = "/QuestionnaireList";
+        });
+        
+        $("#express").on("click",function(){
+            window.parent.location.href = "/ExpressDelivery";
+        });
+    }
+</script>
 </html>
