@@ -30,6 +30,28 @@
             <div class="dialog-title-accept">{{title}}</div>
             <input type="type" v-if="type != 'confirm'" class="accept-btn" @click="closeBtn" value="确定">
         </div>
+
+        <div class="dialog-container-query" v-if="type == 'query'">
+            <div class="dialog-title-query">{{title}}</div>
+            <div id="query-content">
+                <v-table
+                :width="600"
+                :height="540"
+                :min-height="500"
+                :columns="tableConfig.columns"
+                :table-data="tableConfig.tableData"
+                :title-rows="tableConfig.titleRows"
+                row-hover-color="#eee"
+                row-click-color="#edf7ff"
+                :show-vertical-border="false"
+                :is-loading="isLoading"
+                :paging-index="(pageIndex-1)*pageSize"
+                ></v-table>
+            </div>
+            <v-pagination @page-change="pageChange" @page-size-change="pageSizeChange" :total="20" :page-size="pageSize" :layout="['total', 'prev', 'pager', 'next', 'sizer', 'jumper']" id="vpage2">
+            </v-pagination>
+            <input type="type" v-if="type != 'confirm'" class="query-btn" @click="closeBtn" value="取消">
+        </div>
     </div>
 </template>
 
@@ -64,14 +86,47 @@ export default {
     },
     data(){
         return {
+            pageIndex:1,
+            pageSize:5,
             showMask: false,
             moneyToPost: '',
             commentToPost: '',
+            currentId: 0,
             user_money_label: '请输入赏金:',
-            acceptSuccess: '接受成功'        
+            acceptSuccess: '接受成功',
+            isLoading: true,
+            tableConfig: {
+                multipleSort: false,
+                tableData: [],
+                columns: [
+                    {field: "seqNum", width: 150, columnAlign: "center"},
+                    {field: "accepter", width: 150, columnAlign: "center"},
+                    {field: "accphone", width: 150, columnAlign: "center"},
+                    {field: "state", width: 145, columnAlign: "center"}
+                ],
+                titleRows: [
+                    [
+                        {fields: ["seqNum"], title: "单号", titleAlign: "center"},
+                        {fields: ["accepter"], title: "接收者", titleAlign: "center"},
+                        {fields: ["accphone"], title: "接收者电话", titleAlign: "center"},
+                        {fields: ["state"], title: "包裹状态", titleAlign: "center"}
+                    ]
+                ],
+            } 
         }
     },
     methods:{
+        pageChange(pageIndex) {
+            this.pageIndex = pageIndex;
+            this.fetch_data();
+        },
+
+        pageSizeChange(pageSize) {
+            this.pageIndex = 1;
+            this.pageSize = pageSize;
+            this.fetch_data();
+        },
+
         closeMask() {
             this.showMask = false;
             this.commentToPost = '';
@@ -173,6 +228,56 @@ export default {
             }).catch(function(err) {
                 console.log(err);
             });
+        },
+        fetch_data() {
+            let url = "http://139.199.166.124:8080/package";
+            let data = [];
+            let pIndex = this.pageIndex;
+            let pSize = this.pageSize;
+
+            axios.get(url)
+              .then(response => {
+                let temp = response.data.data
+                temp.forEach(item => {
+                    if (this.currentId == item.owner_id) {
+                        var j = {};
+                        j.seqNum = item.id;
+                        j.name = item.receiver_real_name;
+                        j.tel = item.receiver_Phone;
+                        if (item.state == '0') {
+                            j.state = 'Release';
+                        } else if (item.state == '1') {
+                            j.state = 'Accepted';
+                        } else if (item.state == '2') {
+                            j.state = 'Finish';
+                        }
+                        data.push(j);                      
+                    }
+                })
+                this.isLoading = false;
+                this.tableConfig.tableData = data.slice((pIndex-1)*pSize,(pIndex)*pSize);
+              });
+        },
+        get_session() {
+            $.ajax({
+                type: "get",
+                dataType: 'json',
+                // url: "http://182.254.206.244:8080/user",
+                url: "http://139.199.166.124:8080/user/", //lt
+                xhrFields: {
+                    withCredentials: true // 要在这里设置上传cookie
+                },
+                crossDomain: true,
+                success: (data) => {
+                    data = data["data"];
+                    this.currentId = data["id"];
+                    //this.$set(this.currentId, data["id"]);
+                },
+                error: (Request, status, msg) =>{
+                    console.log('fail');
+                    window.location.href = "/HomePage";
+                }
+            });
         }
     },
     created() {
@@ -180,6 +285,8 @@ export default {
     mounted(){
         //this.login_func();
         this.showMask = this.value;
+        this.get_session();
+        this.fetch_data();
     },
     watch:{
         value(newVal, oldVal){
