@@ -261,7 +261,7 @@
 							}
 						}
 						// console.log(res.data);
-						window.location.href = "/ExpressDelivery";
+						// window.location.href = "/ExpressDelivery";
 					}).catch((err) => {
 						console.log(err);
 					});

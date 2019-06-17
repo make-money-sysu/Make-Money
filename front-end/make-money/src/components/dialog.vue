@@ -242,8 +242,14 @@ export default {
                     if (this.currentId == item.owner_id) {
                         var j = {};
                         j.seqNum = item.id;
-                        j.name = item.receiver_real_name;
-                        j.tel = item.receiver_Phone;
+                        if (item.state == '0') {
+                            j.accepter = "尚未接受";
+                            j.accphone = "尚未接受";
+                        }
+                        else {
+                            j.accepter = item.receiver_real_name;
+                            j.accphone = item.receiver_Phone;                                 
+                        }
                         if (item.state == '0') {
                             j.state = 'Release';
                         } else if (item.state == '1') {
