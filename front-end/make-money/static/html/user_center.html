@@ -18,14 +18,15 @@
 	</div>
 	<div class="container container_user_center col-md-10 col-md-offset-1">
         <div class="back">
-            <a href="#">回到首页</a>
-            <a href="#">注销</a>
+            <a onclick="javascript:window.parent.location.href = '/HomePage';">回到首页</a>
+            <a onclick="javascript:window.parent.location.href = '/HomePage';">注销</a>
         </div>
 		<div class="user_info col-md-6 col-md-offset-3">
 			<img class='user_icon' title='点击更换头像' style='border-radius: 50%;width: 150px;height: 150px; margin-bottom: 30px;' src=../image/2089312254@chatroom_1486356859619_63.jpg onclick='#save' data-toggle='modal' data-target='#save'/>
 			<br/>
-            <span class="user_name" id="modified_name">Dick</span><span class="user_name">，欢迎您</span>
+            <span class="user_name" id="modified_name">Dick</span><span class="user_name">，欢迎您!</span>
             <br/>
+            <span class="user_name">您账号余额为：</span><span class="user_name" id="my_balance">-999</span>
 		</div>
 		<div class="col-md-8 col-md-offset-2 ">
             <div class="col-md-6">
@@ -137,95 +138,24 @@
 			</div>
 		</div>
 		
-		<div class="col-md-10 col-md-offset-1">
+		<div class="col-md-10 col-md-offset-1 search1">
             <div class="send" id="send_part">
 				<h3 class="col-md-10">我的快递</h4>
                 <div class="line col-md-12  "></div>
                 <br/>
-                
-                 <form method="post" action="#" class="form-horizontal col-md-10" id="user_center_sender" role="form">
-					 <div class="form-group">
-                        <label class="control-label col-md-2" for="type">物品类型</label>
-                        <div class="col-md-6">
-                            <select class="form-control select1" id="type">
-                                <option value="1" style="color: black">文件</option>
-                                <option value="2" style="color: black">数码产品</option>
-								<option value="3" style="color: black">生活用品</option>
-                                <option value="4" style="color: black">服饰</option>
-								<option value="5" style="color: black">食品</option>
-                                <option value="6" style="color: black">其他</option>
-                            </select>
-                        </div>
-                    </div>
-					<div class="form-group">
-                        <label class="control-label col-md-2" for="weight">物品估重</label>
-                       	<div class="col-md-6">
-                            <select class="form-control select1" id="weight">
-                                <option value="1" style="color: black">小于1kg</option>
-                                <option value="2" style="color: black">1kg</option>
-								<option value="3" style="color: black">2kg</option>
-                                <option value="4" style="color: black">3kg</option>
-								<option value="5" style="color: black">4kg</option>
-                                <option value="6" style="color: black">大于4kg</option>
-                            </select>
-                        </div>
-                    </div>
-					<div class="form-group">
-                        <label class="control-label col-md-2" for="sender_name">寄件人姓名</label>
-                        <div class="col-md-6">
-                            <input type="text" onblur="checkSenderName()" class="form-control" id="sender_name" placeholder="请输入寄件人姓名" name="sendername">
-                            <div id="sendername_prompt"></div>
-						</div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-2" for="sender_tel">寄件人手机号</label>
-                        <div class="col-md-6">
-                            <input type="text" onblur="checkSenderTel()" class="form-control" id="sender_tel" placeholder="请输入寄件人手机号" name="senderphone">
-                            <div id="sendernumber_prompt"></div>
-						</div>
-                    </div>
-					 <div class="form-group">
-                        <label class="control-label col-md-2" for="sender_address">寄件人地址</label>
-                        <div class="col-md-6">
-                            <input type="text" onblur="checkSenderAddress()" class="form-control" id="sender_address" placeholder="请输入寄件人地址" name="senderaddress" >
-							<div id="senderadderss_prompt"></div>
-                        </div>
-                    </div>
-					 <div class="form-group">
-                        <label class="control-label col-md-2" for="receiver_name">收件人姓名</label>
-                        <div class="col-md-6">
-                            <input type="text" onblur="checkReceiverName()" class="form-control" id="receiver_name" placeholder="请输入收件人姓名" name="receivername">
-                            <div id="receivername_prompt"></div>
-						</div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-2" for="receiver_tel">收件人手机号</label>
-                        <div class="col-md-6">
-                            <input type="text" onblur="checkReceiverTel()" class="form-control" id="receiver_tel" placeholder="请输入寄件人手机号" name="receiverphone">
-                            <div id="receivernumber_prompt"></div>
-						</div>
-                    </div>
-					 <div class="form-group">
-                        <label class="control-label col-md-2" for="receiver_address">收件人地址</label>
-                        <div class="col-md-6">
-                            <input type="text" onblur="checkReceiverAddress()" class="form-control" id="receiver_address" placeholder="请输入寄件人地址" name="receiveraddress" >
-							<div id="receiveradderss_prompt"></div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-2"> </label>
-                        <button class="btn btn-default " type="submit" onClick="mySub1()">提交</button>
-                    </div>
-                </form>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="name">该账号暂无快递信息</label>
+            	</div>
             </div>
-		</div>
+		</div> 
 		
 		<div class="col-md-10 col-md-offset-1">
             <div class="receive" id="receive_part">
 				<h3 class="col-md-10">我要查询</h4>
                 <div class="line col-md-12"></div>
                 <br/>
-                
+<!--                 
                  <form method="post" action="#" class="form-horizontal col-md-10" id="user_center_receiver" role="form">
 					 <div class="form-group">
                         <label class="control-label col-md-2" for="start_pos">高铁出发点</label>
@@ -253,7 +183,7 @@
                         <label class="control-label col-md-2"> </label>
                         <button class="btn btn-default " type="submit" onClick="mySub2()">查询</button>
                     </div>
-                </form>
+                </form> -->
             </div>
 		</div>
 <!-- 模态框（Modal） -->
@@ -301,6 +231,7 @@
         var profession = document.getElementById("profession");
         var tel = document.getElementById("tel");
         var email = document.getElementById("email");
+        var balance = document.getElementById("my_balance");
         $.ajax({
             type: "get",
             dataType: 'json',
@@ -314,7 +245,8 @@
                 console.log('success');
                 data = data['data'];
                 $("#modified_name").html(data['nick_name']);
-                console.log(data['nick_name']);
+                $("#my_balance").html(data['balance']);
+                console.log(data['balance']);
                 userName.value = data["nick_name"];
                 student_num.value = data["id"];
                 sex.value = data["gender"];
@@ -348,12 +280,16 @@
         if (sex == "男"){
             gender = 1;
         }
+        if (password != password_1){
+            alert("两次密码输入不一致，修改失败");
+            return;
+        }
         // 更新用户信息
         $.ajax({
             type: "put",
             dataType: 'json',
             // url: "http://182.254.206.244:8080/user",
-            url: "http://139.199.166.124:8080/user/", //lt
+            url: "http://139.199.166.124:8080/user", //lt
             crossDomain: true,
             data: JSON.stringify({
                 "id" : student_num,
@@ -372,7 +308,7 @@
             success: function(data){
                 console.log('success');
                 console.log(data);
-                window.parent.location.href = "/personalInfo";
+                // window.parent.location.href = "/personalInfo";
                 // window.open("/HomePage");
             },
             error: function(Request, status, msg){
