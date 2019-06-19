@@ -80,6 +80,38 @@
       axios.defaults.withCredentials = true;
       const url = 'http://139.199.166.124:8080/survey'
       const url_login = 'http://139.199.166.124:8080/login'
+      const url_put = 'http://139.199.166.124:8080/user'
+      /*
+      axios.post(url_login, JSON.stringify({
+        id: 666,
+        password: "123456"
+      }))
+        .then(response => {
+          axios.put(url_put, JSON.stringify({
+            "id" : 666,
+            "password" : "123456",
+            "real_name" : "dick",
+            "nick_name" : "dick",
+            "age" : 22,
+            "gender" : "1",
+            "head_picture" : " blob not null1",
+            "balance" : 100000,
+            "profession" : "1",
+            "grade" : "3",
+            "phone" : "13680473185",
+            "email" : "dic0k@qq.com"
+          }))
+            .then(response => {
+              console.log(response.data)
+            })
+            .catch(error => {
+              console.log(error)
+            })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    */
       // 登陆
       /*
       axios.post(url_login, JSON.stringify({
