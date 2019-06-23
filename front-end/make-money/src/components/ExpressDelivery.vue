@@ -1,33 +1,40 @@
 <template>
-	<div id="DeliveryTable">
-		<v-table
-			:is-vertical-resize="true"
-			:columns="tableConfig.columns"
-			:title-rows="tableConfig.titleRows"
-			:table-data="tableConfig.tableData"
-			:show-vertical-border="false"
-			:width="1295"
-			:height="540"
-			:min-height="500"
-			row-hover-color="#eee"
-			row-click-color="#edf7ff"
-			:paging-index="(pageIndex-1)*pageSize"
-			:select-all="selectAll"
-			:select-change="selectChange"
-			:select-group-change="selectGroupChange"
-			:is-loading="isLoading"
-		></v-table>
+	<div id="Delivery-Container">
+		<div id="Mes">
+			<span id="InfoName">{{InfoName}}{{currentUser}}</span>
+			<span id="Number">{{InfoNumber}}{{currentId}}</span>
+			<span id="Money">{{InfoMoney}}{{balance}}</span>
+		</div>
+		<div id="DeliveryTable">
+			<v-table
+				:is-vertical-resize="true"
+				:columns="tableConfig.columns"
+				:title-rows="tableConfig.titleRows"
+				:table-data="tableConfig.tableData"
+				:show-vertical-border="false"
+				:width="1295"
+				:height="540"
+				:min-height="500"
+				row-hover-color="#eee"
+				row-click-color="#edf7ff"
+				:paging-index="(pageIndex-1)*pageSize"
+				:select-all="selectAll"
+				:select-change="selectChange"
+				:select-group-change="selectGroupChange"
+				:is-loading="isLoading"
+			></v-table>
 
-		<div class="mt20 mb20 bold" id="paging">
-			<v-pagination @page-change="pageChange" @page-size-change="pageSizeChange" :total="50" :page-size="pageSize" :layout="['total', 'prev', 'pager', 'next', 'sizer', 'jumper']" id="vpage">
-			</v-pagination>
-			<button id="issue" class="btn" v-on:click="openMask">发布快递</button>
-			<dialog-bar v-model="sendVal" type="danger" title="发布快递" v-on:cancel="clickCancel()" @danger="clickDanger()" @confirm="clickConfirm()" dangerText="提交"></dialog-bar>
-			<button id="accept" class="btn" v-on:click="openAccept">接受任务</button>
-			<dialog-bar v-model="AcceptedVal" type="accept" v-on:cancel="clickCancel()" dangerText="提交" title="接受成功"></dialog-bar>
-			<button id="submit" class="btn" v-on:click="submitdata">确定快递</button>
-			<button id="query" class="btn" v-on:click="openQuery">快递查询</button>
-			<dialog-bar v-model="queryVal" type="query" title="查询快递" v-on:cancel="clickCancel()" @danger="clickDanger()" @confirm="clickConfirm()"></dialog-bar>
+			<div class="mt20 mb20 bold" id="paging">
+				<v-pagination @page-change="pageChange" @page-size-change="pageSizeChange" :total="50" :page-size="pageSize" :layout="['total', 'prev', 'pager', 'next', 'sizer', 'jumper']" id="vpage">
+				</v-pagination>
+				<button id="issue" class="btn" v-on:click="openMask">发布快递</button>
+				<dialog-bar v-model="sendVal" type="danger" title="发布快递" v-on:cancel="clickCancel()" @danger="clickDanger()" @confirm="clickConfirm()" dangerText="提交"></dialog-bar>
+				<button id="accept" class="btn" v-on:click="openAccept">接受任务</button>
+				<dialog-bar v-model="AcceptedVal" type="accept" v-on:cancel="clickCancel()" dangerText="提交" title="接受成功"></dialog-bar>
+				<button id="submit" class="btn" v-on:click="submitdata">确定快递</button>
+				<button id="query" class="btn" v-on:click="openQuery">快递查询</button>
+				<dialog-bar v-model="queryVal" type="query" title="查询快递" v-on:cancel="clickCancel()" @danger="clickDanger()" @confirm="clickConfirm()"></dialog-bar>
+			</div>
 		</div>
 	</div>
 </template>
@@ -44,6 +51,11 @@
 		},
 		data() {
 			return {
+				InfoName:"姓名：",
+				InfoMoney:"账户余额：",
+				InfoNumber:"学号：",
+				_InfoMoney: 0,
+				balance: 0.0,
 				isLoading: true,
 				pageIndex:1,
 				pageSize:12,
@@ -261,7 +273,8 @@
 							}
 						}
 						// console.log(res.data);
-						// window.location.href = "/ExpressDelivery";
+						window.location.href = "/ExpressDelivery";
+						// this.get_session();
 					}).catch((err) => {
 						console.log(err);
 					});
@@ -328,9 +341,10 @@
 						this.currentId = data["id"];
 						this.currentUser = data["real_name"];
 						this.currentPhone = data["phone"];
-						console.log(this.currentUser);
-						console.log(this.currentId);
-						console.log(this.currentPhone);
+						this.balance = data["balance"];
+						//console.log(this.currentUser);
+						//console.log(this.currentId);
+						//console.log(this.currentPhone);
 						//this.$set(this.currentId, data["id"]);
 					},
 					error: (Request, status, msg) =>{
