@@ -27,7 +27,7 @@
 			<dialog-bar v-model="AcceptedVal" type="accept" v-on:cancel="clickCancel()" dangerText="提交" title="接受成功"></dialog-bar>
 			<button id="submit" class="btn" v-on:click="submitdata">确定快递</button>
 			<button id="query" class="btn" v-on:click="openQuery">快递查询</button>
-			<dialog-bar v-model="queryVal" type="danger" title="查询快递" v-on:cancel="clickCancel()" @danger="clickDanger()" @confirm="clickConfirm()" dangerText="提交"></dialog-bar>
+			<dialog-bar v-model="queryVal" type="query" title="查询快递" v-on:cancel="clickCancel()" @danger="clickDanger()" @confirm="clickConfirm()"></dialog-bar>
 		</div>
 	</div>
 </template>
@@ -51,7 +51,7 @@
 				AcceptedVal: false,
 				queryVal: false,
 				currentUser: "",
-				currentPhone: "",
+				currentPhone: 0,
 				currentId: "",
 				tableConfig: {
 					multipleSort: false,
@@ -130,6 +130,7 @@
 				let putdata = [];
 
 				for (var i = 0; i < this.tableConfig.tableData.length; i++) {
+										console.log("Start");
 					if (this.tableConfig.tableData[i]._checked == true) {
 						if (this.currentId == this.tableConfig.tableData[i].stuId) {
 							alert("不能选择自己的快递！");
@@ -198,7 +199,7 @@
 			},
 
 			selectGroupChange(selection) {
-				console.log("sad");
+				console.log("Happy");
 			},
 
 			clickCancel() {
@@ -215,9 +216,17 @@
 
 			submitdata() {
 				let putdata = [];
+				console.log(this.currentUser);
+				console.log(this.currentId);
+				console.log(this.currentPhone);
 
 				for (var i = 0; i < this.tableConfig.tableData.length; i++) {
 					if (this.tableConfig.tableData[i]._checked == true) {
+						console.log("Start");
+						console.log(this.currentUser);
+						console.log(this.currentId);
+						console.log(this.currentPhone);
+						//console.log(this.tableConfig.tableData[i].stuId);
 						if (this.currentId != this.tableConfig.tableData[i].stuId) {
 							alert("不能帮其他人确定快递！");
 							return false;
@@ -252,7 +261,7 @@
 							}
 						}
 						// console.log(res.data);
-						window.location.href = "/ExpressDelivery";
+						// window.location.href = "/ExpressDelivery";
 					}).catch((err) => {
 						console.log(err);
 					});
@@ -313,16 +322,20 @@
 						withCredentials: true // 要在这里设置上传cookie
 					},
 					crossDomain: true,
-					success: function(data){
+					success: (data) => {
 						console.log('success');
 						data = data["data"];
 						this.currentId = data["id"];
 						this.currentUser = data["real_name"];
 						this.currentPhone = data["phone"];
 						console.log(this.currentUser);
+						console.log(this.currentId);
+						console.log(this.currentPhone);
+						//this.$set(this.currentId, data["id"]);
 					},
-					error: function(Request, status, msg){
+					error: (Request, status, msg) =>{
 						console.log('fail');
+						window.location.href = "/HomePage";
 					}
 				});
 			}
