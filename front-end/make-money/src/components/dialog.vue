@@ -210,7 +210,6 @@ export default {
 
             window.location.href = "/ExpressDelivery";
             this.closeMask();
-            return true;
         },
         confirmBtn(){
             this.$emit('confirm');
@@ -230,36 +229,36 @@ export default {
             });
         },
         fetch_data() {
-            let url = "http://139.199.166.124:8080/package";
+            let url = "http://139.199.166.124:8080/package?owner_id=";
             let data = [];
             let pIndex = this.pageIndex;
             let pSize = this.pageSize;
 
+            url = url + this.currentId
+            console.log(url);
             axios.get(url)
               .then(response => {
                 let temp = response.data.data
                 temp.forEach(item => {
-                    if (this.currentId == item.owner_id) {
-                        var j = {};
-                        j.seqNum = item.id;
-                        if (item.state == '0') {
-                            j.accepter = "尚未接受";
-                            j.accphone = "尚未接受";
-                        }
-                        else {
-                            j.accepter = item.receiver_real_name;
-                            j.accphone = item.receiver_Phone;                                 
-                        }
-                        if (item.state == '0') {
-                            j.state = 'Release';
-                        } else if (item.state == '1') {
-                            j.state = 'Accepted';
-                        } else if (item.state == '2') {
-                            j.state = 'Finish';
-                        }
-                        data.push(j);                      
+                    var j = {};
+                    j.seqNum = item.id;
+                    if (item.state == '0') {
+                        j.accepter = "尚未接受";
+                        j.accphone = "尚未接受";
                     }
-                })
+                    else {
+                        j.accepter = item.receiver_real_name;
+                        j.accphone = item.receiver_Phone;                                 
+                    }
+                    if (item.state == '0') {
+                        j.state = 'Release';
+                    } else if (item.state == '1') {
+                        j.state = 'Accepted';
+                    } else if (item.state == '2') {
+                        j.state = 'Finish';
+                    }
+                    data.push(j);  
+                });
                 this.isLoading = false;
                 this.tableConfig.tableData = data.slice((pIndex-1)*pSize,(pIndex)*pSize);
               });
@@ -284,6 +283,15 @@ export default {
                     window.location.href = "/HomePage";
                 }
             });
+        },
+
+        async iterate(arr) {
+          let index = 0;
+          while (index < arr.length - 1) {
+            await arr[index]();
+            index += 1;
+          }
+          return arr[index]();
         }
     },
     created() {
@@ -291,8 +299,29 @@ export default {
     mounted(){
         //this.login_func();
         this.showMask = this.value;
-        this.get_session();
-        this.fetch_data();
+        const arr = [
+            () => {
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        this.get_session();
+                        resolve();
+                    }, 300);
+                });
+            },
+
+            () => {
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        this.fetch_data();
+                        resolve();
+                    }, 300);
+                });
+            }   
+        ];
+
+        this.iterate(arr);
+        // this.get_session();
+        // this.fetch_data();
     },
     watch:{
         value(newVal, oldVal){

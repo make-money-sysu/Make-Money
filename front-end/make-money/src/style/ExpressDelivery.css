@@ -6,10 +6,30 @@ html, body {
 	overflow: hidden;
 }
 
+#Mes {
+	position: relative;
+	top: 5px;
+	left: 125px;
+}
+
+#InfoName {
+	position: absolute;
+}
+
+#Number {
+	position: absolute;
+	left: 120px;
+}
+
+#Money {
+	position: absolute;
+	left: 280px;
+}
+
 
 #DeliveryTable {
 	position: relative;
-	top: 40px;
+	top: 25px;
 	height: 600px;
 	width: 1300px;
 	margin: auto;
