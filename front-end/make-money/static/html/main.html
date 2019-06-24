@@ -14,8 +14,6 @@
     <link rel="stylesheet" href="../css/user.css">
 </head>
 <body onload="bind_button()">
-	
-</div>
 <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid container">
         <div id="nav" class="navbar-header" style="height: 70px;">
@@ -24,7 +22,7 @@
         </div>
         <div>
             <ul class="nav navbar-nav ">
-				
+
                 <li class="active" id="crftag"><a href="#">首页</a></li>
 				<li id="crftag"><a href="#">服务支持</a></li>
 				<li id="crftag"><a href="#">反馈</a></li>
@@ -35,7 +33,7 @@
         </div>
 		<div>
             <ul class="nav navbar-nav navbar-right">
-				
+
                 <li id="crftag"><a onclick="javascript:window.parent.location.href = '/Login';">快速登录/注册</a></li>
 				<li id="crftag"><a onclick="javascript:window.parent.location.href = '/personalInfo';">个人中心</a></li>
             </ul>
@@ -71,9 +69,9 @@
                 <span _ngcontent-c3="" aria-hidden="true" class="glyphicon glyphicon-chevron-right"></span>
             </a>
         </div>
-		
+
 		<hr class="featurette-divider">
-		
+
 		<div class="row">
         <div class="col-lg-4 content">
           <img class="img-circle" src="../image/mail_send.png" width="140" height="140">
@@ -81,7 +79,7 @@
 		  <hr class="featurette-divider">
           <p>无论你是想做问卷挣闲钱，还是想发布问卷拿数据，点这里就对了！在这里你可以得到全新的问卷系统体验</p>
 			<hr class="featurette-divider">
-			
+
         </div><!-- /.col-lg-4 -->
         <div class="col-lg-4 content">
           <img class="img-circle" src="../image/mail_receive.png" alt="Generic placeholder image" width="140" height="140" >
@@ -89,7 +87,7 @@
 			<hr class="featurette-divider">
           <p>拿快递太累，为什么不叫热心的同学帮取呢？在这里你可以快速发布快递信息，坐在宿舍快递到手。你还可以针对性选定快递帮取目标，走一趟挣闲钱。</p>
           <hr class="featurette-divider">
-			
+
         </div><!-- /.col-lg-4 -->
         <div class="col-lg-4 content">
           <img class="img-circle" src="../image/find.png" alt="Generic placeholder image" width="140" height="140">
@@ -99,9 +97,9 @@
 			<hr class="featurette-divider">
         </div><!-- /.col-lg-4 -->
       </div>
-       
+
 	<hr class="featurette-divider">
-		
+
     </div>
     <div id="well_sold" class="col-md-3">
         <table class="table table-hover">
@@ -133,7 +131,7 @@
             </tr>
             </tbody>
         </table>
-		
+
 		<table class="table table-hover">
             <caption>学生活动</caption>
             <tbody>
@@ -209,7 +207,7 @@
 		  <h4 class="featurette-heading" align="center" style="color: red">活动范围：中山大学至善园二号</h4>
 		  <a href="#">
 		  	<button class="btn btn-default" style="display:block;margin:0 auto">View details &raquo;</button>
-			</a> 
+			</a>
           <p class="lead"></p>
         </div>
         <div class="col-md-5">
@@ -251,14 +249,13 @@
 		</div><!-- /.modal-content -->
 </div><!-- /.modal -->
 </body>
-
 <script type="text/javascript">
     function bind_button(){
         // window.parent.location.href = "/HomePage";
         $("#question").bind("click",function(){
 		    window.parent.location.href = "/QuestionnaireList";
         });
-        
+
         $("#express").on("click",function(){
             window.parent.location.href = "/ExpressDelivery";
         });

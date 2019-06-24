@@ -126,7 +126,8 @@ export default {
               "title": item.title,
               "stateTitle": item.state == 0 ? '未发布' : '已发布',
               "time": item.create_time.substr(0, 10),
-              "state": item.state == 0 ? false: true,
+              // "state": item.state == 0 ? false: true, //"state": true
+              "state": true,
               "checked": item.checked == 0 ? false: true,
               "question": JSON.parse(item.content)
               }
@@ -169,7 +170,8 @@ export default {
       return item.isNeed ? `${msg} *` : msg
     },
     submit() {
-      if (this.qsItem.state === 1) {
+      alert(this.qsItem.state)
+      if (this.qsItem.state === true) {
         // 校验
         let result = this.validate()
         if (result) {
