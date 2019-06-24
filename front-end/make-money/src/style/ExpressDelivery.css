@@ -6,6 +6,11 @@ html, body {
 	overflow: hidden;
 }
 
+#Delivery-Container {
+	position: relative;
+	top: 11.5%;
+}
+
 #Mes {
 	position: relative;
 	top: 5px;

@@ -9,6 +9,10 @@ html, body {
 	overflow: hidden;
 }
 
+#head-container {
+	position: relative;
+}
+
 .Myhead {
 	position: fixed;
 	width: 100%;
@@ -28,41 +32,39 @@ html, body {
 }
 
 #logo {
-  position: relative;
-  width: 40px;
-  height: 40px;
-  left: 4%;
-  top: 8%;
-}
-#personInfo {
-  float: right;
-  position: relative;
+  position: absolute;
   widows: 40px;
   height: 40px;
-  right: 10%;
-  top: 22%;
+  right: 4%;
+  top: 20%;
 }
-#order {
-  float: right;
-  position: relative;
+
+#personInfo {
+  position: absolute;
+  widows: 40px;
+  height: 40px;
+  right: 8%;
+  top: 20%;
+}
+
+#login {
+  position: absolute;
   widows: 40px;
   height: 40px;
   right: 12%;
-  top: 22%;
+  top: 20%;
 }
-#login {
-  float: right;
-  position: relative;
-  widows: 40px;
-  height: 40px;
-  right: 1%;
-  top: 22%;
-}
+
 #register {
-  float: right;
-  position: relative;
+  position: absolute;
   widows: 40px;
   height: 40px;
-  right: -5.5%;
-  top: 22%;
+  right: 16%;
+  top: 20%;
+}
+
+#school {
+	position: absolute;
+  	widows: 65px;
+  	height: 65px;	
 }

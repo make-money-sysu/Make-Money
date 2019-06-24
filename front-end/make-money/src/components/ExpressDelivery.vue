@@ -349,7 +349,7 @@
 					},
 					error: (Request, status, msg) =>{
 						console.log('fail');
-						window.location.href = "/HomePage";
+						// window.location.href = "/HomePage";
 					}
 				});
 			}
