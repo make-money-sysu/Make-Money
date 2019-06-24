@@ -32,11 +32,11 @@
 		<div class="col-md-8 col-md-offset-2 ">
             <div class="col-md-6">
                 <a href="#revise_part" class="func_nav">修改资料</a>
-				<a href="#send_part" class="func_nav">我的问卷</a>
+				<a onclick="javascript:window.parent.location.href = '/QuestionnaireList';" class="func_nav">我的问卷</a>
             </div>
 			<div class="col-md-6">
-                <a href="#search_part" class="func_nav">我的快递</a>
-				<a href="#receive_part" class="func_nav">我要查询</a>
+                <a onclick="javascript:window.parent.location.href = '/ExpressDelivery';" class="func_nav">我的快递</a>
+				<a onclick="javascript:window.parent.location.href = '/ExpressDelivery';" class="func_nav">我要查询</a>
             </div>
         </div>
 		
@@ -127,7 +127,7 @@
             </div>
 		</div>
 		
-		<div class="col-md-10 col-md-offset-1 search1">
+		<!-- <div class="col-md-10 col-md-offset-1 search1">
 			<div class="search" id="search_part">
 				<h3 class="col-md-10">我的问卷</h4>
                 <div class="line col-md-12  "></div>
@@ -155,7 +155,7 @@
             <div class="receive" id="receive_part">
 				<h3 class="col-md-10">我要查询</h4>
                 <div class="line col-md-12"></div>
-                <br/>
+                <br/> -->
 <!--                 
                  <form method="post" action="#" class="form-horizontal col-md-10" id="user_center_receiver" role="form">
 					 <div class="form-group">
@@ -185,8 +185,8 @@
                         <button class="btn btn-default " type="submit" onClick="mySub2()">查询</button>
                     </div>
                 </form> -->
-            </div>
-		</div>
+            <!-- </div>
+		</div> -->
 <!-- 模态框（Modal） -->
     <div class="modal fade" id="save" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
