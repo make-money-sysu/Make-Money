@@ -1,12 +1,32 @@
 $orange: #EE7419;
 $skyblue: #00A9FF;
-.Myhead {
-  width: 100%;
-  height: 8rem;
-  line-height: 6rem;
-  background-color: $skyblue;
-  font-size: 20px;
+
+html, body {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
 }
+
+.Myhead {
+	position: fixed;
+	width: 100%;
+	height: 8rem;
+	line-height: 6rem;
+	background-color: $skyblue;
+	font-size: 20px;
+}
+
+#title {
+	position: absolute;
+	left: 39%;
+	top: 10%;
+	font-family: SimHei;
+	font-weight: bold;
+	font-size: 30px;
+}
+
 #logo {
   position: relative;
   width: 40px;
