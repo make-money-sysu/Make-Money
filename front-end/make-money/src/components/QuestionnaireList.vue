@@ -50,6 +50,7 @@
 
 <script>
   import axios from 'axios';
+  import global_ from './Global'
   export default {
     name: 'qsList',
     data() {
@@ -75,12 +76,10 @@
         }
     },
     mounted() {
-      // LHW Server: 182.254.206.244
-      // LT Server: 139.199.166.124
       axios.defaults.withCredentials = true;
-      const url = 'http://139.199.166.124:8080/survey'
-      const url_login = 'http://139.199.166.124:8080/login'
-      const url_put = 'http://139.199.166.124:8080/user'
+      const qsGetUrl = global_.url + 'survey'
+      const loginUrl = global_.url + 'login'
+      const usrPutUrl = global_.url + 'user'
       /*
       axios.post(url_login, JSON.stringify({
         id: 666,
@@ -142,12 +141,13 @@
       var temp;
 
       // 获取问卷列表
-      axios.get(url)
+      axios.get(qsGetUrl)
         .then(response => {
           temp = response.data.data
           // console.log(response.data.data)
           // Handle list
           temp.forEach(item => {
+            /*
             console.log(item.id) // 获取问卷id
             console.log(item.publisher_id) // 获取问卷发起者
             console.log(item.checked) // 获取checked属性
@@ -155,7 +155,7 @@
             console.log(item.create_time.substr(0, 10)) // 获取问卷发布时间
             console.log(item.state) // 获取问卷状态
             console.log(item.title) // 获取问卷标题
-
+            */
             let questionnaire = {
               "num": item.id,
               "title": item.title,
@@ -174,7 +174,6 @@
         })
 
       /*
-      const url_login = 'http://139.199.166.124:8080/login'
       // 登陆
       axios.post(url_login, JSON.stringify({
         id: 666,
@@ -235,13 +234,14 @@
           }
           // console.log(num)
           axios.defaults.withCredentials = true;
-          const delete_url = 'http://139.199.166.124:8080/survey/' + num
-          console.log(delete_url)
-          axios.delete(delete_url)
+          const qsDeleteUrl = global_.url + 'survey/' + num
+          // console.log(qsDeleteUrl)
+          axios.delete(qsDeleteUrl)
             .then(response => {
-              console.log(response)
+              // console.log(response)
             })
             .catch(error => {
+              alert('Delete Survey Fail!')
               console.log(error)
             })
           this.qslist.splice(index, 1)

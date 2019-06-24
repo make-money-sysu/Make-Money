@@ -91,6 +91,7 @@
 
 <script>
 import calendarInput from './calendar-input'
+import global_ from './Global'
 import axios from 'axios'
 export default {
   name: 'QuestionnaireEdit',
@@ -149,10 +150,10 @@ export default {
             ]
           }]
           */
-      const url = 'http://139.199.166.124:8080/survey'
+      const qsGetUrl = global_.url + 'survey'
       var temp;
       // 获取问卷列表
-      axios.get(url)
+      axios.get(qsGetUrl)
         .then(response => {
           temp = response.data.data
 
@@ -226,10 +227,10 @@ export default {
   methods: {
     fetchData() {
       // alert('in fetchData')
-      const url = 'http://139.199.166.124:8080/survey'
+      const qsGetUrl = global_.url + 'survey'
       var temp;
       // 获取问卷列表
-      axios.get(url)
+      axios.get(qsGetUrl)
         .then(response => {
           temp = response.data.data
           // Handle list
@@ -466,16 +467,17 @@ export default {
       }
       else {
         // Save in the database
-        const url_post = 'http://139.199.166.124:8080/survey'
-        console.log(qsItem)
-        axios.post(url_post, JSON.stringify({
+        const qsPostUrl = global_.url + 'survey'
+        // console.log(qsItem)
+        axios.post(qsPostUrl, JSON.stringify({
           title: qsItem.title,
           content: JSON.stringify(qsItem.question)
         }))
           .then(response => {
-            console.log(response.data)
+            // console.log(response.data)
           })
           .catch(error => {
+            alert('Post QS Fail!')
             console.log(error)
           })
         this.info = 'Issue it Now?'
@@ -487,7 +489,7 @@ export default {
       this.qsItem.stateTitle = '发布中'
       // Save in the database
       this.showDialog = false
-      this.$route.push({path:'/QuestionnaireList'})
+      this.$route.push({path: '/QuestionnaireList'})
     },
     *issueQs() {
       this.showDialog = true
@@ -504,16 +506,17 @@ export default {
         // 新建问卷，使用post
         if (this.$route.params.num == 0) {
           console.log('use post')
-          const url_post = 'http://139.199.166.124:8080/survey'
-          console.log(this.qsItem)
-          axios.post(url_post, JSON.stringify({
+          const qsPostUrl = global_.url + 'survey'
+          // console.log(this.qsItem)
+          axios.post(qsPostUrl, JSON.stringify({
             title: this.qsItem.title,
             content: JSON.stringify(this.qsItem.question)
           }))
             .then(response => {
-              console.log(response.data)
+              // console.log(response.data)
             })
             .catch(error => {
+              alert('Post QS Fail!')
               console.log(error)
             })
         }
@@ -521,15 +524,16 @@ export default {
         else {
           console.log('use put')
           console.log(this.qsItem.title)
-          const url_put = 'http://139.199.166.124:8080/survey/' + this.qsItem.num
-          axios.put(url_put, JSON.stringify({
+          const qsPutUrl = global_.url + 'survey/' + this.qsItem.num
+          axios.put(qsPutUrl, JSON.stringify({
             title: this.qsItem.title,
             content: JSON.stringify(this.qsItem.question)
           }))
             .then(response => {
-              console.log(response.data)
+              // console.log(response.data)
             })
             .catch(error => {
+              alert('Put QS Fail!')
               console.log(error)
             })
         }

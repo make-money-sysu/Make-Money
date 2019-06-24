@@ -40,7 +40,7 @@
 	import dialogBar from './dialog.vue'
 	// import tableDate from './expressTest.js'
 	import axios from 'axios';
-
+	import global_ from './Global'
 	export default {
 		name: 'ExpressDelivery',
 		components: {
@@ -99,7 +99,7 @@
 				this.fetch_data();
 				// console.log(user_data);
 				// console.log(user_data.slice(0, 5));
-				// 
+				//
 				// this.tableConfig.tableData = user_data.slice((this.pageIndex-1)*this.pageSize,(this.pageIndex)*this.pageSize);
 			},*/
 
@@ -159,10 +159,12 @@
 				this.AcceptedVal = true;
 
 				for (var i = 0; i < putdata.length; i++) {
-					var url = "http://139.199.166.124:8080/package?method=receive&id=";
-					url = url + putdata[i].seqNum;
-					console.log(url);
-					axios.put(url).then(res => {
+					// var url = "http://139.199.166.124:8080/package?method=receive&id=";
+					// url = url + putdata[i].seqNum;
+
+					var packagePutUrl = global_.url + 'package?method=receive&id=' + putdata[i].seqNum
+					console.log(packagePutUrl);
+					axios.put(packagePutUrl).then(res => {
 						for (let i = 0; i < this.tableConfig.tableData.length; i++) {
 							for (let j = 0; j < putdata.length; j++) {
 								// console.log(this.tableConfig.tableData[i].seqNum);
@@ -170,7 +172,7 @@
 								if (this.tableConfig.tableData[i].seqNum == putdata[j].seqNum) {
 									this.tableConfig.tableData[i].state = "Accepted";
 									break;
-								}						
+								}
 							}
 						}
 						// console.log(res.data);
@@ -247,18 +249,20 @@
 						if (this.tableConfig.tableData[i].state == "Finish") {
 							alert("快递已完成！");
 							return false;
-						}					
+						}
 						putdata.push(this.tableConfig.tableData[i]);
 						console.log("push success!");
 					}
 				}
-				axios.defaults.withCredentials=true;	
+				axios.defaults.withCredentials=true;
 
 				for (var i = 0; i < putdata.length; i++) {
-					var url = "http://139.199.166.124:8080/package?method=confirm&id=";
-					url = url + putdata[i].seqNum;
-					console.log(url);
-					axios.put(url).then(res => {
+					// var url = "http://139.199.166.124:8080/package?method=confirm&id=";
+					// url = url + putdata[i].seqNum;
+
+					const packagePutUrl = global_.url + 'package?method=confirm&id=' + putdata[i].seqNum
+					console.log(packagePutUrl);
+					axios.put(packagePutUrl).then(res => {
 						for (let i = 0; i < this.tableConfig.tableData.length; i++) {
 							for (let j = 0; j < putdata.length; j++) {
 								// console.log(this.tableConfig.tableData[i].seqNum);
@@ -266,7 +270,7 @@
 								if (this.tableConfig.tableData[i].seqNum == putdata[j].seqNum) {
 									this.tableConfig.tableData[i].state = "Finish";
 									break;
-								}						
+								}
 							}
 						}
 						// console.log(res.data);
@@ -275,16 +279,16 @@
 					}).catch((err) => {
 						console.log(err);
 					});
-				}	
+				}
 			},
 
 			fetch_data() {
-			    let url = "http://139.199.166.124:8080/package";
+					const packageGetUrl = global_.url + '/package';
 			    let data = [];
 			    let pIndex = this.pageIndex;
 			    let pSize = this.pageSize;
 
-			    axios.get(url)
+			    axios.get(packageGetUrl)
 			      .then(response => {
 			        let temp = response.data.data
 			        // console.log(temp)
@@ -315,7 +319,7 @@
 			          	j.comment = item.note;
 			          	j._checked = false;
 			          	data.push(j);
-			          	
+
 			        })
 			        this.isLoading = false;
 			        this.tableConfig.tableData = data.slice((pIndex-1)*pSize,(pIndex)*pSize);
@@ -327,7 +331,7 @@
 					type: "get",
 					dataType: 'json',
 					// url: "http://182.254.206.244:8080/user",
-					url: "http://139.199.166.124:8080/user/", //lt
+					url: global_.url + "user/", //lt
 					xhrFields: {
 						withCredentials: true // 要在这里设置上传cookie
 					},

@@ -62,7 +62,9 @@
 </template>
 
 <script>
-  import axios from 'axios';
+import axios from 'axios';
+import global_ from './Global'
+
 export default {
   name: 'QuestionnaireFill',
   data() {
@@ -105,7 +107,7 @@ export default {
       // 获取数据库内容
       // 获取问卷列表
       axios.defaults.withCredentials = true;
-      const url = 'http://139.199.166.124:8080/survey'
+      const qsGetUrl = global_.url + 'survey'
       var temp;
       axios.get(url)
         .then(response => {
@@ -113,6 +115,7 @@ export default {
           // console.log(response.data.data)
           // Handle list
           temp.forEach(item => {
+            /*
             console.log(item.id) // 获取问卷id
             console.log(item.publisher_id) // 获取问卷发起者
             console.log(item.checked) // 获取checked属性
@@ -120,7 +123,7 @@ export default {
             console.log(item.create_time.substr(0, 10)) // 获取问卷发布时间
             console.log(item.state) // 获取问卷状态
             console.log(item.title) // 获取问卷标题
-
+            */
             let questionnaire = {
               "num": item.id,
               "title": item.title,
@@ -144,16 +147,12 @@ export default {
               break;
             }
           }
-
           this.getRequiredItem()
         })
         .catch(error => {
           alert('Get Quesionnaire Error!')
           console.log(error)
         })
-
-
-
     },
     getMsg(item) {
       let msg = ''

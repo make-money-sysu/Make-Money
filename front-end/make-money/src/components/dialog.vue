@@ -7,7 +7,7 @@
                 <form id="form-table" role="form">
 
                     <label class="item" for="money">{{user_money_label}}</label>
-                    <input type="number" min="0" class="form-control" name="money" id="money" placeholder="请输入赏金" v-model="moneyToPost"> 
+                    <input type="number" min="0" class="form-control" name="money" id="money" placeholder="请输入赏金" v-model="moneyToPost">
 
                     <div id="comment-container">
                         <textarea type="text" name="comment" id="comment" placeholder="请输入备注" v-model="commentToPost"></textarea>
@@ -19,8 +19,8 @@
                         <input type="submit" v-if="type == 'danger'" class="danger-btn" @click="dangerBtn">
                         <input type="accept" v-if="type == 'accept'" class="danger-btn">
                     </div>
-                    <div class="close-btn" @click="closeMask"><i class="iconfont icon-close"></i></div>    
-                                    
+                    <div class="close-btn" @click="closeMask"><i class="iconfont icon-close"></i></div>
+
                 </form>
 
             </div>
@@ -58,7 +58,7 @@
 
 <script>
 import axios from 'axios';
-
+import global_ from './Global'
 export default {
     props: {
         value: {},
@@ -112,7 +112,7 @@ export default {
                         {fields: ["state"], title: "包裹状态", titleAlign: "center"}
                     ]
                 ],
-            } 
+            }
         }
     },
     methods:{
@@ -141,7 +141,7 @@ export default {
             let moneyValue = this.moneyToPost;
             let commentValue = this.commentToPost;
 
-            
+
             if (commentValue == '') {
                 alert("请输入包裹信息！");
                 window.location.href = "/ExpressDelivery";
@@ -152,10 +152,8 @@ export default {
                 alert("输入的金额必须为正!");
                 window.location.href = "/ExpressDelivery";
                 return false;
-            } 
+            }
 
-            
-            const url = "http://139.199.166.124:8080/login"
             console.log(this.moneyToPost)
             axios.defaults.withCredentials=true;
 
@@ -194,9 +192,9 @@ export default {
             });*/
 
 
-            let url_post = "http://139.199.166.124:8080/package";
+            let packagePostUrl = global_.url + "package";
 
-            axios.post(url_post, JSON.stringify({
+            axios.post(packagePostUrl, JSON.stringify({
                 "reward": parseFloat(moneyValue),
                 "note": commentValue
               }))
@@ -205,7 +203,7 @@ export default {
                 window.location.href = "/ExpressDelivery";
               }).catch(function(error) {
                 console.log(error);
-              });             
+              });
               console.log("Submit data");
 
             window.location.href = "/ExpressDelivery";
@@ -216,9 +214,9 @@ export default {
             this.closeMask();
         },
         login_func() {
-            let url = "http://139.199.166.124:8080/package"
+            let loginUrl = global_.url + "login"
 
-            axios.post(url, JSON.stringify({
+            axios.post(loginUrl, JSON.stringify({
                 "id": 666,
                 "password": "123456"
             })).then(function(response) {
@@ -229,14 +227,15 @@ export default {
             });
         },
         fetch_data() {
-            let url = "http://139.199.166.124:8080/package?owner_id=";
+            // let url = "http://139.199.166.124:8080/package?owner_id=";
+            let packageGetUrl = global_.url + 'package?owner_id=' + this.currentId
             let data = [];
             let pIndex = this.pageIndex;
             let pSize = this.pageSize;
 
-            url = url + this.currentId
-            console.log(url);
-            axios.get(url)
+            // url = url + this.currentId
+            console.log(packageGetUrl);
+            axios.get(packageGetUrl)
               .then(response => {
                 let temp = response.data.data
                 temp.forEach(item => {
@@ -248,7 +247,7 @@ export default {
                     }
                     else {
                         j.accepter = item.receiver_real_name;
-                        j.accphone = item.receiver_Phone;                                 
+                        j.accphone = item.receiver_Phone;
                     }
                     if (item.state == '0') {
                         j.state = 'Release';
@@ -257,7 +256,7 @@ export default {
                     } else if (item.state == '2') {
                         j.state = 'Finish';
                     }
-                    data.push(j);  
+                    data.push(j);
                 });
                 this.isLoading = false;
                 this.tableConfig.tableData = data.slice((pIndex-1)*pSize,(pIndex)*pSize);
@@ -268,7 +267,7 @@ export default {
                 type: "get",
                 dataType: 'json',
                 // url: "http://182.254.206.244:8080/user",
-                url: "http://139.199.166.124:8080/user/", //lt
+                url: global_.url + "user/", //lt
                 xhrFields: {
                     withCredentials: true // 要在这里设置上传cookie
                 },
@@ -316,7 +315,7 @@ export default {
                         resolve();
                     }, 300);
                 });
-            }   
+            }
         ];
 
         this.iterate(arr);
