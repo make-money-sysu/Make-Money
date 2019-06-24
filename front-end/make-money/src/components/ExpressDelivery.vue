@@ -1,10 +1,5 @@
 <template>
 	<div id="Delivery-Container">
-		<div id="Mes">
-			<span id="InfoName">{{InfoName}}{{currentUser}}</span>
-			<span id="Number">{{InfoNumber}}{{currentId}}</span>
-			<span id="Money">{{InfoMoney}}{{balance}}</span>
-		</div>
 		<div id="DeliveryTable">
 			<v-table
 				:is-vertical-resize="true"
@@ -27,6 +22,8 @@
 			<div class="mt20 mb20 bold" id="paging">
 				<v-pagination @page-change="pageChange" @page-size-change="pageSizeChange" :total="50" :page-size="pageSize" :layout="['total', 'prev', 'pager', 'next', 'sizer', 'jumper']" id="vpage">
 				</v-pagination>
+				<div id="InfoName">{{InfoName}}{{currentUser}}</div>
+				<div id="Money">{{InfoMoney}}{{balance}}</div>
 				<button id="issue" class="btn" v-on:click="openMask">发布快递</button>
 				<dialog-bar v-model="sendVal" type="danger" title="发布快递" v-on:cancel="clickCancel()" @danger="clickDanger()" @confirm="clickConfirm()" dangerText="提交"></dialog-bar>
 				<button id="accept" class="btn" v-on:click="openAccept">接受任务</button>

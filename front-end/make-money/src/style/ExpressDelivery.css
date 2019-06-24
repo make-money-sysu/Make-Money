@@ -1,43 +1,22 @@
-
+body {
+}
 
 #Delivery-Container {
 	width: 100%;
-	top: 100%;
-	position: relative;
+	position: fixed;
 	top: 11.5%;
 }
 
-#Mes {
-	position: relative;
-	top: 5px;
-	left: 125px;
-}
 
-#InfoName {
-	position: absolute;
-	font-weight: bold;
-}
-
-#Number {
-	position: absolute;
-	left: 120px;
-	font-weight: bold;
-}
-
-#Money {
-	position: absolute;
-	left: 240px;
-	font-weight: bold;
-}
 
 
 #DeliveryTable {
 	position: relative;
 	top: 25px;
-	height: 600px;
-	width: 1300px;
 	margin: auto;
-	border: 2px solid black;
+	height: 600px;
+	width: 1298.5px;
+	border: #aaa 1px outset;
 }
 
 #FormTable {
@@ -77,4 +56,18 @@
 
 #query {
 	right: 30px;
+}
+
+#InfoName {
+	position: absolute;
+	right: 53%;
+	top: 13px;
+	font-weight: bold;
+}
+
+#Money {
+	position: absolute;
+	right: 40%;
+	top: 13px;
+	font-weight: bold;
 }

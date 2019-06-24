@@ -20,6 +20,7 @@ html, body {
 	line-height: 6rem;
 	background-color: $skyblue;
 	font-size: 20px;
+	z-index: 999;
 }
 
 #title {
@@ -31,12 +32,57 @@ html, body {
 	font-size: 30px;
 }
 
+.link1 .tooltiptext {
+	visibility: hidden;
+    background-color: #5FFF33;
+    color: black;
+    text-align: center;
+    border-radius: 6px;
+ 
+    /* 定位 */
+    position: absolute;
+    right: 3.7%;
+    top: 60px;
+    width: 50px;
+    height: 35px;
+    line-height: 37px;
+    font-size: 7px;
+    font-weight: bold;
+}
+
+.link1:hover .tooltiptext {
+	visibility: visible;
+}
+
 #logo {
   position: absolute;
   widows: 40px;
   height: 40px;
   right: 4%;
   top: 20%;
+}
+
+.link2 .tooltiptext2 {
+	visibility: hidden;
+    background-color: #5FFF33;
+    color: black;
+    text-align: center;
+    border-radius: 6px;
+ 
+    /* 定位 */
+    position: absolute;
+    right: 7.7%;
+    top: 60px;
+    width: 50px;
+    height: 35px;
+    line-height: 37px;
+    font-size: 7px;
+    font-weight: bold;
+    z-index: 1;
+}
+
+.link2:hover .tooltiptext2 {
+	visibility: visible;
 }
 
 #personInfo {
@@ -47,12 +93,58 @@ html, body {
   top: 20%;
 }
 
+.link3 .tooltiptext3 {
+	visibility: hidden;
+    background-color: #5FFF33;
+    color: black;
+    text-align: center;
+    border-radius: 6px;
+ 
+    /* 定位 */
+    position: absolute;
+    right: 11.7%;
+    top: 60px;
+    width: 50px;
+    height: 35px;
+    line-height: 37px;
+    font-size: 7px;
+    font-weight: bold;
+    z-index: 1;
+}
+
+.link3:hover .tooltiptext3 {
+	visibility: visible;
+}
+
 #login {
   position: absolute;
   widows: 40px;
   height: 40px;
   right: 12%;
   top: 20%;
+}
+
+.link4 .tooltiptext4 {
+	visibility: hidden;
+    background-color: #5FFF33;
+    color: black;
+    text-align: center;
+    border-radius: 6px;
+ 
+    /* 定位 */
+    position: absolute;
+    right: 15.7%;
+    top: 60px;
+    width: 50px;
+    height: 35px;
+    line-height: 37px;
+    font-size: 7px;
+    font-weight: bold;
+    z-index: 1;
+}
+
+.link4:hover .tooltiptext4 {
+	visibility: visible;
 }
 
 #register {
