@@ -16,7 +16,7 @@
     name: 'vHeader',
     data() {
       return {
-        title: "中山大学学生挣闲钱系统"
+        title: "中山大学挣闲钱系统"
       }
     }
   }
