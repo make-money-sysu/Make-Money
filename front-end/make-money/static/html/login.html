@@ -54,7 +54,8 @@
         let url_login = 'http://139.199.166.124:8080/login';
         axios.defaults.withCredentials=true;
         axios.defaults.timeout = 6000;
-        // axios.defaults.headers.post['Content-Type']='text/plain';
+        // content-type 改成 application/json
+        axios.defaults.headers.post['Content-Type']='application/json';
         axios.post(url_login, JSON.stringify({
           "id": userName,
           "password": password
@@ -67,6 +68,7 @@
             console.log('fail');
             console.log(error);//错误处理 相当于error
         })
+        return false;
 
 
     	// $.ajax({

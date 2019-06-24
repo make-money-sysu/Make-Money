@@ -1,6 +1,6 @@
 <template>
 	<div id = "test">
-		<iframe width="1710px" height="717px" src="../../static/html/user_center.html" id = "frame1"/>
+		<iframe src="../../static/html/user_center.html" id = "frame1"/>
 	</div>
 </template>
 
@@ -8,4 +8,10 @@
 </script>
 
 <style>
+#frame1 {
+	position: absolute;
+	top: 10%;
+	height: 90%;
+	width: 100%;
+}
 </style>

@@ -1,39 +1,22 @@
-html, body {
+body {
+}
+
+#Delivery-Container {
 	width: 100%;
-	height: 100%;
-	margin: 0;
-	padding: 0;
-	overflow: hidden;
+	position: fixed;
+	top: 11.5%;
 }
 
-#Mes {
-	position: relative;
-	top: 5px;
-	left: 125px;
-}
 
-#InfoName {
-	position: absolute;
-}
-
-#Number {
-	position: absolute;
-	left: 120px;
-}
-
-#Money {
-	position: absolute;
-	left: 280px;
-}
 
 
 #DeliveryTable {
 	position: relative;
 	top: 25px;
-	height: 600px;
-	width: 1300px;
 	margin: auto;
-	border: 2px solid black;
+	height: 600px;
+	width: 1298.5px;
+	border: #aaa 1px outset;
 }
 
 #FormTable {
@@ -73,4 +56,18 @@ html, body {
 
 #query {
 	right: 30px;
+}
+
+#InfoName {
+	position: absolute;
+	right: 53%;
+	top: 13px;
+	font-weight: bold;
+}
+
+#Money {
+	position: absolute;
+	right: 40%;
+	top: 13px;
+	font-weight: bold;
 }

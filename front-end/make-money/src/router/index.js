@@ -23,8 +23,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'MainPage',
-      component: MainPage
+      redirect: { name: 'HomePage' }
     },
     {
       path: '/order',
@@ -75,6 +74,10 @@ export default new Router({
       path: '/ExpressDelivery',
       name: 'ExpressDelivery',
       component: ExpressDelivery
+    },
+    {
+      path: '*',
+      redirect: { name: 'HomePage' }
     }
   ]
 })
