@@ -69,6 +69,7 @@ export default {
   name: 'QuestionnaireFill',
   data() {
     return {
+      currentId: "",
       qsItem: {}, // 当前修改的问卷
       // 问卷列表
       /*
@@ -99,59 +100,71 @@ export default {
     this.fetchData()
   },
   mounted() {
-
   },
   methods: {
     fetchData() {
       // alert('fetchData')
       // 获取数据库内容
-      // 获取问卷列表
       axios.defaults.withCredentials = true;
-      const qsGetUrl = global_.url + 'survey'
-      var temp;
-      axios.get(url)
-        .then(response => {
-          temp = response.data.data
-          // console.log(response.data.data)
-          // Handle list
-          temp.forEach(item => {
-            /*
-            console.log(item.id) // 获取问卷id
-            console.log(item.publisher_id) // 获取问卷发起者
-            console.log(item.checked) // 获取checked属性
-            console.log(item.content) // 获取questions
-            console.log(item.create_time.substr(0, 10)) // 获取问卷发布时间
-            console.log(item.state) // 获取问卷状态
-            console.log(item.title) // 获取问卷标题
-            */
-            let questionnaire = {
-              "num": item.id,
-              "title": item.title,
-              "stateTitle": item.state == 0 ? '未发布' : '已发布',
-              "time": item.create_time.substr(0, 10),
-              // "state": item.state == 0 ? false: true, //"state": true
-              "state": true,
-              "checked": item.checked == 0 ? false: true,
-              "question": JSON.parse(item.content)
-              }
-            this.qslist.push(questionnaire)
-          })
 
-          // 找到要查看的问卷
-          let i = 0;
-          for (let length = this.qslist.length; i < length; i++) {
-            alert(this.qslist[i].num)
-            if (this.qslist[i].num == this.$route.params.num) {
-              this.qsItem = this.qslist[i]
-              alert("Match")
-              break;
-            }
-          }
-          this.getRequiredItem()
+      // 获取用户信息
+      const userGetUrl = global_.url + 'user'
+      console.log(userGetUrl)
+
+      axios.get(userGetUrl)
+        .then(response => {
+          this.currentId = response.data.data.id
+
+          // 获取问卷列表
+          const qsGetUrl = global_.url + 'survey'
+          var temp;
+
+          axios.get(qsGetUrl)
+            .then(response => {
+              temp = response.data.data
+              // Handle list
+              temp.forEach(item => {
+                /*
+                console.log(item.id) // 获取问卷id
+                console.log(item.publisher_id) // 获取问卷发起者
+                console.log(item.checked) // 获取checked属性
+                console.log(item.content) // 获取questions
+                console.log(item.create_time.substr(0, 10)) // 获取问卷发布时间
+                console.log(item.state) // 获取问卷状态
+                console.log(item.title) // 获取问卷标题
+                */
+                let questionnaire = {
+                  "num": item.id,
+                  "title": item.title,
+                  "stateTitle": item.state == 0 ? '未发布' : '已发布',
+                  "time": item.create_time.substr(0, 10),
+                  // "state": item.state == 0 ? false: true, //"state": true
+                  "state": true,
+                  "checked": item.checked == 0 ? false: true,
+                  "question": JSON.parse(item.content)
+                  }
+                this.qslist.push(questionnaire)
+              })
+
+              // 找到要查看的问卷
+              let i = 0;
+              for (let length = this.qslist.length; i < length; i++) {
+                alert(this.qslist[i].num)
+                if (this.qslist[i].num == this.$route.params.num) {
+                  this.qsItem = this.qslist[i]
+                  alert("Match")
+                  break;
+                }
+              }
+              this.getRequiredItem()
+            })
+            .catch(error => {
+              alert('Get Quesionnaire Error!')
+              console.log(error)
+            })
         })
         .catch(error => {
-          alert('Get Quesionnaire Error!')
-          console.log(error)
+          alert("Login Expire!")
         })
     },
     getMsg(item) {
@@ -165,7 +178,6 @@ export default {
       else {
         msg = '(文本题)'
       }
-
       return item.isNeed ? `${msg} *` : msg
     },
     submit() {
@@ -174,6 +186,21 @@ export default {
         // 校验
         let result = this.validate()
         if (result) {
+          // 填写问卷
+          const dosurveyUrl = global_.url + '/do_survey'
+
+          axios.post(dosurveyUrl, JSON.stringify({
+            survey_id: this.qsItem.num,
+            recipient_id: this.currentId,
+            content: "nothing"
+          }))
+            .then(response => {
+              // console.log(response)
+            })
+            .catch(error => {
+              alert(error)
+            })
+
           this.showDialog = true;
           this.submitError = false;
           this.info = 'Submit Successfully!'
@@ -182,7 +209,7 @@ export default {
             this.showDialog = false
           }, 500)
           setTimeout(() => {
-            this.$route.push({path: '/QuestionnaireList'})
+            this.$router.push({path: '/QuestionnaireList'})
           }, 1500)
         }
         else {

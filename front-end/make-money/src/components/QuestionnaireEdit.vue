@@ -100,6 +100,7 @@ export default {
   },
   data () {
     return {
+      currentId: "", // 当前用户
       qsItem: {}, // 当前修改的问卷
       // 问卷列表
       /*
@@ -136,35 +137,19 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     // alert('here is beforeRouteEnter')
-      /*
-      var list = [{ 'num': 1,
-            'title': '第三份问卷',
-            'time': '2017-3-27',
-            'state': 'noissued',
-            'stateTitle': '已发布',
-            'checked': false,
-            'question': [
-              {'num': 'Q1', 'title': '单选题', 'type': 'radio', 'isNeed': true, 'options': ['选项一', '选项二']},
-              {'num': 'Q2', 'title': '多选题', 'type': 'checkbox', 'isNeed': true, 'options': ['选项一', '选项二', '选项三', '选项四']},
-              {'num': 'Q3', 'title': '文本题', 'type': 'textarea', 'isNeed': true}
-            ]
-          }]
-          */
-      const qsGetUrl = global_.url + 'survey'
-      var temp;
-      // 获取问卷列表
-      axios.get(qsGetUrl)
-        .then(response => {
-          temp = response.data.data
+    const qsGetUrl = global_.url + 'survey'
+    var temp;
+    // 获取问卷列表
+    axios.get(qsGetUrl)
+      .then(response => {
+        temp = response.data.data // 问卷list
 
-           let num = to.params.num // 要编辑的问卷序号
-            let theItem = {}
-            // 编辑问卷逻辑
-            if (num != 0) {
-              let length = temp.length // 获取总问卷列表长度
-              //alert(length)
-              // alert('num')
-              alert(num)
+        let num = to.params.num // 从URL中获取要编辑的问卷序号
+        let theItem = {}
+        // 编辑问卷逻辑
+        if (num != 0) {
+          let length = temp.length // 获取总问卷列表长度
+            alert(num)
               /*
               if (num < 0 || num > length) {
                 // 序号越界
@@ -181,23 +166,24 @@ export default {
                 }
               }
               */
-              // 获取要编辑的问卷到theItem
-                for (let i = 0; i < length; i++) {
-                    if (temp[i].id == num) {
-                      let questionnaire = {
-                        "num": temp[i].id,
-                        "title": temp[i].title,
-                        "stateTitle": temp[i].state == 0 ? '未发布' : '已发布',
-                        "time": temp[i].create_time.substr(0, 10),
-                        "state": temp[i].state == 0 ? false: true,
-                        "checked": temp[i].checked == 0 ? false: true,
-                        "question": JSON.parse(temp[i].content)
-                        }
+            // 获取要编辑的问卷到theItem
+              for (let i = 0; i < length; i++) {
+                if (temp[i].id == num) {
+                  let questionnaire = {
+                      "num": temp[i].id,
+                      "publisher_id": temp[i].publisher_id,
+                      "title": temp[i].title,
+                      "stateTitle": temp[i].state == 0 ? '未发布' : '已发布',
+                      "time": temp[i].create_time.substr(0, 10),
+                      "state": temp[i].state == 0 ? false: true,
+                      "checked": temp[i].checked == 0 ? false: true,
+                      "question": JSON.parse(temp[i].content)
+                      }
 
-                      theItem = questionnaire
-                      alert("Get!")
-                      break
-                    }
+                    theItem = questionnaire
+                    alert("Get!")
+                    break
+                  }
                 }
               console.log(theItem)
               if (theItem.state === false) {
@@ -216,9 +202,6 @@ export default {
         .catch(error => {
           console.log(error)
         })
-
-
-
   },
   created() {
     alert('here is created')
@@ -227,89 +210,110 @@ export default {
   methods: {
     fetchData() {
       // alert('in fetchData')
-      const qsGetUrl = global_.url + 'survey'
-      var temp;
-      // 获取问卷列表
-      axios.get(qsGetUrl)
+      const userGetUrl = global_.url + 'user'
+      console.log(userGetUrl)
+      axios.get(userGetUrl)
         .then(response => {
-          temp = response.data.data
-          // Handle list
-          temp.forEach(item => {
-            /*
-            console.log(item.id) // 获取问卷id
-            console.log(item.publisher_id) // 获取问卷发起者
-            console.log(item.checked) // 获取checked属性
-            console.log(item.content) // 获取questions
-            console.log(item.create_time.substr(0, 10)) // 获取问卷发布时间
-            console.log(item.state) // 获取问卷状态
-            console.log(item.title) // 获取问卷标题
-            */
-            let questionnaire = {
-              "num": item.id,
-              "title": item.title,
-              "stateTitle": item.state == 0 ? '未发布' : '已发布',
-              "time": item.create_time.substr(0, 10),
-              "state": item.state == 0 ? false: true,
-              "checked": item.checked == 0 ? false: true,
-              "question": JSON.parse(item.content)
-              }
-            this.qslist.push(questionnaire)
-          })
+          console.log(response.data.data.id)
+          this.currentId = response.data.data.id
 
-          this.limit = {
-        minYear: new Date().getFullYear(),
-        minMonth: new Date().getMonth() + 1,
-        minDay: new Date().getDate(),
-        maxYear: 2030,
-        maxMonth: 3,
-        maxDay: 20
-      }
-      // 新建问卷逻辑
-      if (this.$route.params.num == 0) {
-        // No data
-        // Initialize Questionnaire content
-        let item = {}
-        item.num = this.qslist.length + 1
-        item.title = 'Default Title'
-        item.time = ''
-        item.state = false
-        item.question = []
-        item.stateTitle = '未发布'
-        item.checked = false
-        this.qsItem = item
-        this.qslist.push(this.qsItem)
-      }
-      // 编辑问卷逻辑
-      else {
-        // There exists data
-        let i = 0
-        for (let length = this.qslist.length; i < length; i++) {
-          // alert('listNum ' + this.qslist[i].num)
-          // alert('routeNum ' + this.$route.params.num)
-          if (this.qslist[i].num == this.$route.params.num) {
-            console.log(temp[i].content)
-            let questionnaire = {
-                        "num": temp[i].id,
-                        "title": temp[i].title,
-                        "stateTitle": temp[i].state == 0 ? '未发布' : '已发布',
-                        "time": temp[i].create_time.substr(0, 10),
-                        "state": temp[i].state == 0 ? false: true,
-                        "checked": temp[i].checked == 0 ? false: true,
-                        "question": JSON.parse(temp[i].content)
-                        }
-            this.qsItem = questionnaire
-            // this.qsItem = this.qslist[i]
-            alert("Match")
-            break
-          }
-        }
-        if (i == this.qslist.length)
-          this.isError = true
-      }
-        console.log(this.qsItem)
+          // 获取问卷列表
+          const qsGetUrl = global_.url + 'survey'
+          var temp;
+
+          axios.get(qsGetUrl)
+            .then(response => {
+              temp = response.data.data
+              // Handle list
+              temp.forEach(item => {
+                /*
+                console.log(item.id) // 获取问卷id
+                console.log(item.publisher_id) // 获取问卷发起者
+                console.log(item.checked) // 获取checked属性
+                console.log(item.content) // 获取questions
+                console.log(item.create_time.substr(0, 10)) // 获取问卷发布时间
+                console.log(item.state) // 获取问卷状态
+                console.log(item.title) // 获取问卷标题
+                */
+                let questionnaire = {
+                  "num": item.id,
+                  "publisher_id": item.publisher_id,
+                  "title": item.title,
+                  "stateTitle": item.state == 0 ? '未发布' : '已发布',
+                  "time": item.create_time.substr(0, 10),
+                  "state": item.state == 0 ? false: true,
+                  "checked": item.checked == 0 ? false: true,
+                  "question": JSON.parse(item.content)
+                }
+                this.qslist.push(questionnaire)
+              })
+
+              this.limit = {
+                minYear: new Date().getFullYear(),
+                minMonth: new Date().getMonth() + 1,
+                minDay: new Date().getDate(),
+                maxYear: 2030,
+                maxMonth: 3,
+                maxDay: 20
+              }
+              // 新建问卷逻辑
+              if (this.$route.params.num == 0) {
+                // Initialize Questionnaire content
+                let item = {}
+                item.num = this.qslist.length + 1
+                item.title = 'Default Title'
+                item.time = ''
+                item.state = false
+                item.question = []
+                item.stateTitle = '未发布'
+                item.checked = false
+                this.qsItem = item
+                this.qslist.push(this.qsItem)
+              }
+              // 编辑问卷逻辑
+              else {
+                let i = 0
+                for (let length = this.qslist.length; i < length; i++) {
+                  // alert('listNum ' + this.qslist[i].num)
+                  // alert('routeNum ' + this.$route.params.num)
+                  if (this.qslist[i].num == this.$route.params.num) {
+                    console.log(temp[i].content)
+                    let questionnaire = {
+                      "num": temp[i].id,
+                      "publisher_id": temp[i].publisher_id,
+                      "title": temp[i].title,
+                      "stateTitle": temp[i].state == 0 ? '未发布' : '已发布',
+                      "time": temp[i].create_time.substr(0, 10),
+                      "state": temp[i].state == 0 ? false: true,
+                      "checked": temp[i].checked == 0 ? false: true,
+                      "question": JSON.parse(temp[i].content)
+                    }
+                    this.qsItem = questionnaire
+                    console.log("Match!")
+                    // alert("Match")
+                    break
+                  }
+                }
+
+                // console.log(this.currentId)
+                // console.log(this.qsItem.publisher_id)
+                if (this.currentId != this.qsItem.publisher_id) {
+                  alert("不是当前用户！")
+                }
+                if (i == this.qslist.length) {
+                  this.isError = true
+                }
+              }
+            console.log(this.qsItem)
+            })
+            .catch(error => {
+              alert("Cannot Find the Questionnaire!")
+              //console.log(error)
+            })
         })
         .catch(error => {
-          console.log(error)
+          alert("Login Expire!")
+          // console.log(error)
         })
     },
     // 获取问题类型
