@@ -364,8 +364,9 @@ export default {
         return alert('Questionnaire is full!')
       // shallow copy
       qs = Object.assign({}, qs)
+      qs.num = qs.num + 1
       // insert to the new position
-      this.qsItem.question.splice(index, 0, qs)
+      this.qsItem.question.splice(index + 1, 0, qs)
     },
     del(index) {
       this.qsItem.question.splice(index, 1)
@@ -446,7 +447,7 @@ export default {
       // Textarea Question
       else {
         this.qsItem.question.push({
-          'num': this.qsItem.question.length - 1,
+          'num': this.qsItem.question.length,
           'title': qsTitle,
           'type': 'textarea',
           'isNeed': true
