@@ -46,7 +46,7 @@
     text-align: center;
     font-family: SimHei;
     font-size: 20px;
-    background-color: #9CCDEB;
+    background-color: #00A9FF;
 }
 
 #query-content {
@@ -61,7 +61,7 @@
     right: 29%;
     width: 70px;
     height: 30px;
-    background-color: #CFE8F6;
+    background-color: #9CCDEB;
     text-align: center;
     line-height: 30px;
     cursor: pointer;
@@ -75,7 +75,7 @@
     right: 5%;
     width: 70px;
     height: 30px;
-    background-color: #CFE8F6;
+    background-color: #9CCDEB;
     text-align: center;
     line-height: 30px;
     cursor: pointer;

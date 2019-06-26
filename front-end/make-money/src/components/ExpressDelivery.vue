@@ -117,6 +117,7 @@
 			openMask(index) {
 				this.sendVal = true;
 				this.queryVal = false;
+				this.AcceptedVal = false;
 			},
 
 			putDataToServer(url, data) {
@@ -187,6 +188,7 @@
 			openQuery() {
 				this.sendVal = false;
 				this.queryVal = true;
+				this.AcceptedVal = false;
 			},
 
 			selectAll(selection) {
