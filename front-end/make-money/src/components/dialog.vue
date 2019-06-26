@@ -48,7 +48,7 @@
                 :paging-index="(pageIndex-1)*pageSize"
                 ></v-table>
             </div>
-            <v-pagination @page-change="pageChange" @page-size-change="pageSizeChange" :total="20" :page-size="pageSize" :layout="['total', 'prev', 'pager', 'next', 'sizer', 'jumper']" id="vpage2">
+            <v-pagination @page-change="pageChange" @page-size-change="pageSizeChange" :total="20" :page-size="pageSize" :layout="['total', 'prev', 'pager', 'next', 'sizer', 'jumper']" id="vpage2" :pageSizeOption="[5]">
             </v-pagination>
             <input type="type" v-if="type != 'confirm'" class="query-btn" @click="closeBtn" value="取消">
         </div>
