@@ -1,6 +1,5 @@
 <template>
   <div class="edit-container">
-    Edit Page
     <h2 @click="titleClick" v-if="!titleChange">{{qsItem.title}}</h2>
     <input type="text" name="qsTitle" v-if="titleChange"
     v-model="titleValue"
