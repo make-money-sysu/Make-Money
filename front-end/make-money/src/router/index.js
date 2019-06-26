@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import MainPage from '@/components/MainPage'
-import order from '@/components/order'
 import personalInfo from '@/components/personalInfo'
 import QuestionnaireList from '@/components/QuestionnaireList'
 import QuestionnaireEdit from '@/components/QuestionnaireEdit'
@@ -24,11 +23,6 @@ export default new Router({
     {
       path: '/',
       redirect: { name: 'HomePage' }
-    },
-    {
-      path: '/order',
-      name: 'order',
-      component: order
     },
     {
       path: '/personalInfo',
