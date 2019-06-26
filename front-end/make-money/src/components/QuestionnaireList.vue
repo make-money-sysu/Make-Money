@@ -1,6 +1,5 @@
 <template>
   <div class="qs-list">
-    QuestionnaireList
     <ul v-if="qslist.length == 0 ? false : true">
       <li></li>
       <li>标题</li>
@@ -17,8 +16,8 @@
         <li>{{item.time}}</li>
         <li :class="item.state === true ? 'issued' : ''">{{item.stateTitle}}</li>
         <li>
-          <button @click="iterator = edit(item); iterator.next()">编辑</button>
-          <button @click="iterator = delItem(item.num); iterator.next()">删除</button>
+          <button class="editBtn" @click="iterator = edit(item); iterator.next()">编辑</button>
+          <button class="deleteBtn" @click="iterator = delItem(item.num); iterator.next()">删除</button>
           <router-link :to="`/QuestionnaireFill/${item.num}`" tag="button">填写问卷</router-link>
           <button @click="iterator = watchData(item); iterator.next()">查看数据</button>
         </li>
