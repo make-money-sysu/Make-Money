@@ -5,7 +5,7 @@
       <li>标题</li>
       <li>截止时间</li>
       <li>状态</li>
-      <li>操作<span @click="$router.push({name: 'QuestionnaireEdit', params: {num: 0}})">+新建问卷</span></li>
+      <li>操作<span @click="$router.push({name: 'QuestionnaireEdit', params: {num: 0}})">+ 新建问卷</span></li>
     </ul>
     <template v-for="item in qslist">
       <ul>
@@ -18,7 +18,7 @@
         <li>
           <button class="editBtn" @click="iterator = edit(item); iterator.next()">编辑</button>
           <button class="deleteBtn" @click="iterator = delItem(item.num); iterator.next()">删除</button>
-          <router-link :to="`/QuestionnaireFill/${item.num}`" tag="button">填写问卷</router-link>
+          <router-link class="fillBtn" :to="`/QuestionnaireFill/${item.num}`" tag="button">填写问卷</router-link>
           <button @click="iterator = watchData(item); iterator.next()">查看数据</button>
         </li>
       </ul>
@@ -26,7 +26,7 @@
 
     <div class="list-bottom" v-if="qslist.length == 0 ? false : true">
       <label><input type="checkbox" id="all-check" v-model="selectAll">全选</label>
-      <button @click="iterator = delItems(); iterator.next()">删除</button>
+      <button class="deleteBtn" @click="iterator = delItems(); iterator.next()">删除</button>
     </div>
     <div class="add-qs" v-if="qslist.length === 0">
       <button class="add-btn" @click="$router.push({name: 'QuestionnaireEdit', params: {num: 0}})">+&nbsp;&nbsp;新建问卷</button>

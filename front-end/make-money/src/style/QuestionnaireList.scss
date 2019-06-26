@@ -46,11 +46,11 @@ $grey: #909399;
         width: 30rem;
         span {
           display: inline-block;
-          height: 2.5rem;
+          height: 3rem;
           width: 9.5rem;
           line-height: 2.5rem;
           margin-left: 15rem;
-          font-size: 1.4rem;
+          font-size: 1.6rem;
           text-align: center;
           color: white;
           border: 1px solid $blue;
@@ -79,6 +79,10 @@ $grey: #909399;
   .deleteBtn {
     border: 1px solid $red;
     background-color: $red;
+  }
+  .fillBtn {
+    border: 1px solid $lightblue;
+    background-color: $lightblue;
   }
   .issued {
     color: $green;
