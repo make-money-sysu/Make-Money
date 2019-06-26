@@ -354,7 +354,8 @@
 					},
 					error: (Request, status, msg) =>{
 						console.log('fail');
-						// window.location.href = "/HomePage";
+						alert("亲，请先登录！")
+						window.location.href = "/HomePage";
 					}
 				});
 			}
