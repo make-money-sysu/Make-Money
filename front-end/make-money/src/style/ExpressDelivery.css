@@ -3,7 +3,7 @@ body {
 
 #Delivery-Container {
 	width: 100%;
-	position: fixed;
+	position: relative;
 	top: 11.5%;
 }
 
