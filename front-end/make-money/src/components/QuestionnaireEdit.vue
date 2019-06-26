@@ -1,6 +1,5 @@
 <template>
   <div class="edit-container">
-    Edit Page
     <h2 @click="titleClick" v-if="!titleChange">{{qsItem.title}}</h2>
     <input type="text" name="qsTitle" v-if="titleChange"
     v-model="titleValue"
@@ -149,7 +148,7 @@ export default {
         // 编辑问卷逻辑
         if (num != 0) {
           let length = temp.length // 获取总问卷列表长度
-            alert(num)
+            // alert(num)
               /*
               if (num < 0 || num > length) {
                 // 序号越界
@@ -181,7 +180,7 @@ export default {
                       }
 
                     theItem = questionnaire
-                    alert("Get!")
+                    // alert("Get!")
                     break
                   }
                 }
@@ -204,7 +203,7 @@ export default {
         })
   },
   created() {
-    alert('here is created')
+    // alert('here is created')
     this.fetchData()
   },
   methods: {

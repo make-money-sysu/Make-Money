@@ -1,25 +1,24 @@
 <template>
   <div class="qs-list">
-    QuestionnaireList
     <ul v-if="qslist.length == 0 ? false : true">
       <li></li>
       <li>标题</li>
       <li>截止时间</li>
       <li>状态</li>
-      <li>操作<span @click="$router.push({name: 'QuestionnaireEdit', params: {num: 0}})">+新建问卷</span></li>
+      <li>操作<span @click="$router.push({name: 'QuestionnaireEdit', params: {num: 0}})">+ 新建问卷</span></li>
     </ul>
     <template v-for="item in qslist">
       <ul>
         <li>
-          <input type="checkbox" v-model="item.checked">
+          <input id="checkbox" type="checkbox" v-model="item.checked">
         </li>
         <li>{{item.title}}</li>
         <li>{{item.time}}</li>
         <li :class="item.state === true ? 'issued' : ''">{{item.stateTitle}}</li>
         <li>
-          <button @click="iterator = edit(item); iterator.next()">编辑</button>
-          <button @click="iterator = delItem(item.num); iterator.next()">删除</button>
-          <router-link :to="`/QuestionnaireFill/${item.num}`" tag="button">查看问卷</router-link>
+          <button class="editBtn" @click="iterator = edit(item); iterator.next()">编辑</button>
+          <button class="deleteBtn" @click="iterator = delItem(item.num); iterator.next()">删除</button>
+          <router-link class="fillBtn" :to="`/QuestionnaireFill/${item.num}`" tag="button">填写问卷</router-link>
           <button @click="iterator = watchData(item); iterator.next()">查看数据</button>
         </li>
       </ul>
@@ -27,7 +26,7 @@
 
     <div class="list-bottom" v-if="qslist.length == 0 ? false : true">
       <label><input type="checkbox" id="all-check" v-model="selectAll">全选</label>
-      <button @click="iterator = delItems(); iterator.next()">删除</button>
+      <button class="deleteBtn" @click="iterator = delItems(); iterator.next()">删除</button>
     </div>
     <div class="add-qs" v-if="qslist.length === 0">
       <button class="add-btn" @click="$router.push({name: 'QuestionnaireEdit', params: {num: 0}})">+&nbsp;&nbsp;新建问卷</button>
@@ -55,6 +54,7 @@
     name: 'qsList',
     data() {
       return {
+        currentId: "", // 当前用户
         showDialog: false,
         info: '',
         iterator: {},
@@ -79,38 +79,8 @@
       axios.defaults.withCredentials = true;
       const qsGetUrl = global_.url + 'survey'
       const loginUrl = global_.url + 'login'
-      const usrPutUrl = global_.url + 'user'
-      /*
-      axios.post(url_login, JSON.stringify({
-        id: 666,
-        password: "123456"
-      }))
-        .then(response => {
-          axios.put(url_put, JSON.stringify({
-            "id" : 666,
-            "password" : "123456",
-            "real_name" : "dick",
-            "nick_name" : "dick",
-            "age" : 22,
-            "gender" : "1",
-            "head_picture" : " blob not null1",
-            "balance" : 100000,
-            "profession" : "1",
-            "grade" : "3",
-            "phone" : "13680473185",
-            "email" : "dic0k@qq.com"
-          }))
-            .then(response => {
-              console.log(response.data)
-            })
-            .catch(error => {
-              console.log(error)
-            })
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    */
+      const userGetUrl = global_.url + 'user'
+
       // 登陆
       /*
       axios.post(url_login, JSON.stringify({
@@ -137,66 +107,47 @@
           console.log(err)
         })
         */
-
-      var temp;
-
-      // 获取问卷列表
-      axios.get(qsGetUrl)
+      // 获取当前用户信息
+      axios.get(userGetUrl)
         .then(response => {
-          temp = response.data.data
-          // console.log(response.data.data)
-          // Handle list
-          temp.forEach(item => {
-            /*
-            console.log(item.id) // 获取问卷id
-            console.log(item.publisher_id) // 获取问卷发起者
-            console.log(item.checked) // 获取checked属性
-            console.log(item.content) // 获取questions
-            console.log(item.create_time.substr(0, 10)) // 获取问卷发布时间
-            console.log(item.state) // 获取问卷状态
-            console.log(item.title) // 获取问卷标题
-            */
-            let questionnaire = {
-              "num": item.id,
-              "title": item.title,
-              "stateTitle": item.state == 0 ? '未发布' : '已发布',
-              "time": item.create_time.substr(0, 10),
-              "state": item.state == 0 ? false: true,
-              "checked": item.checked == 0 ? false: true,
-              "question": item.content
-              }
-            this.qslist.push(questionnaire)
-          })
-        })
-        .catch(error => {
-          alert('Get Quesionnaire Error!')
-          console.log(error)
-        })
+          this.currentId = response.data.data.id
 
-      /*
-      // 登陆
-      axios.post(url_login, JSON.stringify({
-        id: 666,
-        password: "123456"
-      }))
-        .then(response => {
-          console.log(response.data)
-          // 提交问卷
-          axios.post(url, JSON.stringify({
-            id: 1,
-            publisher_id: 666,
-            name: "testing post2",
-            content: "[Test POST 最新v2]"
-          }))
+          // 获取问卷列表
+          var temp;
+
+          axios.get(qsGetUrl)
             .then(response => {
-              console.log(response.data)
+              temp = response.data.data
+              // console.log(response.data.data)
+              // Handle list
+              temp.forEach(item => {
+                /*
+                console.log(item.id) // 获取问卷id
+                console.log(item.publisher_id) // 获取问卷发起者
+                console.log(item.checked) // 获取checked属性
+                console.log(item.content) // 获取questions
+                console.log(item.create_time.substr(0, 10)) // 获取问卷发布时间
+                console.log(item.state) // 获取问卷状态
+                console.log(item.title) // 获取问卷标题
+                */
+                let questionnaire = {
+                  "num": item.id,
+                  "publisher_id": item.publisher_id,
+                  "title": item.title,
+                  "stateTitle": item.state == 0 ? '未发布' : '已发布',
+                  "time": item.create_time.substr(0, 10),
+                  "state": item.state == 0 ? false: true,
+                  "checked": item.checked == 0 ? false: true,
+                  "question": item.content
+                  }
+                this.qslist.push(questionnaire)
+              })
             })
             .catch(error => {
-              console.log(err)
+              alert('Get Quesionnaire Error!')
+              console.log(error)
             })
-        })
-        */
-
+          })
       this.qslist.forEach(item => {
         let [year, month, day] = item.time.split('-')
         if (year < new Date().getFullYear()) {
@@ -224,14 +175,28 @@
       },
       *delItem(num) {
         yield this.showDialogMsg('确认要删除此问卷')
-
+        let deletePermit = true
         yield (() => {
           let index = 0;
           for (let length = this.qslist.length; index < length; index++) {
             if (this.qslist[index].num == num) {
+              // console.log(this.qslist[index].publisher_id)
+              // console.log(this.currentId)
+              if (this.qslist[index].publisher_id == this.currentId) {
+                deletePermit = true
+              }
+              else {
+                deletePermit = false
+              }
               break;
             }
           }
+          if (!deletePermit) {
+            this.showDialog = false
+            alert("删除权限不足")
+            return;
+          }
+
           // console.log(num)
           axios.defaults.withCredentials = true;
           const qsDeleteUrl = global_.url + 'survey/' + num
@@ -250,10 +215,60 @@
       },
       *delItems() {
         yield this.showDialogMsg('确认要删除选中的问卷？')
+        let deletePermit = true
 
         yield(() => {
+          // Check Items to delete
+          let index = 0
+          for (let length = this.selectGroup.length; index < length; index++) {
+            console.log(this.selectGroup[index].publisher_id)
+            if (this.selectGroup[index].publisher_id != this.currentId) {
+              deletePermit = false
+              break
+            }
+          }
+
+          if (!deletePermit) {
+            alert("删除权限不足")
+            this.showDialog = false
+            return
+          }
+
+          if (this.selectAll) {
+            // Check selectAll
+            let index1 = 0
+            for (let length = this.qslist.length; index1 < length; index1++) {
+              // console.log(this.qslist[index1].publisher_id)
+              if (this.qslist[index1].publisher_id != this.currentId) {
+                deletePermit = false
+              }
+            }
+
+            if (!deletePermit) {
+              alert("删除权限不足")
+              this.showDialog = false
+              return
+            }
+          }
+
+          // Delete in DB
           this.showDialog = false;
           if (this.selectAll) {
+            let index2 = 0
+            for (let length = this.qslist.length; index2 < length; index2++) {
+              // console.log(this.qslist[index2].publisher_id)
+              // NetWork Request
+              const qsDeleteUrl = global_.url + 'survey/' + this.qslist[index2].num
+              // console.log(qsDeleteUrl)
+              axios.delete(qsDeleteUrl)
+                .then(response => {
+                  // console.log(response)
+                })
+                .catch(error => {
+                  alert('Delete Survey Fail!')
+                  // console.log(error)
+                })
+            }
             this.qslist = [];
             return;
           }
@@ -263,6 +278,19 @@
 
           this.selectGroup.forEach(item => {
             if (this.qslist.indexOf(item) > -1) {
+              // Network Request
+              axios.defaults.withCredentials = true;
+              const qsDeleteUrl = global_.url + 'survey/' + item.num
+              console.log(qsDeleteUrl)
+              axios.delete(qsDeleteUrl)
+                .then(response => {
+                  // console.log(response)
+                })
+                .catch(error => {
+                  alert('Delete Survey Fail!')
+                  console.log(error)
+                })
+
               this.qslist.splice(this.qslist.indexOf(item), 1);
             }
           })

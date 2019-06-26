@@ -34,11 +34,11 @@ html, body {
 
 .link1 .tooltiptext {
 	visibility: hidden;
-    background-color: #87CEFA;
-    color: black;
+    background-color: black;
+    color: white;
     text-align: center;
-    border-radius: 6px;
- 
+    border-radius: 2px;
+
     /* 定位 */
     position: absolute;
     right: 3.7%;
@@ -46,7 +46,7 @@ html, body {
     width: 50px;
     height: 35px;
     line-height: 37px;
-    font-size: 7px;
+    font-size: 1.2rem;
     font-weight: bold;
 }
 
@@ -64,19 +64,19 @@ html, body {
 
 .link2 .tooltiptext2 {
 	visibility: hidden;
-    background-color: #87CEFA;
-    color: black;
+    background-color: black;
+    color: white;
     text-align: center;
-    border-radius: 6px;
- 
+    border-radius: 2px;
+
     /* 定位 */
     position: absolute;
     right: 7.7%;
     top: 60px;
-    width: 50px;
+    width: 80px;
     height: 35px;
     line-height: 37px;
-    font-size: 7px;
+    font-size: 1.2rem;
     font-weight: bold;
     z-index: 1;
 }
@@ -95,11 +95,11 @@ html, body {
 
 .link3 .tooltiptext3 {
 	visibility: hidden;
-    background-color: #87CEFA;
-    color: black;
+    background-color: black;
+    color: white;
     text-align: center;
-    border-radius: 6px;
- 
+    border-radius: 2px;
+
     /* 定位 */
     position: absolute;
     right: 11.7%;
@@ -107,7 +107,7 @@ html, body {
     width: 50px;
     height: 35px;
     line-height: 37px;
-    font-size: 7px;
+    font-size: 1.2rem;
     font-weight: bold;
     z-index: 1;
 }
@@ -126,11 +126,11 @@ html, body {
 
 .link4 .tooltiptext4 {
 	visibility: hidden;
-    background-color: #87CEFA;
-    color: black;
+    background-color: black;
+    color: white;
     text-align: center;
-    border-radius: 6px;
- 
+    border-radius: 2px;
+
     /* 定位 */
     position: absolute;
     right: 15.7%;
@@ -138,7 +138,7 @@ html, body {
     width: 50px;
     height: 35px;
     line-height: 37px;
-    font-size: 7px;
+    font-size: 1.2rem;
     font-weight: bold;
     z-index: 1;
 }
@@ -158,7 +158,7 @@ html, body {
 #school {
 	position: absolute;
   	widows: 65px;
-  	height: 65px;	
+  	height: 65px;
   	top: 5%;
   	left: 1%;
 }
