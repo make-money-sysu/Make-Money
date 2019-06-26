@@ -148,6 +148,10 @@
               console.log(error)
             })
           })
+        .catch(error => {
+          alert("Login Expire!")
+          this.$router.push({path: '/Login'})
+        })
       this.qslist.forEach(item => {
         let [year, month, day] = item.time.split('-')
         if (year < new Date().getFullYear()) {
