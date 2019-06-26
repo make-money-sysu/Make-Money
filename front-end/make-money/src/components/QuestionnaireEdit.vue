@@ -474,8 +474,8 @@ export default {
         const qsPostUrl = global_.url + 'survey'
         // console.log(qsItem)
         axios.post(qsPostUrl, JSON.stringify({
-          title: qsItem.title,
-          content: JSON.stringify(qsItem.question)
+          title: this.qsItem.title,
+          content: JSON.stringify(this.qsItem.question)
         }))
           .then(response => {
             // console.log(response.data)
@@ -493,7 +493,7 @@ export default {
       this.qsItem.stateTitle = '发布中'
       // Save in the database
       this.showDialog = false
-      this.$route.push({path: '/QuestionnaireList'})
+      this.$router.push({path: '/QuestionnaireList'})
     },
     *issueQs() {
       this.showDialog = true
