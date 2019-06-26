@@ -216,7 +216,9 @@
 </body>
 <script type="text/javascript">
     function logout(){
-        url_delete = "http://139.199.166.124:8080/user";
+        url_delete = "http://139.199.166.124:8080/login";
+        axios.defaults.withCredentials=true;
+
         axios.delete(url_delete)
         .then(response => {
             javascript:window.parent.location.href = '/HomePage';
