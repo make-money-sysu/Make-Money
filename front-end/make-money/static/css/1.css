@@ -153,3 +153,8 @@ caption{
     margin-left: 5px;
     margin-right: 5px;
 }
+
+#my_carousel {
+    margin-top: 5%;
+    position: relative;
+}

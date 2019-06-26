@@ -14,34 +14,9 @@
     <link rel="stylesheet" href="../css/user.css">
 </head>
 <body onload="bind_button()">
-<nav class="navbar navbar-default" role="navigation">
-    <div class="container-fluid container">
-        <div id="nav" class="navbar-header" style="height: 70px;">
-<!--            <a href="#"><img src="image/logo.png"  style="padding: 10px;"/></a>-->
-            <img src="../image/act1.jpg" style="height: 100%" >
-        </div>
-        <div>
-            <ul class="nav navbar-nav ">
 
-                <li class="active" id="crftag"><a href="#">首页</a></li>
-				<li id="crftag"><a href="#">服务支持</a></li>
-				<li id="crftag"><a href="#">反馈</a></li>
-				<li id="crftag"><a href="#">加盟合作</a></li>
-				<li id="crftag"><a href="#">招聘</a></li>
-				<li id="crftag"><a href="#">关于我们</a></li>
-            </ul>
-        </div>
-		<div>
-            <ul class="nav navbar-nav navbar-right">
-
-                <li id="crftag"><a onclick="javascript:window.parent.location.href = '/Login';">快速登录/注册</a></li>
-				<li id="crftag"><a onclick="javascript:window.parent.location.href = '/personalInfo';">个人中心</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
 <div class="container">
-    <div class="left col-md-9 ads">
+    <div class="left col-md-9" id="my_carousel">
         <div id="myCarousel" class="carousel slide ">
             <!-- 轮播（Carousel）指标 -->
             <ol class="carousel-indicators">
@@ -57,7 +32,7 @@
                 <div class="item">
                     <img src="../image/test2.jpg" alt="Second slide">
                 </div>
-				<div class="item">
+                <div class="item">
                     <img src="../image/test3.jpg" alt="Second slide">
                 </div>
             </div>
@@ -70,36 +45,36 @@
             </a>
         </div>
 
-		<hr class="featurette-divider">
+        <hr class="featurette-divider">
 
-		<div class="row">
-        <div class="col-lg-4 content">
-          <img class="img-circle" src="../image/mail_send.png" width="140" height="140">
-			<p><a class="btn btn-default content-button" href="#" role="button" id="question"> 问卷调查 &raquo;</a></p>
-		  <hr class="featurette-divider">
-          <p>无论你是想做问卷挣闲钱，还是想发布问卷拿数据，点这里就对了！在这里你可以得到全新的问卷系统体验</p>
-			<hr class="featurette-divider">
+        <div class="row">
+            <div class="col-lg-4 content">
+            <img class="img-circle" src="../image/mail_send.png" width="140" height="140">
+                <p><a class="btn btn-default content-button" href="#" role="button" id="question"> 问卷调查 &raquo;</a></p>
+            <hr class="featurette-divider">
+            <p>无论你是想做问卷挣闲钱，还是想发布问卷拿数据，点这里就对了！在这里你可以得到全新的问卷系统体验</p>
+                <hr class="featurette-divider">
 
-        </div><!-- /.col-lg-4 -->
-        <div class="col-lg-4 content">
-          <img class="img-circle" src="../image/mail_receive.png" alt="Generic placeholder image" width="140" height="140" >
-			<p><a class="btn btn-default content-button"  href="#" role="button" id="express"> 快递帮取 &raquo;</a></p>
-			<hr class="featurette-divider">
-          <p>拿快递太累，为什么不叫热心的同学帮取呢？在这里你可以快速发布快递信息，坐在宿舍快递到手。你还可以针对性选定快递帮取目标，走一趟挣闲钱。</p>
-          <hr class="featurette-divider">
+            </div><!-- /.col-lg-4 -->
 
-        </div><!-- /.col-lg-4 -->
-        <div class="col-lg-4 content">
-          <img class="img-circle" src="../image/find.png" alt="Generic placeholder image" width="140" height="140">
-          <p><a class="btn btn-default content-button" onclick='#search' data-toggle='modal' data-target='#search' role="button"> 订单查询 &raquo;</a></p>
-			<hr class="featurette-divider">
-          <p>查询你的订单情况</p>
-			<hr class="featurette-divider">
-        </div><!-- /.col-lg-4 -->
-      </div>
+            <div class="col-lg-4 content">
+            <img class="img-circle" src="../image/mail_receive.png" alt="Generic placeholder image" width="140" height="140" >
+                <p><a class="btn btn-default content-button"  href="#" role="button" id="express"> 快递帮取 &raquo;</a></p>
+                <hr class="featurette-divider">
+            <p>拿快递太累，为什么不叫热心的同学帮取呢？在这里你可以快速发布快递信息，坐在宿舍快递到手。你还可以针对性选定快递帮取目标，走一趟挣闲钱。</p>
+            <hr class="featurette-divider">
 
-	<hr class="featurette-divider">
+            </div><!-- /.col-lg-4 -->
 
+            <div class="col-lg-4 content">
+            <img class="img-circle" src="../image/find.png" alt="Generic placeholder image" width="140" height="140">
+            <p><a class="btn btn-default content-button" onclick='#search' data-toggle='modal' data-target='#search' role="button"> 订单查询 &raquo;</a></p>
+                <hr class="featurette-divider">
+            <p>查询你的订单情况</p>
+                <hr class="featurette-divider">
+            </div><!-- /.col-lg-4 -->
+        </div>
+        <hr class="featurette-divider">
     </div>
     <div id="well_sold" class="col-md-3">
         <table class="table table-hover">
@@ -162,6 +137,7 @@
             </tbody>
         </table>
     </div>
+    
 	<h1 style="color: #0084ff" align="center"><strong>优惠活动</strong></h2>
 	<h4 style="color: #0084ff" align="center">第一时间分享，最新促销活动</h4>
 	<hr class="featurette-divider">
