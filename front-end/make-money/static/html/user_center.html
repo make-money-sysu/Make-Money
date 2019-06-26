@@ -20,7 +20,7 @@
 	<div class="container container_user_center col-md-10 col-md-offset-1">
         <div class="back">
             <a onclick="javascript:window.parent.location.href = '/HomePage';">回到首页</a>
-            <a onclick="javascript:window.parent.location.href = '/HomePage';">注销</a>
+            <a onclick="logout()">注销</a>
         </div>
 		<div class="user_info col-md-6 col-md-offset-3">
 			<img class='user_icon' title='点击更换头像' style='border-radius: 50%;width: 150px;height: 150px; margin-bottom: 30px;' src=../image/2089312254@chatroom_1486356859619_63.jpg onclick='#save' data-toggle='modal' data-target='#save'/>
@@ -215,6 +215,17 @@
 
 </body>
 <script type="text/javascript">
+    function logout(){
+        url_delete = "http://139.199.166.124:8080/user";
+        axios.delete(url_delete)
+        .then(response => {
+            javascript:window.parent.location.href = '/HomePage';
+            console.log(response.data)
+        })
+        .catch(error => {
+            console.log(error)
+        })
+    }
     function getUserInfo(){
         $("#question").bind("click",function(){
 		    window.parent.location.href = "/QuestionnaireList";
