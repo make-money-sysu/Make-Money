@@ -134,13 +134,39 @@
                   "num": item.id,
                   "publisher_id": item.publisher_id,
                   "title": item.title,
-                  "stateTitle": item.state == 0 ? '未发布' : '已发布',
+                  "stateTitle": item.state == false ? '未发布' : '已发布',
+                  // "stateTitle": '已发布',
                   "time": item.create_time.substr(0, 10),
                   "state": item.state == 0 ? false: true,
+                  // state: true,
                   "checked": item.checked == 0 ? false: true,
                   "question": item.content
                   }
                 this.qslist.push(questionnaire)
+              })
+
+
+              this.qslist.forEach(item => {
+                let [year, month, day] = item.time.split('-')
+                console.log(year)
+                console.log(month)
+                console.log(day)
+                if (year < new Date().getFullYear()) {
+                  item.state = true
+                  item.stateTitle = '已发布'
+                }
+                else if (year == new Date().getFullYear() && month < new Date().getMonth() + 1) {
+                  item.state = true
+                  item.stateTitle = '已发布'
+                }
+                else if (year == new Date().getFullYear() && month == new Date().getMonth() + 1 && day < new Date().getDate()) {
+                  item.state = true
+                  item.stateTitle = '已发布'
+                }
+                else {
+                  item.state = false
+                  item.stateTitle = '已过期'
+                }
               })
             })
             .catch(error => {
@@ -152,25 +178,7 @@
           alert("Login Expire!")
           this.$router.push({path: '/Login'})
         })
-      this.qslist.forEach(item => {
-        let [year, month, day] = item.time.split('-')
-        if (year < new Date().getFullYear()) {
-          item.state = true
-          item.stateTitle = '已发布'
-        }
-        else if (year == new Date().getFullYear() && month < new Date().getMonth() + 1) {
-          item.state = true
-          item.stateTitle = '已发布'
-        }
-        else if (year == new Date().getFullYear() && month == new Date().getMonth() + 1 && day < new Date().getDate()) {
-          item.state = true
-          item.stateTitle = '已发布'
-        }
-        else {
-          item.state = false
-          item.stateTitle = '未发布'
-        }
-      })
+
     },
     methods: {
       showDialogMsg(info) {

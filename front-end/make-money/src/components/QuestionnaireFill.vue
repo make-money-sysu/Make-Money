@@ -96,7 +96,7 @@ export default {
   },
   // 页面生成时自动抓取数据
   created() {
-    alert("created")
+    // alert("created")
     this.fetchData()
   },
   mounted() {
@@ -138,8 +138,8 @@ export default {
                   "title": item.title,
                   "stateTitle": item.state == 0 ? '未发布' : '已发布',
                   "time": item.create_time.substr(0, 10),
-                  // "state": item.state == 0 ? false: true, //"state": true
-                  "state": true,
+                  "state": item.state == 0 ? false: true, //"state": true
+                  // "state": true,
                   "checked": item.checked == 0 ? false: true,
                   "question": JSON.parse(item.content)
                   }
@@ -149,22 +149,28 @@ export default {
               // 找到要查看的问卷
               let i = 0;
               for (let length = this.qslist.length; i < length; i++) {
-                alert(this.qslist[i].num)
+                // alert(this.qslist[i].num)
                 if (this.qslist[i].num == this.$route.params.num) {
                   this.qsItem = this.qslist[i]
-                  alert("Match")
+                  // alert("Match")
                   break;
                 }
+              }
+              if (this.qsItem.state == false) {
+                alert("当前问卷未发布，不能填写！")
+                this.$router.push({path: '/QuestionnaireList'})
               }
               this.getRequiredItem()
             })
             .catch(error => {
               alert('Get Quesionnaire Error!')
               console.log(error)
+              this.$router.push({path: '/QuestionnaireList'})
             })
         })
         .catch(error => {
           alert("Login Expire!")
+          this.$router.push({path: '/QuestionnaireList'})
         })
     },
     getMsg(item) {
@@ -181,7 +187,7 @@ export default {
       return item.isNeed ? `${msg} *` : msg
     },
     submit() {
-      alert(this.qsItem.state)
+      // alert(this.qsItem.state)
       if (this.qsItem.state === true) {
         // 校验
         let result = this.validate()
@@ -198,7 +204,8 @@ export default {
               // console.log(response)
             })
             .catch(error => {
-              alert(error)
+              alert("Submit Error!")
+              this.$router.push({path: '/QuestionnaireList'})
             })
 
           this.showDialog = true;
@@ -225,6 +232,7 @@ export default {
       }
     },
     getRequiredItem() {
+      console.log("in getRequiredItem")
       console.log(this.qsItem)
       this.qsItem.question.forEach(item => {
         if (item.isNeed) {

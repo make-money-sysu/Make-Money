@@ -185,14 +185,17 @@ export default {
                   }
                 }
               console.log(theItem)
-              if (theItem.state === false) {
+              if (theItem.state != false) {
                 // 只能编辑未发布的问卷
+                alert('只能编辑未发布的问卷')
+                next('/QuestionnaireList')
+              }
+
+              else {
+                //alert('非法路由！')
                 next()
               }
-              else {
-                alert('非法路由！')
-                next('/')
-              }
+
             }
             else {
               next()
@@ -298,6 +301,7 @@ export default {
                 // console.log(this.qsItem.publisher_id)
                 if (this.currentId != this.qsItem.publisher_id) {
                   alert("不是当前用户！")
+                  this.$router.push({path: '/QuestionnaireList'})
                 }
                 if (i == this.qslist.length) {
                   this.isError = true
@@ -470,30 +474,53 @@ export default {
         alert('The Questionnaire is empty!')
       }
       else {
-        // Save in the database
-        const qsPostUrl = global_.url + 'survey'
-        // console.log(qsItem)
-        axios.post(qsPostUrl, JSON.stringify({
-          title: this.qsItem.title,
-          content: JSON.stringify(this.qsItem.question)
-        }))
-          .then(response => {
-            // console.log(response.data)
-          })
-          .catch(error => {
-            alert('Post QS Fail!')
-            console.log(error)
-          })
-        this.info = 'Issue it Now?'
-        this.isGoIndex = true
+        if (this.$route.params.num == 0) {
+          // Save in the database
+          console.log('use post in save')
+          const qsPostUrl = global_.url + 'survey'
+          // console.log(qsItem)
+          axios.post(qsPostUrl, JSON.stringify({
+            title: this.qsItem.title,
+            state: 0,
+            content: JSON.stringify(this.qsItem.question)
+          }))
+            .then(response => {
+              // console.log(response.data)
+            })
+            .catch(error => {
+              alert('Post QS Fail!')
+              console.log(error)
+            })
+        }
+        else {
+          console.log('use put in save')
+          console.log(this.qsItem.title)
+          const qsPutUrl = global_.url + 'survey/' + this.qsItem.num
+          axios.put(qsPutUrl, JSON.stringify({
+            title: this.qsItem.title,
+            state: 0,
+            content: JSON.stringify(this.qsItem.question)
+          }))
+            .then(response => {
+              // console.log(response.data)
+            })
+            .catch(error => {
+              alert('Put QS Fail!')
+              console.log(error)
+            })
+        }
+        // this.info = 'Issue it Now?'
+        // this.isGoIndex = true
+        this.showDialog = false
+        this.$router.push({path: '/QuestionnaireList'})
       }
 
-      yield
-      this.qsItem.state = 'inissue'
-      this.qsItem.stateTitle = '发布中'
+      // yield
+      //this.qsItem.state = 'inissue'
+      //this.qsItem.stateTitle = '发布中'
       // Save in the database
-      this.showDialog = false
-      this.$router.push({path: '/QuestionnaireList'})
+      //this.showDialog = false
+
     },
     *issueQs() {
       this.showDialog = true
@@ -509,11 +536,12 @@ export default {
         // save in DB
         // 新建问卷，使用post
         if (this.$route.params.num == 0) {
-          console.log('use post')
+          console.log('use post in issue')
           const qsPostUrl = global_.url + 'survey'
           // console.log(this.qsItem)
           axios.post(qsPostUrl, JSON.stringify({
             title: this.qsItem.title,
+            state: 1,
             content: JSON.stringify(this.qsItem.question)
           }))
             .then(response => {
@@ -526,11 +554,12 @@ export default {
         }
         // 旧问卷编辑，使用PUT
         else {
-          console.log('use put')
+          console.log('use put in issue')
           console.log(this.qsItem.title)
           const qsPutUrl = global_.url + 'survey/' + this.qsItem.num
           axios.put(qsPutUrl, JSON.stringify({
             title: this.qsItem.title,
+            state: 1,
             content: JSON.stringify(this.qsItem.question)
           }))
             .then(response => {
