@@ -18,7 +18,7 @@ Vue.component(VTable.name, VTable)
 Vue.component(VPagination.name, VPagination)
 
 export default new Router({
-  mode: 'history',
+  mode: 'hash',
   routes: [
     {
       path: '/',

@@ -1,6 +1,6 @@
 <template>
 	<div id = "test">
-		<iframe src="../../static/html/user_center.html" id = "frame1"/>
+		<iframe src="./static/html/user_center.html" id = "frame1"/>
 	</div>
 </template>
 
