@@ -23,3 +23,5 @@ We, **[M$ Club](https://github.com/make-money-sysu)**, are aiming to construct a
 
 
 **Make-Money System** is the integration of many complex systems, including student management system, task management system, transaction management system, account management system, etc. The difficulty of our system lies in operation, that is, the discovery and delivery of tasks (business).
+
+
