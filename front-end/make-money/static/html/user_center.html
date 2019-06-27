@@ -221,7 +221,7 @@
 
         axios.delete(url_delete)
         .then(response => {
-            javascript:window.parent.location.href = '/HomePage';
+            window.parent.location.href = "../../index.html#/HomePage";
             console.log(response.data)
         })
         .catch(error => {
@@ -230,11 +230,11 @@
     }
     function getUserInfo(){
         $("#question").bind("click",function(){
-		    window.parent.location.href = "/QuestionnaireList";
+            window.parent.location.href = "../../index.html#/QuestionnaireList";
         });
         
         $("#express").on("click",function(){
-            window.parent.location.href = "/ExpressDelivery";
+            window.parent.location.href = "../../index.html#/ExpressDelivery";
         });
 
         var userName = document.getElementById("name");
