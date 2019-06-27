@@ -144,13 +144,13 @@ export default {
 
             if (commentValue == '') {
                 alert("请输入包裹信息！");
-                window.location.href = "/ExpressDelivery";
+                window.location.href = "./index.html#/ExpressDelivery";
                 return false;
             }
 
             if (parseFloat(moneyValue) <= 0.0) {
                 alert("输入的金额必须为正!");
-                window.location.href = "/ExpressDelivery";
+                window.location.href = "./index.html#/ExpressDelivery";
                 return false;
             }
 
@@ -200,13 +200,13 @@ export default {
               }))
               .then(response => {
                 console.log(response.data)
-                window.location.href = "/ExpressDelivery";
+                window.location.href = "./index.html#/ExpressDelivery";
               }).catch(function(error) {
                 console.log(error);
               });
               console.log("Submit data");
 
-            window.location.href = "/ExpressDelivery";
+            window.location.href = "./index.html#/ExpressDelivery";
             this.closeMask();
         },
         confirmBtn(){

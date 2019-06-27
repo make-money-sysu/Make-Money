@@ -178,7 +178,7 @@
 							}
 						}
 						// console.log(res.data);
-						window.location.href = "/ExpressDelivery";
+						window.location.href = "./index.html#/ExpressDelivery";
 					}).catch((err) => {
 						console.log(err);
 					});
@@ -278,7 +278,7 @@
 							}
 						}
 						// console.log(res.data);
-						window.location.href = "/ExpressDelivery";
+						window.location.href = "./index.html#/ExpressDelivery";
 						// this.get_session();
 					}).catch((err) => {
 						console.log(err);
