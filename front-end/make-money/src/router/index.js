@@ -22,7 +22,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: { name: 'HomePage' }
+      name: 'HomePage',
+      component: HomePage
     },
     {
       path: '/personalInfo',
@@ -71,7 +72,8 @@ export default new Router({
     },
     {
       path: '*',
-      redirect: { name: 'HomePage' }
+      name: 'HomePage',
+      component: HomePage
     }
   ]
 })

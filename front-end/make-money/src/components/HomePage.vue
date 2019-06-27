@@ -2,7 +2,7 @@
 <template>
 	<div id = "test">
 		<div id="block"></div>
-		<iframe src="../../static/html/main.html" id = "frame1"/>
+		<iframe src="./static/html/main.html" id = "frame1"/>
 	</div>
 </template>
 
