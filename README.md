@@ -10,7 +10,7 @@
 
 
 <p align="center">
-<img src="https://ws1.sinaimg.cn/large/006tKfTcly1g1p7ya6ib9j31hm0u0who.jpg" alt="ScoreChain" title="ScoreChain" length = "1400" width="500"/><br/>
+<img src="https://i.loli.net/2019/06/27/5d14dd80d4baa78383.png" alt="ScoreChain" title="ScoreChain" length = "1400" width="500"/><br/>
 </p>
 <p align="center">
 <a href="https://make-money-sysu.github.io/"><img src="https://img.shields.io/badge/club-M%24%20-red.svg"></a>
