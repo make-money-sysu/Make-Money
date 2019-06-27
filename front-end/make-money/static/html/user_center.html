@@ -216,7 +216,7 @@
 </body>
 <script type="text/javascript">
     function logout(){
-        url_delete = "http://139.199.166.124:8080/login";
+        url_delete = "http://www.ltstriker.xyz:8080/api/login/";
         axios.defaults.withCredentials=true;
 
         axios.delete(url_delete)
@@ -250,7 +250,7 @@
             type: "get",
             dataType: 'json',
             // url: "http://182.254.206.244:8080/user",
-            url: "http://139.199.166.124:8080/user/", //lt
+            url: "http://www.ltstriker.xyz:8080/api/user/", //lt
             xhrFields: {
                 withCredentials: true    // 要在这里设置上传cookie
             },
@@ -300,7 +300,7 @@
             return;
         }
         // 更新用户信息
-        url_put = "http://139.199.166.124:8080/user";
+        url_put = "http://www.ltstriker.xyz:8080/api/user/";
         // console.log(grade)
         axios.put(url_put, JSON.stringify({
             "id" : parseInt(student_num),
