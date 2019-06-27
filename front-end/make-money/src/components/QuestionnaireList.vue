@@ -176,7 +176,7 @@
           })
         .catch(error => {
           alert("Login Expire!")
-          this.$router.push({path: '/Login'})
+          this.$router.push({path: './Login'})
         })
 
     },
