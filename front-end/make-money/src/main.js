@@ -6,8 +6,10 @@ import router from './router'
 import $ from 'jquery'
 import './assets/bootstrap-3.3.7-dist/css/bootstrap.min.css'
 import './assets/bootstrap-3.3.7-dist/js/bootstrap.min.js'
+import global_ from './components/Global'
 
 Vue.config.productionTip = false
+Vue.prototype.GLOBAL = global_
 
 /* eslint-disable no-new */
 new Vue({

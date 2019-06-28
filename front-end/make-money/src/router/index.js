@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import MainPage from '@/components/MainPage'
-import order from '@/components/order'
 import personalInfo from '@/components/personalInfo'
 import QuestionnaireList from '@/components/QuestionnaireList'
 import QuestionnaireEdit from '@/components/QuestionnaireEdit'
@@ -19,17 +18,12 @@ Vue.component(VTable.name, VTable)
 Vue.component(VPagination.name, VPagination)
 
 export default new Router({
-  mode: 'history',
+  mode: 'hash',
   routes: [
     {
       path: '/',
-      name: 'MainPage',
-      component: MainPage
-    },
-    {
-      path: '/order',
-      name: 'order',
-      component: order
+      name: 'HomePage',
+      component: HomePage
     },
     {
       path: '/personalInfo',
@@ -75,6 +69,11 @@ export default new Router({
       path: '/ExpressDelivery',
       name: 'ExpressDelivery',
       component: ExpressDelivery
+    },
+    {
+      path: '*',
+      name: 'HomePage',
+      component: HomePage
     }
   ]
 })

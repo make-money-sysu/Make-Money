@@ -1,30 +1,29 @@
-# my-project
+# 中山大学挣闲钱平台前端开发仓库
 
-> A Vue.js project
+系统前端使用vuejs框架搭建。
 
-## Build Setup
+## 运行说明
 
-``` bash
-# install dependencies
-npm install
+打开命令行，输入下列命令，clone文件到本地：
 
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
+```bash
+git clone https://github.com/make-money-sysu/Make-Money.git
 ```
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+进入到本目录下，安装依赖包：
+
+```bash
+npm install
+```
+
+运行本地测试：
+
+```bash
+npm run dev
+```
+
+然后在浏览器中访问http://localhost:8080/即可看到页面。
+
+
+
+如果有任务问题，请与开发人员联系，谢谢！

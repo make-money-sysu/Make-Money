@@ -51,41 +51,44 @@
         console.log(password);
         userName = parseInt(userName);
 
-        let url_login = 'http://139.199.166.124:8080/login';
+        let url_login = 'http://www.ltstriker.xyz:8080/api/login/';
         axios.defaults.withCredentials=true;
-        // axios.defaults.headers.post['Content-Type']='text/plain';
+        axios.defaults.timeout = 6000;
+        // content-type 改成 application/json
+        axios.defaults.headers.post['Content-Type']='application/json';
         axios.post(url_login, JSON.stringify({
           "id": userName,
           "password": password
         }))
         .then(function(res){
             console.log(res);//处理成功的函数 相当于success
-            window.parent.location.href = "/HomePage";
+            window.parent.location.href = "../../index.html#/HomePage";
             })
         .catch(function(error){
             console.log('fail');
             console.log(error);//错误处理 相当于error
         })
+        return false;
 
 
     	// $.ajax({
-        //     type: "post",
-        //     dataType: 'json',
+     //        type: "post",
+     //        dataType: 'json',
     	// 	// url: "http://182.254.206.244:8080/login",
-        //     url: "http://139.199.166.124:8080/login", //lt
-        //     xhrFields: {
-        //         withCredentials: true    // 要在这里设置上传cookie
-        //     },
-        //     crossDomain: true,
+     //        url: "http://139.199.166.124:8080/login", //lt
+     //        xhrFields: {
+     //            withCredentials: true    // 要在这里设置上传cookie
+     //        },
+     //        crossDomain: true,
     	// 	data: JSON.stringify({
-        //             "id": userName,
-        //             "password": password
-        //         }),
+     //                "id": userName,
+     //                "password": password
+     //            }),
     	// 	success: function(data){
     	// 		console.log('success');
-        //         console.log(document.cookie.length);
-        //         // window.parent.location.href = "/HomePage";
-        //         // window.open("/HomePage");
+     //            console.log(document.cookie.length);
+     //            window.parent.location.href = "/HomePage";
+     //            // window.open("/HomePage");
     	// 	},
     	// 	error: function(Request, status, msg){
     	// 		console.log(Request);

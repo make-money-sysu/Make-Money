@@ -64,7 +64,7 @@
                 type: "post",
                 dataType: 'json',
                 // url: "http://182.254.206.244:8080/user",
-                url: "http://139.199.166.124:8080/user/", //lt
+                url: "http://www.ltstriker.xyz:8080/api/user/", //lt
                 crossDomain: true,
                 data: JSON.stringify({
                     "id" : parseInt(student_num),
@@ -83,6 +83,7 @@
                 success: function(data){
                     console.log('success');
                     console.log(data);
+                    window.parent.location.href = "../../index.html#/Login";
                     
                     // window.open("/HomePage");
                 },

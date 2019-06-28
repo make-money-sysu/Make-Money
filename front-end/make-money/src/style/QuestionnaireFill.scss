@@ -17,6 +17,9 @@ $green: #9FEF96;
     color: #555;
   }
   .back {
+    position: relative;
+    left: -20px;
+    top: 20px;
     font-size: 1.6rem;
     cursor: pointer;
     &:hover {

@@ -1,12 +1,15 @@
 $blue: #00A9FF;
 $lightblue: #5DBAF7;
 $green: #9FEF96;
+$red: #F56C6C;
+$verdent: #67C23A;
+$grey: #909399;
 
 .qs-list {
   width: 104rem;
   margin: 50px auto;
   color: #666;
-  font-size: 1.6rem;
+  font-size: 2.0rem;
   ul {
     height: 6rem;
     margin-left: 2rem;
@@ -16,7 +19,7 @@ $green: #9FEF96;
     border-bottom: 1px solid #eee;
     background-color: #fff;
     &:hover {
-      background-color: $lightblue
+
     }
     &:nth-of-type(1) {
       background-color: #EFEFEF;
@@ -43,13 +46,13 @@ $green: #9FEF96;
         width: 30rem;
         span {
           display: inline-block;
-          height: 2.5rem;
+          height: 3rem;
           width: 9.5rem;
           line-height: 2.5rem;
           margin-left: 15rem;
-          font-size: 1.4rem;
+          font-size: 1.6rem;
           text-align: center;
-          color: #fff;
+          color: white;
           border: 1px solid $blue;
           border-radius: 0.3rem;
           background-color: $blue;
@@ -61,24 +64,48 @@ $green: #9FEF96;
       }
     }
   }
+  #checkbox {
+    width: 20px;
+    height: 20px;
+    margin: 0px;
+    top: 5px;
+    left: 5px;
+    position: relative;
+  }
+  .editBtn {
+    border: 1px solid $verdent;
+    background-color: $verdent;
+  }
+  .deleteBtn {
+    border: 1px solid $red;
+    background-color: $red;
+  }
+  .fillBtn {
+    border: 1px solid $lightblue;
+    background-color: $lightblue;
+  }
   .issued {
     color: $green;
   }
   button {
     width: 7rem;
-    height: 2.5rem;
+    height: 3rem;
     padding-top: 0.3rem;
     padding-bottom: 0.3rem;
     line-height: 100%;
-    color: #777;
-    border: 1px solid #555;
+    color: white;
+    border: 1px solid $grey;
     border-radius: 0.2rem;
     background-color: #fff;
     cursor: pointer;
+    font-size: 1.6rem;
+    background-color: $grey;
     &:hover {
       box-shadow: 0 0 5px #bbb;
+      opacity: 0.7;
     }
   }
+
   .list-bottom {
     box-sizing: border-box;
     height: 8rem;
@@ -89,7 +116,13 @@ $green: #9FEF96;
       margin-left: 1.8rem;
       margin-right: 4rem;
       input {
-        margin-right: 2.2rem;
+        height: 20px;
+        width: 20px;
+        margin: 0px;
+        top: 5px;
+        position: relative;
+        left: 5px;
+        margin-right: 2rem;
       }
     }
   }

@@ -12,6 +12,9 @@ export default {
   name: 'App',
   components: {
     vHeader
+  },
+  created() {
+    console.log("Start Main")
   }
 }
 </script>

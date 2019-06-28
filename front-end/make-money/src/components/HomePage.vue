@@ -1,7 +1,8 @@
 
 <template>
 	<div id = "test">
-		<iframe width="1710px" height="717px" src="../../static/html/main.html" id = "frame1"/>
+		<div id="block"></div>
+		<iframe src="./static/html/main.html" id = "frame1"/>
 	</div>
 </template>
 
@@ -18,4 +19,10 @@ export default {
 </script>
 
 <style>
+#frame1 {
+	position: absolute;
+	top: 10%;
+	height: 90%;
+	width: 100%;
+}
 </style>

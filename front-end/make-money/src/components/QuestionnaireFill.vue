@@ -62,11 +62,14 @@
 </template>
 
 <script>
-  import axios from 'axios';
+import axios from 'axios';
+import global_ from './Global'
+
 export default {
   name: 'QuestionnaireFill',
   data() {
     return {
+      currentId: "",
       qsItem: {}, // 当前修改的问卷
       // 问卷列表
       /*
@@ -93,63 +96,82 @@ export default {
   },
   // 页面生成时自动抓取数据
   created() {
+    // alert("created")
     this.fetchData()
   },
   mounted() {
-    this.getRequiredItem()
   },
   methods: {
     fetchData() {
       // alert('fetchData')
       // 获取数据库内容
-      // 获取问卷列表
       axios.defaults.withCredentials = true;
-      const url = 'http://139.199.166.124:8080/survey'
-      var temp;
-      axios.get(url)
+
+      // 获取用户信息
+      const userGetUrl = global_.url + 'user'
+      console.log(userGetUrl)
+
+      axios.get(userGetUrl)
         .then(response => {
-          temp = response.data.data
-          // console.log(response.data.data)
-          // Handle list
-          temp.forEach(item => {
-            console.log(item.id) // 获取问卷id
-            console.log(item.publisher_id) // 获取问卷发起者
-            console.log(item.checked) // 获取checked属性
-            console.log(item.content) // 获取questions
-            console.log(item.create_time.substr(0, 10)) // 获取问卷发布时间
-            console.log(item.state) // 获取问卷状态
-            console.log(item.title) // 获取问卷标题
+          this.currentId = response.data.data.id
 
-            let questionnaire = {
-              "num": item.id,
-              "title": item.title,
-              "stateTitle": item.state == 0 ? '未发布' : '已发布',
-              "time": item.create_time.substr(0, 10),
-              "state": item.state == 0 ? false: true,
-              "checked": item.checked == 0 ? false: true,
-              "question": JSON.parse(item.content)
+          // 获取问卷列表
+          const qsGetUrl = global_.url + 'survey'
+          var temp;
+
+          axios.get(qsGetUrl)
+            .then(response => {
+              temp = response.data.data
+              // Handle list
+              temp.forEach(item => {
+                /*
+                console.log(item.id) // 获取问卷id
+                console.log(item.publisher_id) // 获取问卷发起者
+                console.log(item.checked) // 获取checked属性
+                console.log(item.content) // 获取questions
+                console.log(item.create_time.substr(0, 10)) // 获取问卷发布时间
+                console.log(item.state) // 获取问卷状态
+                console.log(item.title) // 获取问卷标题
+                */
+                let questionnaire = {
+                  "num": item.id,
+                  "title": item.title,
+                  "stateTitle": item.state == 0 ? '未发布' : '已发布',
+                  "time": item.create_time.substr(0, 10),
+                  "state": item.state == 0 ? false: true, //"state": true
+                  // "state": true,
+                  "checked": item.checked == 0 ? false: true,
+                  "question": JSON.parse(item.content)
+                  }
+                this.qslist.push(questionnaire)
+              })
+
+              // 找到要查看的问卷
+              let i = 0;
+              for (let length = this.qslist.length; i < length; i++) {
+                // alert(this.qslist[i].num)
+                if (this.qslist[i].num == this.$route.params.num) {
+                  this.qsItem = this.qslist[i]
+                  // alert("Match")
+                  break;
+                }
               }
-            this.qslist.push(questionnaire)
-          })
-
-          // 找到要查看的问卷
-          let i = 0;
-          for (let length = this.qslist.length; i < length; i++) {
-            alert(this.qslist[i].num)
-            if (this.qslist[i].num == this.$route.params.num) {
-              this.qsItem = this.qslist[i]
-              alert("Match")
-              break;
-            }
-          }
+              if (this.qsItem.state == false) {
+                alert("当前问卷未发布，不能填写！")
+                this.$router.push({path: '/QuestionnaireList'})
+              }
+              this.getRequiredItem()
+            })
+            .catch(error => {
+              alert('Get Quesionnaire Error!')
+              console.log(error)
+              this.$router.push({path: '/QuestionnaireList'})
+            })
         })
         .catch(error => {
-          alert('Get Quesionnaire Error!')
-          console.log(error)
+          alert("Login Expire!")
+          this.$router.push({path: '/QuestionnaireList'})
         })
-
-
-
     },
     getMsg(item) {
       let msg = ''
@@ -162,28 +184,45 @@ export default {
       else {
         msg = '(文本题)'
       }
-
       return item.isNeed ? `${msg} *` : msg
     },
     submit() {
-      if (this.qsItem.state === 'inissue') {
+      // alert(this.qsItem.state)
+      if (this.qsItem.state === true) {
         // 校验
         let result = this.validate()
         if (result) {
+          // 填写问卷
+          const dosurveyUrl = global_.url + '/do_survey'
+
+          axios.post(dosurveyUrl, JSON.stringify({
+            survey_id: this.qsItem.num,
+            recipient_id: this.currentId,
+            content: "nothing"
+          }))
+            .then(response => {
+              // console.log(response)
+            })
+            .catch(error => {
+              alert("Submit Error!")
+              this.$router.push({path: '/QuestionnaireList'})
+            })
+
           this.showDialog = true;
           this.submitError = false;
           this.info = 'Submit Successfully!'
+          console.log('Submit Successfully')
           setTimeout(() => {
             this.showDialog = false
           }, 500)
           setTimeout(() => {
-            this.$route.push({path: '/QuestionnaireList'})
+            this.$router.push({path: '/QuestionnaireList'})
           }, 1500)
         }
         else {
           this.showDialog = true;
           this.submitError = true;
-          this.info = 'Fail to submit!'
+          this.info = 'Fail to submit! Format invalid!'
         }
       }
       else {
@@ -193,6 +232,8 @@ export default {
       }
     },
     getRequiredItem() {
+      console.log("in getRequiredItem")
+      console.log(this.qsItem)
       this.qsItem.question.forEach(item => {
         if (item.isNeed) {
           if (item.type === 'checkbox') {
