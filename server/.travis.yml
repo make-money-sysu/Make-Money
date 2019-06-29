@@ -21,7 +21,7 @@ script:
 - echo "script"
 - pwd
 - go version
-- cd docker
+- cd server/docker
 - docker build -t goseverimage $PWD
 
 #

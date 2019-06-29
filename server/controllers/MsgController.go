@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"fmt"
-	"github.com/make-money-sysu/server/models"
+	"github.com/make-money-sysu/Make-Money/server/models"
 	"time"
 
 	"github.com/astaxie/beego"
