@@ -1,0 +1,506 @@
+swagger: "2.0"
+info:
+  title: make-money api
+  description: a api for make-money web application
+  version: 1.0.0
+  contact:
+    email: 935841375@qq.com
+basePath: /api
+paths:
+  /do_survey/:
+    get:
+      tags:
+      - do_survey
+      description: 用来获取填写问卷的信息列表
+      operationId: DoSurveyController.Get
+      parameters:
+      - in: query
+        name: survey_id
+        description: 问卷id
+        type: integer
+        format: int64
+      - in: query
+        name: recipient_id
+        description: 填写问卷者id
+        type: integer
+        format: int64
+      - in: query
+        name: content
+        description: 填写问卷的内容
+        type: string
+      - in: query
+        name: create_time
+        description: 填写问卷的时间
+        type: string
+      responses:
+        "200":
+          description: '{"status" : "success", "data": {填写问卷的信息列表数组}}'
+    post:
+      tags:
+      - do_survey
+      description: 用来上传填写问卷的信息
+      operationId: DoSurveyController.Post
+      parameters:
+      - in: body
+        name: survey_id
+        description: 问卷id
+        required: true
+        type: integer
+        format: int64
+      - in: body
+        name: recipient_id
+        description: 填写问卷者id
+        required: true
+        type: integer
+        format: int64
+      - in: body
+        name: content
+        description: 填写问卷的内容
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{"status" : "success", "msg": "add do survey record succeed"}'
+        "400":
+          description: '{"status" : "failed", "msg": "invalid do survey json format"}'
+  /login/:
+    post:
+      tags:
+      - login
+      description: 用来登录
+      operationId: LoginController.Post
+      parameters:
+      - in: body
+        name: id
+        description: 用户学号
+        required: true
+        type: integer
+        format: int64
+      - in: body
+        name: password
+        description: 用户密码
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{"status" : "success", "msg": "post success"}'
+        "400":
+          description: '{"status" : "failed", "msg": "invalid login format"}'
+        "403":
+          description: '{"status" : "failed", "msg": "id and password doesn''t match"}'
+    delete:
+      tags:
+      - login
+      description: 用来注销
+      operationId: LoginController.Delete
+      responses:
+        "200":
+          description: '{"status" : "success", "msg": "logout succeed"}'
+  /package/:
+    get:
+      tags:
+      - package
+      description: 用来获取包裹订单列表
+      operationId: PackageController.Get
+      parameters:
+      - in: query
+        name: id
+        description: 订单id
+        type: integer
+        format: int64
+      - in: query
+        name: owner_id
+        description: 发布订单者id
+        type: integer
+        format: int64
+      - in: query
+        name: receiver_id
+        description: 接收订单者id
+        type: integer
+        format: int64
+      - in: query
+        name: state
+        description: 订单状态
+        type: integer
+        format: int64
+      - in: query
+        name: limit
+        description: 返回个数限制
+        type: integer
+        format: int64
+      - in: query
+        name: offset
+        description: 偏移量
+        type: integer
+        format: int64
+      responses:
+        "200":
+          description: '{"status" : "success", "data": {含有订单信息的data数组}}'
+    put:
+      tags:
+      - package
+      description: 用来接受或者确定包裹订单
+      operationId: PackageController.Put
+      parameters:
+      - in: query
+        name: method
+        description: receive或者confirm，代表要进行的操作
+        required: true
+        type: string
+      - in: query
+        name: id
+        description: 订单的id
+        required: true
+        type: integer
+        format: int64
+      responses:
+        "200":
+          description: '{"status" : "success", "msg": "confirmed"}'
+        "400":
+          description: '{"status" : "failed", "msg": "formate error,id is invalid"}'
+        "401":
+          description: '{"status" : "failed", "msg": "Login expired"}'
+        "403":
+          description: '{"status" : "failed", "msg": "confirm the pakage error, please
+            contact with us"}'
+    post:
+      tags:
+      - package
+      description: 用来上传包裹订单
+      operationId: PackageController.Post
+      parameters:
+      - in: body
+        name: reward
+        description: 订单的报酬
+        required: true
+        type: number
+      - in: body
+        name: note
+        description: 订单备注
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{"status" : "success", "msg": "post success"}'
+        "400":
+          description: '{"status" : "failed", "msg": "invalid json format"}'
+        "401":
+          description: '{"status" : "failed", "msg": "Login expired"}'
+        "403":
+          description: '{"status" : "failed", "msg": "create the pakage error, please
+            contact with us"}'
+        "404":
+          description: '{"status" : "failed", "msg": "this user doesn''t not exist"}'
+  /survey/:
+    get:
+      tags:
+      - survey
+      description: 用来获取问卷信息
+      operationId: SurveyController.Get
+      parameters:
+      - in: query
+        name: id
+        description: 问卷的id
+        type: integer
+        format: int64
+      - in: query
+        name: publisher_id
+        description: 发布问卷用户的id
+        type: integer
+        format: int64
+      - in: query
+        name: title
+        description: 问卷的标题
+        type: string
+      - in: query
+        name: limit
+        description: 返回数量限制
+        type: integer
+        format: int64
+      - in: query
+        name: offset
+        description: 偏移量
+        type: integer
+        format: int64
+      responses:
+        "200":
+          description: '{"status" : "success", "data": {json格式的问卷信息}}'
+    post:
+      tags:
+      - survey
+      description: 用来上传问卷
+      operationId: SurveyController.Post
+      parameters:
+      - in: body
+        name: title
+        description: 问卷的标题
+        required: true
+        type: string
+      - in: body
+        name: content
+        description: 问卷的内容
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{"status" : "success", "msg": "created", "id" : {id}}'
+        "400":
+          description: '{"status" : "failed", "msg": "invalid json format"}'
+        "401":
+          description: '{"status" : "failed", "msg": "Login expired"}'
+        "403":
+          description: '{"status" : "failed", "msg": "create survey failed"}'
+  /survey/{id}:
+    put:
+      tags:
+      - survey
+      description: 用来修改问卷
+      operationId: SurveyController.Put
+      parameters:
+      - in: body
+        name: title
+        description: 问卷的标题
+        required: true
+        type: string
+      - in: body
+        name: content
+        description: 问卷的内容
+        required: true
+        type: string
+      - in: body
+        name: state
+        description: 问卷的状态
+        required: true
+        type: integer
+        format: int64
+      - in: body
+        name: checked
+        description: 问卷是否被确认
+        required: true
+        type: integer
+        format: int64
+      - in: path
+        name: id
+        description: 问卷的id
+        required: true
+        type: integer
+        format: int64
+      responses:
+        "200":
+          description: '{"status" : "success", "msg": "updated"}'
+        "400":
+          description: '{"status" : "failed", "msg": "formate error"}'
+        "401":
+          description: '{"status" : "failed", "msg": "Login expired"}'
+        "403":
+          description: '{"status" : "failed", "msg": "update survey failed"}'
+    delete:
+      tags:
+      - survey
+      description: 用来删除问卷
+      operationId: SurveyController.Delete
+      parameters:
+      - in: path
+        name: id
+        description: 问卷的id
+        required: true
+        type: integer
+        format: int64
+      responses:
+        "200":
+          description: '{"status" : "success", "msg": "updated"}'
+        "400":
+          description: '{"status" : "failed", "msg": "formate error"}'
+        "401":
+          description: '{"status" : "failed", "msg": "Login expired"}'
+        "403":
+          description: '{"status" : "failed", "msg": "the id doesn''t exist"}'
+        "404":
+          description: '{"status" : "failed", "msg": "not found"}'
+  /user/:
+    get:
+      tags:
+      - user
+      description: 用来获取当前登录用户的用户信息
+      operationId: UserController.Get
+      responses:
+        "200":
+          description: '{"status" : "success", "data": {json格式的用户信息}}'
+        "400":
+          description: '{"status" : "failed", "msg": "Login expired"}'
+        "401":
+          description: '{"status" : "failed", "msg": "user doesn''t exist"}'
+    put:
+      tags:
+      - user
+      description: 用来修改用户信息，body为json格式
+      operationId: UserController.Put
+      parameters:
+      - in: body
+        name: id
+        description: 用户的学号
+        required: true
+        type: integer
+        format: int64
+      - in: body
+        name: password
+        description: 用户的密码
+        required: true
+        type: string
+      - in: body
+        name: real_name
+        description: 用户的真名
+        required: true
+        type: string
+      - in: body
+        name: nick_name
+        description: 用户的昵称
+        required: true
+        type: string
+      - in: body
+        name: age
+        description: 用户的年龄
+        required: true
+        type: integer
+        format: int32
+      - in: body
+        name: gender
+        description: 用户的性别
+        required: true
+        type: string
+      - in: body
+        name: head_piture
+        description: 用户头像（从字节转换成字符串后）
+        required: true
+        type: string
+      - in: body
+        name: balance
+        description: 用户存款
+        required: true
+        type: number
+        format: float
+      - in: body
+        name: profession
+        description: 用户专业
+        required: true
+        type: string
+      - in: body
+        name: grade
+        description: 用户年级
+        required: true
+        type: string
+      - in: body
+        name: phone
+        description: 用户电话
+        required: true
+        type: string
+      - in: body
+        name: email
+        description: 用户邮箱
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{"status" : "success", "msg": "edited"}'
+        "400":
+          description: '{"status" : "failed", "msg": "invalid user infomation format"}'
+        "401":
+          description: '{"status" : "failed", "msg": "Login expired"}'
+        "403":
+          description: '{"status" : "failed", "msg": "this user doesn''t exist"}'
+    post:
+      tags:
+      - user
+      description: 用来注册用户，body为json格式
+      operationId: UserController.Post
+      parameters:
+      - in: body
+        name: id
+        description: 用户的学号
+        required: true
+        type: integer
+        format: int64
+      - in: body
+        name: password
+        description: 用户的密码
+        required: true
+        type: string
+      - in: body
+        name: real_name
+        description: 用户的真名
+        required: true
+        type: string
+      - in: body
+        name: nick_name
+        description: 用户的昵称
+        required: true
+        type: string
+      - in: body
+        name: age
+        description: 用户的年龄
+        required: true
+        type: integer
+        format: int32
+      - in: body
+        name: gender
+        description: 用户的性别
+        required: true
+        type: string
+      - in: body
+        name: head_piture
+        description: 用户头像（从字节转换成字符串后）
+        required: true
+        type: string
+      - in: body
+        name: balance
+        description: 用户存款
+        required: true
+        type: number
+        format: float
+      - in: body
+        name: profession
+        description: 用户专业
+        required: true
+        type: string
+      - in: body
+        name: grade
+        description: 用户年级
+        required: true
+        type: string
+      - in: body
+        name: phone
+        description: 用户电话
+        required: true
+        type: string
+      - in: body
+        name: email
+        description: 用户邮箱
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{"status" : "success", "msg": "resgiter succeed"}'
+        "400":
+          description: '{"status" : "failed", "msg": "invalid user infomation format",
+            "err" : {some error}}'
+        "403":
+          description: '{"status" : "failed", "msg": "this user already registered"}'
+    delete:
+      tags:
+      - user
+      description: 用来删除当前登录的用户
+      operationId: UserController.Delete
+      responses:
+        "200":
+          description: '{"status" : "success", "msg": "bye~"}'
+        "401":
+          description: '{"status" : "failed", "msg": "Login expired"}'
+        "403":
+          description: '{"status" : "failed", "msg": "invalid user"}'
+tags:
+- name: msg
+  description: |
+    PackageController operations for Package
+- name: package
+  description: |
+    PackageController operations for Package
