@@ -1,6 +1,6 @@
 # Final
 
-1. [项目地址](http://www.ltstriker.xyz:8080)
+1. [项目地址](http://139.199.166.124:8080)
 2. [《安装部署说明》](https://make-money-sysu.github.io/Dashboard/08-04-deployment-doc)
 3. [《用户使用手册》](https://github.com/make-money-sysu/Dashboard/blob/master/%E6%96%87%E6%A1%A3%E5%86%85%E5%AE%B9/%E7%94%A8%E6%88%B7%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/%E7%94%A8%E6%88%B7%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C.md)
 4. [所有源代码](https://github.com/make-money-sysu)
